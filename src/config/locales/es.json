@@ -1,0 +1,20 @@
+{
+  "home": "Home",
+  "about": "About Us",
+  "available": "Disponible",
+  "busy": "Ocupada",
+  "textSelectTable": "Seleccione su mesa",
+  "returnToHomepage": "Return to homepage",
+
+  "sidebar": {
+    "link":{
+      "dashboarMenu": "Dashboard Menú",
+      "addPlate": "Agregar nuevo platillo",
+      "addDrink": "Agregar nueva bebida"
+    }
+  },
+
+  "header": {
+    "title": "Dashboard Menú"
+  }
+}

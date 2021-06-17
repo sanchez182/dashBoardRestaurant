@@ -1,0 +1,13 @@
+
+$breakpoint-small: 524px;
+$breakpoint-medium: 768px;
+
+$width-sidebar-open: 240px;
+$width-sidebar-close: 60px;
+$width-app-open-sidebar: calc(100% - #{$width-sidebar-open});
+$width-app-close-sidebar: calc(100% - #{$width-sidebar-close});
+
+$height-header: 60px;
+
+$azul-primario: rgba(26,117,207,100);
+$azul-secundario: #007ad9a1;

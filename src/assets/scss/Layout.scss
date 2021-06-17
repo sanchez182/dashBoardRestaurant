@@ -1,0 +1,28 @@
+.content {
+    margin-top:  70px !important;
+    margin-left: 5%;
+    margin-right: 5%;
+
+    .introduction {
+        margin-bottom: 1.5rem;
+    }
+}
+
+
+
+@media (min-width: $breakpoint-small) {
+    .content {
+        margin-left: $width-sidebar-close + 20;
+        margin-right: 20px;
+        margin-top:80px !important;
+        width: $width-app-close-sidebar - ($width-sidebar-close + 10);
+    }
+
+    .contentOpen {
+        margin-left: $width-sidebar-open + 20;
+        margin-right: 20px;
+        margin-top:80px !important;
+        width: $width-app-open-sidebar - ($width-sidebar-open + 10);
+        transition: all 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms, margin 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms !important;
+    }
+}

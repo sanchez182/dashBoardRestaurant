@@ -1,0 +1,22 @@
+{
+    "home": "Home",
+    "about": "About Us",
+    "available": "Available",
+    "busy": "Busy",
+    "textSelectTable": "Select your table",
+    "returnToHomepage": "Return to homepage",
+
+    "sidebar": {
+      "link":{
+        "dashboarMenu": "Dashboard Menú",
+        "addPlate": "Add new plate",
+        "addDrink": "Add new drink"
+      }
+    },
+
+    "header": {
+      "title": "Dashboard Menú"
+    }
+
+
+  }

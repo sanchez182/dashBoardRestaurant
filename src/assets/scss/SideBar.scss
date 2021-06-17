@@ -1,0 +1,95 @@
+
+.linkStyle {
+    text-decoration: none !important;
+    color: rgba(0, 0, 0, 0.54) !important;
+    cursor: pointer !important;
+}
+
+.hide {
+    display: none !important;
+}
+
+.drawer {
+    width: $width-sidebar-open !important;
+    flex-shrink: 0 !important;
+    /* white-space: nowrap !important; */
+
+    .MuiDrawer-paper {
+        position: absolute;
+        z-index: 99999;
+    }
+}
+
+.imgIconProperties {
+    position: absolute;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    max-width: 84%;
+    max-height: 66%;
+}
+
+.drawerOpen {
+    width: $width-sidebar-open !important;
+    transition: width 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms !important;
+    .imgIcon {
+        left: 14%;
+        @extend .imgIconProperties;
+    }
+}
+
+.drawerClose {
+    overflow-x: hidden !important;
+    transition: width 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms !important;
+    width: 0px;
+    margin-left: -20px;
+    .imgIcon {
+        left: 47%;
+        @extend .imgIconProperties;
+    }
+}
+
+.toolbar {
+    display: flex !important;
+    padding: 0px 8px !important;
+    min-height: 56px !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+}
+
+.general-list {
+    .MuiButtonBase-root.MuiListItem-root.MuiListItem-button {
+        text-decoration: none !important;
+
+        &.activeLink {
+            border-radius: 4px;
+            background-color: $azul-secundario !important
+        }
+    }
+
+}
+
+@media (min-width: 0px) and (orientation: landscape) {
+    .toolbar {
+        min-height: 48px !important;
+    }
+}
+
+@media (min-width: $breakpoint-small) {
+    .drawerClose {
+        width: $width-sidebar-close;
+        margin-left: 0px;
+    }
+
+    .drawer {
+        .MuiDrawer-paper {
+            position: fixed;
+            z-index: 1200;
+        }
+    }
+}
+
+@media (min-width: $breakpoint-medium) {
+    .toolbar {
+        min-height: $height-header !important;
+    }
+}
