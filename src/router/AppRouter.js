@@ -7,6 +7,7 @@ import LoginScreen from '../pages/auth/LoginScreen';
 import Page404 from '../pages/404';
 import RenderPrivateRoutes from './MenuRoutes';
 import AlertComponent from '../components/AlertComponent';
+import {SocketProvider} from '../context/SocketContext';
 
 export const AppRouter = () => {
     const dispatch = useDispatch();
@@ -22,7 +23,9 @@ export const AppRouter = () => {
     }
 
     return (
-        <>
+       
+
+        <SocketProvider>
             <AlertComponent />
             <Switch>
 
@@ -41,7 +44,7 @@ export const AppRouter = () => {
                 />
 
             </Switch>
-        </>
+            </SocketProvider>
 
     )
 }

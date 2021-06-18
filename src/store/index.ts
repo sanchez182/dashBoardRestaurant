@@ -8,15 +8,26 @@ import menuItemReducer from './reducers/menuItemsReducer';
 import draweReducer from './reducers/drawerReducer';
 import alertComponentReducer from './reducers/alertComponentReducer';
 import requestReducer from './reducers/requestReducer';
+import restaurantReducer from './reducers/restaurantReducer ';
+import { AUTH_LOGOUT } from './actions/actionsInterfaces/IAuthActions';
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   lang: langReducer,
   auth: authReducer,
   drawerState: draweReducer,
   menuItemReducer,
   openMessageAlert:alertComponentReducer,
-  requestReducer
+  requestReducer,
+  restaurantData: restaurantReducer
 });
+ 
+const rootReducer  = (state:any, action:any) => {
+if (action.type === AUTH_LOGOUT) {
+  state = undefined
+}
+ return appReducer(state, action)
+}
+
 
 const middleware = [thunk]
 const store = createStore(rootReducer,{}, composeWithDevTools(applyMiddleware(...middleware)));

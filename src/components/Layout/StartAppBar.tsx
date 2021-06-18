@@ -2,18 +2,20 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Toolbar, AppBar, IconButton, Typography, Grid, List, ListItem, Menu, MenuItem } from '@material-ui/core';
 import { Menu as MenuIcon, AccountCircle as UserIcon } from '@material-ui/icons';
-import { withTranslation } from 'react-i18next';
- /* import { logout } from '../../logout'; */
+import { useTranslation } from 'react-i18next';
 import { openCloseDrawer } from '../../store/actions/drawerActions';
 import SpecialDialLenguage from '../SpecialDialLenguage';
-import { logout } from '../../store/actions/authActions';
+import { RootState } from '../../store';
+import { startLogout } from '../../actions/auth';
  
-const StartAppBar = (props) => {
-    const {  t } = props;
+const StartAppBar = () => {
+    
+    const { t } = useTranslation();
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const { name } = useSelector((state: RootState) => state.restaurantData);
 
     
-  const { open } = useSelector((state) => state.drawerState); 
+  const { open } = useSelector((state: RootState) => state.drawerState); 
 
   const dispatch = useDispatch();
 
@@ -21,7 +23,7 @@ const StartAppBar = (props) => {
         dispatch(openCloseDrawer(true));
     };
 
-    const handleClick = (event) => {
+    const handleClick = (event:any) => {
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
@@ -29,7 +31,7 @@ const StartAppBar = (props) => {
     };
     const logoutMenu = () => {
         handleClose();
-        dispatch(logout());
+        dispatch( startLogout());
     }
 
     return (
@@ -48,7 +50,7 @@ const StartAppBar = (props) => {
                             </IconButton>
             
                         <Typography variant='h6' noWrap>
-                            {t('header.title')}
+                           {name}
                         </Typography>
                     </Grid>
                     <Grid item xs={4} md={6} className="column-info">
@@ -77,4 +79,4 @@ const StartAppBar = (props) => {
     );
 };
 
-export default withTranslation() (StartAppBar);
+export default StartAppBar;

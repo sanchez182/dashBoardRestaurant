@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import io from 'socket.io-client';
 
 
@@ -6,20 +7,22 @@ export const useSocket = ( serverPath ) => {
     
     const [ socket, setSocket ] = useState(null);
     const [ online, setOnline ] = useState(false);
+    const { _id } = useSelector((state) => state.restaurantData);
 
     const conectarSocket = useCallback( () => {
 
-        const token = localStorage.getItem('token');
+     //   const token = localStorage.getItem('token');
         const socketTemp = io.connect( serverPath, { 
             transports: ['websocket'],
             autoConnect: true,
             forceNew: true,
             query: {
-                'x-token': token
+                isClient: true,
+                uidClient : _id
             }
         });
         setSocket( socketTemp );
-    },[ serverPath ]);
+    },[ serverPath,_id ]);
 
     const desconectarSocket = useCallback( () => {
         socket?.disconnect();

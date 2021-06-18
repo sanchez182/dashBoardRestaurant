@@ -1,15 +1,11 @@
-import { Grid } from '@material-ui/core'; 
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { RootState } from '../../store';
-import ClientTables from './ClientTables/ClientTables';
 
+import TableScreen from './ClientTables/TableScreen';
 const DashboardMenu = () => {
-/*   const { language } = useSelector((state: RootState) => state.lang);
- */
+  /*   const { language } = useSelector((state: RootState) => state.lang);
+   */
   return (
-        <ClientTables/>
- 
+      <TableScreen /> 
+
   );
 }
 

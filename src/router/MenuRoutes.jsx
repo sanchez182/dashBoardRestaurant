@@ -26,7 +26,6 @@ const recursiveRoutes = (routesList, routeName) => {
                 return true;
             }
         }
-        return null;
     })
 }
 

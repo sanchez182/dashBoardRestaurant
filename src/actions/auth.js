@@ -1,6 +1,7 @@
 import { fetchSinToken, fetchConToken, fetchRenew } from '../helpers/fetch';
 import Swal from 'sweetalert2';
 import { checkingFinish, setAuthLogin ,logout} from '../store/actions/authActions';
+import { getRestaurantData } from '../actionsApi/restaurantActionsApi';
 
 
 
@@ -11,12 +12,9 @@ export const startLogin = ( email, password ) => {
         if( body.ok ) {
             localStorage.setItem('token', body.token );
             localStorage.setItem('token-init-date', new Date().getTime() );
-        
-            dispatch( setAuthLogin({
-                checking: false,
-                uid: body.uid,
-                name: body.name
-            }) )
+            dispatch(getRestaurantData("60cac604d575df447881cbaf",body)) //este id viene por param en la url principal
+
+         
         } else {
             Swal.fire('Error', body.msg, 'error');
         }

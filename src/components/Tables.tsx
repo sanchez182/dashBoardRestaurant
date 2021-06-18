@@ -1,7 +1,7 @@
 import { Card, CardActionArea, CardContent, Grid } from '@material-ui/core';
 import DeckIcon from '@material-ui/icons/Deck';
-import { withRouter, Link, RouteComponentProps } from "react-router-dom";
-interface TablesType extends RouteComponentProps<any> {
+import { Link } from "react-router-dom";
+interface TablesType  {
     numberTable: number;
     isAvailable: 'inherit' | 'primary' | 'secondary' | 'action' | 'disabled' | 'error';
 }
@@ -36,4 +36,4 @@ const Tables = ({ numberTable, isAvailable }: TablesType) => {
     );
 }
 
-export default withRouter(Tables);
+export default Tables;

@@ -5,18 +5,15 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from './config/i18n';
 import AppRouter from './router/AppRouter';
 import store from './store';
-import './assets/scss/App.scss';
-import { SocketProvider } from './context/SocketContext'
+import './assets/scss/App.scss'; 
 
 const App: FC = () => {
   return (
     <I18nextProvider i18n={i18n}>
       <Provider store={store}>
-      <SocketProvider>
               <Router basename={process.env.PUBLIC_URL}>
                 <AppRouter />
               </Router>
-            </SocketProvider>
       </Provider>
     </I18nextProvider>
 
