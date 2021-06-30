@@ -1,7 +1,7 @@
 import interceptorHttp from "../helpers/interceptorHttp";
 
 class RestaurantService {
-    endPoint = '/restaurants/' 
+    endPoint = '/restaurant/' 
     baseUrl = process.env.REACT_APP_API_URL;
 
     getHttp =()=>{

@@ -4,6 +4,7 @@ import { startLogin, startRegister } from '../../actions/auth';
 import Swal from 'sweetalert2';
 import './login.css';
 import LoadingButton from '../../components/LoadingButton';
+import { useEffect } from 'react';
 
 const LoginScreen = () => {
 
@@ -40,6 +41,9 @@ const LoginScreen = () => {
     }
 
 
+    useEffect(() => {
+        localStorage.clear()
+    })
     return (
         <div className="container login-container">
             <div className="row">

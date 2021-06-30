@@ -25,6 +25,7 @@ export const errorHandler = (error) => {
 
     if (isHandlerEnabled(error.response)) {
         // Handle errors  
+        debugger
         switch (error.response?.status.toString()) {
             case '400':
                 //'Bad Request';
@@ -36,7 +37,7 @@ export const errorHandler = (error) => {
                 error.msg = 'Unauthorized';
                 dispatch(apiCallError());
               //  dispatch(checkingFinish());
-               // dispatch(setOpenMessageAlert({ show: true, message: error.msg, severity: 'error' }));
+               dispatch(setOpenMessageAlert({ show: true, message: error.msg, severity: 'error' }));
                 break;
             case '404':
                 error.msg = 'Not Found, Record not found for modification';
@@ -68,7 +69,7 @@ export const interceptorHttp = (processUrl, token) => {
     if (token) {
         customHeaders = [
             {
-                key: 'x-token',
+                key: 'token',
                 value: token  //store.getState().userdata.token
             }
         ]

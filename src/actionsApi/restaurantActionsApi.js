@@ -9,7 +9,7 @@ import { setRestaurantData } from "../store/actions/restaurantActions";
 
  export const getRestaurantData = (idRestaurant,body)=>async(dispatch)=>{
     const response = await service.getRestaurantData(idRestaurant)
-    dispatch(setRestaurantData(response.data.restaurant))
+    dispatch(setRestaurantData(response.data))
     dispatch( setAuthLogin({
       checking: false,
       uid: body.uid,

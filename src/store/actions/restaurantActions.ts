@@ -1,4 +1,4 @@
-import { GET_RESTAURANT,UPDATE_SELECTED_TABLE ,IRestaurant,
+import { GET_RESTAURANT,UPDATE_SELECTED_TABLE , SET_ORDER_STATE,IRestaurant,
   IModelRestaurant} from './actionsInterfaces/IRestaurantActions';
 
 
@@ -14,6 +14,14 @@ export const checkRestaurantTableSeledted = (payload: any):
 IRestaurant => {
   return {
     type: UPDATE_SELECTED_TABLE,
+    payload 
+  }
+}
+
+export const setOrderState = (payload: any):
+IRestaurant => {
+  return {
+    type: SET_ORDER_STATE,
     payload 
   }
 }

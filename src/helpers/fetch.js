@@ -56,7 +56,7 @@ const fetchRenew = ( endpoint, data, method = 'GET' ) => {
         return fetch( url, {
             method,
             headers: {
-                'x-token': token
+                'token': token
             }
         });
     } else {
@@ -64,7 +64,7 @@ const fetchRenew = ( endpoint, data, method = 'GET' ) => {
             method,
             headers: {
                 'Content-type': 'application/json',
-                'x-token': token
+                'token': token
             },
             body: JSON.stringify( data )
         });

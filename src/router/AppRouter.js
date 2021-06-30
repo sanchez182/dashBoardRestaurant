@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { Switch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { startChecking } from '../actions/auth';
 import { PublicRoute } from './PublicRoute';
 import LoginScreen from '../pages/auth/LoginScreen';
 import Page404 from '../pages/404';
 import RenderPrivateRoutes from './MenuRoutes';
 import AlertComponent from '../components/AlertComponent';
 import {SocketProvider} from '../context/SocketContext';
+import { checkingFinish } from '../store/actions/authActions';
 
 export const AppRouter = () => {
     const dispatch = useDispatch();
@@ -15,7 +15,9 @@ export const AppRouter = () => {
 
     const screens = ["addPlate", "addDrink"]
     useEffect(() => {
-        dispatch(startChecking());
+        if(!localStorage.getItem('token')){
+            dispatch(checkingFinish());
+        }
     }, [dispatch])
 
     if (checking) {

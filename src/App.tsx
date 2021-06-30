@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { I18nextProvider } from 'react-i18next';
@@ -7,7 +7,7 @@ import AppRouter from './router/AppRouter';
 import store from './store';
 import './assets/scss/App.scss'; 
 
-const App: FC = () => {
+const App = () => {
   return (
     <I18nextProvider i18n={i18n}>
       <Provider store={store}>
