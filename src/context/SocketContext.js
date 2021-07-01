@@ -41,16 +41,15 @@ export const SocketProvider = ({ children }) => {
     useEffect(() => {
         socket?.on('newOrder', (data) => {
             debugger
-            const {_id,state,idRestaurant,itemsOrder,tableNumber} = data
-            const orderList = []
-            orderList.push({
+            const {_id,state,restaurant,itemsOrder,tableNumber} = data
+            orders.push({
                 _id,
                 state,
                 tableNumber,
-                idRestaurant,
+                idRestaurant: restaurant,
                 itemsOrder
             })
-            dispatch(setOrderState(orderList))
+            dispatch(setOrderState(orders))
         })
 
     }, [socket, dispatch]);
@@ -73,20 +72,6 @@ export const SocketProvider = ({ children }) => {
         }, [socket, dispatch]); */
     //    //{ idOrder: payload._id, orderState: payload.state }
 
-
-    useEffect(() => {
-        socket?.on('orderChange', (changeInOrder) => {
-            debugger
-            console.log("la orden seleccionada" + " " + changeInOrder)
-        })
-    }, [_id, socket]);
-    useEffect(() => {
-        socket?.on('testSocket', (mensaje) => {
-            debugger
-            console.log(mensaje)
-        })
-
-    }, [socket, dispatch]);
 
 
     return (
