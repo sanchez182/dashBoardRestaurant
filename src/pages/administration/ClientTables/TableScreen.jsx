@@ -50,7 +50,7 @@ const TableScreen = () => {
                         </CardActionArea>
                     </Card>
                 </Grid>
-            </Grid>
+            </Grid> 
 
             {tableList &&
                 <Grid container >

@@ -40,7 +40,7 @@ export const AppRouter = () => {
 
                 <PublicRoute
                     exact
-                    path="*"
+                    path="/"
                     component={Page404}
                     isAuthenticated={!!uid}
                 />
