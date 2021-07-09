@@ -12,7 +12,7 @@ const LoginScreen = () => {
     const { loadingRequest } = useSelector(state => state.requestReducer);
 
     const [formLoginValues, handleLoginInputChange] = useForm({
-        lEmail: 'sanchez.arisan@gmail.com',
+        lEmail: 'sachez.arisan@gmail.com',
         lPassword: '1234'
     });
 

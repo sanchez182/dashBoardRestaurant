@@ -10,7 +10,19 @@
       "link":{
         "dashboarMenu": "Dashboard Menú",
         "addPlate": "Add new plate",
-        "addDrink": "Add new drink"
+        "addDrink": "Add new drink",
+        "addStock": "Add items to stock"
+      }
+    },
+    "labels": {
+      "stockForm":{
+        "productName": "Product name",
+        "productNameError" : "Product name required",
+        "quantityPortions": "Quantity portions",
+        "quantityPortionsError": "Quantity portions is required",
+        "price": "Price",
+        "priceError": "Price is required",
+        "currencyLabel" : "Select price currency"
       }
     },
 

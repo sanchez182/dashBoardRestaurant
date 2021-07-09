@@ -1,3 +1,4 @@
+import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
 export const PrivateRoute = ({
@@ -5,15 +6,18 @@ export const PrivateRoute = ({
     component: Component,
     ...rest
 }) => {
+    debugger
+    //
     return (
         <Route { ...rest }
         component={ (props) => (
             ( isAuthenticated )
                 ? ( <Component { ...props } /> )
-                : ( <Redirect to="/dashboardLogin" /> )
+                : ( <Redirect to="/" /> )
         )}
     
     />
     )
 }
 
+export default React.memo(PrivateRoute)

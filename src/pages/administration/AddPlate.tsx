@@ -58,7 +58,7 @@ const AddPlate: FC = () => {
     }}
 ]
   return (
-      <SharedForm onSubmit={onSubmit} inputs={inputs} />
+      <SharedForm onSubmit={onSubmit} inputs={inputs} haveMoneyInputs={false}/>
   );
 };
 

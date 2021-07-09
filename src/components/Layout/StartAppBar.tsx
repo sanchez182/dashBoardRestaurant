@@ -7,23 +7,25 @@ import { openCloseDrawer } from '../../store/actions/drawerActions';
 import SpecialDialLenguage from '../SpecialDialLenguage';
 import { RootState } from '../../store';
 import { startLogout } from '../../actions/auth';
- 
+import { useHistory } from 'react-router-dom';
+
 const StartAppBar = () => {
-    
+
     const { t } = useTranslation();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const { name } = useSelector((state: RootState) => state.restaurantData);
 
-    
-  const { open } = useSelector((state: RootState) => state.drawerState); 
+    const history = useHistory();
 
-  const dispatch = useDispatch();
+    const { open } = useSelector((state: RootState) => state.drawerState);
+
+    const dispatch = useDispatch();
 
     const handleDrawerOpen = () => {
         dispatch(openCloseDrawer(true));
     };
 
-    const handleClick = (event:any) => {
+    const handleClick = (event: any) => {
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
@@ -31,7 +33,8 @@ const StartAppBar = () => {
     };
     const logoutMenu = () => {
         handleClose();
-        dispatch( startLogout());
+        history.push("/");
+        dispatch(startLogout());
     }
 
     return (
@@ -39,25 +42,25 @@ const StartAppBar = () => {
             <Toolbar>
                 <Grid container>
                     <Grid item xs={8} md={6} className="column-logo">
-                            <IconButton
-                                color='inherit'
-                                aria-label='Menu'
-                                onClick={handleDrawerOpen}
-                                edge='start' 
-                               className={`menuButton${(open ? ' hide' : '')}`} 
-                            >
-                                <MenuIcon />
-                            </IconButton>
-            
+                        <IconButton
+                            color='inherit'
+                            aria-label='Menu'
+                            onClick={handleDrawerOpen}
+                            edge='start'
+                            className={`menuButton${(open ? ' hide' : '')}`}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+
                         <Typography variant='h6' noWrap>
-                           {name}
+                            {name}
                         </Typography>
                     </Grid>
                     <Grid item xs={4} md={6} className="column-info">
                         <List className="menu">
                             <SpecialDialLenguage />
                             <ListItem>
-                                <IconButton id="iconButton"  onClick={handleClick} color="inherit">
+                                <IconButton id="iconButton" onClick={handleClick} color="inherit">
                                     <UserIcon />
                                 </IconButton>
                                 <Menu
@@ -66,7 +69,7 @@ const StartAppBar = () => {
                                     open={Boolean(anchorEl)}
                                     onClose={handleClose}
                                 >
-                                    <MenuItem  id="menuItem" onClick={logoutMenu}>
+                                    <MenuItem id="menuItem" onClick={logoutMenu}>
                                         {t("header.logout")}
                                     </MenuItem>
                                 </Menu>

@@ -1,19 +1,19 @@
 import interceptorHttp from "../helpers/interceptorHttp";
 
-class RestaurantService {
-    endPoint = '/restaurant/' 
-    baseUrl = process.env.REACT_APP_API_MENU_URL;
+class StockService {
+    endPoint = '/stock/' 
+    baseUrl = process.env.REACT_APP_API_DASHBOARD_URL;
 
     getHttp =()=>{
-        return interceptorHttp(this.baseUrl);
+        return interceptorHttp(this.baseUrl, localStorage.getItem('token'));
       }
-
-      getRestaurantData = async (idRestaurant: string)=>{
-      return  this.getRequest(`${this.endPoint}${idRestaurant}`)
-     //  return  this.getRequest(`${this.endPoint}`)
-      }
-
     
+      addStock = async ( data: any)=>{
+          
+        return  this.postRequest(`${this.endPoint}addItemStock`,data)
+        }
+
+        
      private postRequest = async (endpoint:String,data: any)=>{
         return new Promise(async (resolve,reject)=>{
             this.getHttp()
@@ -41,4 +41,4 @@ class RestaurantService {
     } 
 }
 
-export default RestaurantService;
+export default StockService;

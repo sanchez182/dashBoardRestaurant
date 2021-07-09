@@ -13,7 +13,7 @@ export const AppRouter = () => {
     const dispatch = useDispatch();
     const { checking, uid } = useSelector(state => state.auth);
 
-    const screens = ["addPlate", "addDrink"]
+    const screens = ["addPlate", "addDrink","addStock"]
     useEffect(() => {
         if(!localStorage.getItem('token')){
             dispatch(checkingFinish());
@@ -40,8 +40,8 @@ export const AppRouter = () => {
 
                 <PublicRoute
                     exact
-                    path="/"
-                    component={Page404}
+                    path="*"
+                    component={LoginScreen}
                     isAuthenticated={!!uid}
                 />
 

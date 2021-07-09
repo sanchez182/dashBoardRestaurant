@@ -13,6 +13,10 @@ import { setRestaurantData } from "../store/actions/restaurantActions";
     dispatch( setAuthLogin({
       checking: false,
       uid: body.uid,
-      name: body.name
+      name: body.name,
+      idRestaurant: body.idRestaurant
   }) )
+
+  localStorage.setItem('token', body.token );
+  localStorage.setItem('token-expiresIn', body.expiresIn );
  }

@@ -8,6 +8,7 @@ export interface IPayloadAuth {
      uid: any,
      name: String | null,
      checking: boolean,
+     idRestaurant: String | null,
      wasDasborad: boolean
 }
 

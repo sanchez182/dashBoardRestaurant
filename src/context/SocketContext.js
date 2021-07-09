@@ -28,7 +28,7 @@ export const SocketProvider = ({ children }) => {
     //TODO: modificar forma de cambiar la data de la mesa seleccionada
     useEffect(() => {
         socket?.on('table', (mensaje) => {
-            debugger
+            
             const table = tableList.find(x => x.tableNumber === mensaje.tableNumber)
             const index = tableList.findIndex(x => x.tableNumber === mensaje.tableNumber)
             table.selected = mensaje.selected
@@ -40,7 +40,7 @@ export const SocketProvider = ({ children }) => {
 
     useEffect(() => {
         socket?.on('newOrder', (data) => {
-            debugger
+            
             const {_id,state,restaurant,itemsOrder,tableNumber} = data
             orders.push({
                 _id,
@@ -56,7 +56,7 @@ export const SocketProvider = ({ children }) => {
 
     /*     useEffect(() => {
             socket?.on('newOrder', (orderDB) => {
-                debugger
+                
                 state: "Enviado",
                 idRestaurant: _id,
                 itemsFood: renderFood, // mesa seleccionada

@@ -25,7 +25,7 @@ export const errorHandler = (error) => {
 
     if (isHandlerEnabled(error.response)) {
         // Handle errors  
-        debugger
+        
         switch (error.response?.status.toString()) {
             case '400':
                 //'Bad Request';
@@ -69,8 +69,8 @@ export const interceptorHttp = (processUrl, token) => {
     if (token) {
         customHeaders = [
             {
-                key: 'token',
-                value: token  //store.getState().userdata.token
+                key: 'Authorization',
+                value: `Bearer ${token}`, //store.getState().userdata.token
             }
         ]
     }
@@ -79,7 +79,7 @@ export const interceptorHttp = (processUrl, token) => {
         baseURL: processUrl,
         headers: {
             Accept: 'application/json',
-            'Content-Type': content
+            'Content-Type': content,
         }
     });
     axiosInstance.interceptors.request.use((request) => requestHandler(request, customHeaders));

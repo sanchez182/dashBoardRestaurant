@@ -8,11 +8,9 @@ import { getRestaurantData } from '../actionsApi/restaurantActionsApi';
 export const startLogin = ( email, password ) => {
     return async( dispatch ) => {
         const resp = await fetchSinToken( 'auth/login', { email, password }, 'POST' );
-        const body = resp.data;
+        const body = resp.data
         if( resp.status === 201 ) {
-            localStorage.setItem('token', body.token );
-            localStorage.setItem('token-expiresIn', body.expiresIn );
-            dispatch(getRestaurantData("60cac604d575df447881cbaf",body)) //este id viene por param en la url principal
+           dispatch(getRestaurantData(body.idRestaurant,body)) //este id viene por param en la url principal
         } else {
             Swal.fire('Error', body.msg, 'error');
         }
@@ -53,7 +51,8 @@ export const startRegister = ( email, password, name ) => {
             dispatch( setAuthLogin({
                 uid: body.uid,
                 checking: false,
-                name: body.name
+                name: body.name,
+                idResturant: body.idResturant
             }) )
         } else {
             Swal.fire('Error', body.msg, 'error');
@@ -65,7 +64,7 @@ export const startRegister = ( email, password, name ) => {
  
 export const startLogout = () => {
     return ( dispatch ) => {
-        localStorage.clear();
+        localStorage.clear(); 
         dispatch( logout() );
     }
 }

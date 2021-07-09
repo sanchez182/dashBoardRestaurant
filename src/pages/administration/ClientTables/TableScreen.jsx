@@ -3,7 +3,6 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import CropDinIcon from '@material-ui/icons/CropDin';
 import { useTranslation } from 'react-i18next'
-import { RootState } from '../../../store';
 import Tables from '../../../components/Tables';
 
 
@@ -57,11 +56,11 @@ const TableScreen = () => {
                     {
                         //TODO: aca activar el flip de  las mesas q estan listas para cocina
                         tableList.map((table, index) => {
-                            const isSelected = table.selected ? "error" : "primary"
+                            
                             const orderTable = orders.find( x => x.tableNumber === index+1) 
                             const flip = orderTable ? true : false
                             return <Tables order ={orderTable} key={table.tableNumber} numberTable={table.tableNumber} flipTable={flip}
-                                isAvailable={isSelected} />
+                                isSelected={table.selected} />
                         })
                     }
 

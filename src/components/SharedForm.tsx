@@ -6,6 +6,8 @@ import FormInput from '../controls/input';
 import FormSelect from '../controls/select';
 import { COMPONENTSTYPE } from './EnumsComponents';
 import { Theme } from '@material-ui/core/styles';
+import { useTranslation } from 'react-i18next';
+import CurrencyComponent from './CurrencyComponent';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -24,7 +26,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface ISharedForm {
   onSubmit: (data: any) => void;
-  inputs: any[]
+  inputs: any[],
+  haveMoneyInputs:boolean
 }
 
 
@@ -45,11 +48,13 @@ const setComponent = (componentName: String) => {
 }
 
 
-const SharedForm = ({ onSubmit, inputs }: ISharedForm) => {
+const SharedForm = ({ onSubmit, inputs, haveMoneyInputs }: ISharedForm) => {
   const classes = useStyles();
   const [state, setstate] = useState<any>(null)
+  const [currency, setCurrency] = React.useState('$');
+  
+  const {  t : tranlation } = useTranslation();
   const { handleSubmit, control, formState: { errors } } = useForm();
-
   useEffect(() => {
     inputs.forEach(element => {
       element["Component"] = setComponent(element.componentName)
@@ -61,16 +66,23 @@ const SharedForm = ({ onSubmit, inputs }: ISharedForm) => {
 
     <form className={classes.root} style={{width:"100%"}} onSubmit={handleSubmit(onSubmit)}>
     <Grid container spacing={1}>
+    {haveMoneyInputs && 
+    <Grid item xs={12} md={6} > 
+      <CurrencyComponent setCurrency={setCurrency} currency={currency} currencyLabel={tranlation("labels.stockForm.currencyLabel")}/>
+    </Grid>}
       {state && state.map((element: any) => {
         return (<Grid item xs={12} md={6} key={element.name}>
           <element.Component control={control}
             name={element.name}
             key={element.name}
             options={element.options}
-            label={element.label}
+            label={tranlation(element.label)}
             rules={element.rules}
             required={true}
-            errorobj={errors} />
+            adorn={element.currency && currency}
+            type={element.type}
+            tranlation={tranlation}
+            errorobj={errors}  />
         </Grid>)
       })}
       <Grid item xs={12} md={12} >

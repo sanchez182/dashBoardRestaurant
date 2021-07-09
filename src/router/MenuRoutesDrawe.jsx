@@ -5,6 +5,7 @@ import StartAppBar from "../components/Layout/StartAppBar"
 import { PrivateRoute } from "./PrivateRoute"
 import DrawerMenu from '../components/Layout/DrawerMenu';
 import { routesList } from "./routesList"
+
 let newRoutes = []
 
 const recursiveRoutes = (routesList, routeName) => { 
@@ -29,7 +30,6 @@ const recursiveRoutes = (routesList, routeName) => {
 }
 
 const routes = (screens) => {
-    newRoutes= []
     screens.forEach((element) => {
         recursiveRoutes(routesList[0]["children"], element)
     })
@@ -48,9 +48,7 @@ export const RenderPrivateRoutes = ({ screens }) => {
     return (
         
             <>
-                <StartAppBar />
-                <DrawerMenu routes={routesList} />
- 
+
         <main className={open ? "contentOpen" : "content"}   >
             <PrivateRoute
                 exact

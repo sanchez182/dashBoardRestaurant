@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Home } from '@material-ui/icons';
 import ListItemMenu from '../ListItemMenu';
+import React from 'react';
 
 
 
@@ -78,4 +79,4 @@ export const DrawerMenu = ({routes})=> {
   );
 }
 
-export default DrawerMenu
+export default React.memo(DrawerMenu);

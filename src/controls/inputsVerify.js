@@ -1,9 +1,12 @@
-export const verifyData =(errorobj,name)=>{
+export const verifyData =(errorobj,name,t)=>{
     let isError = false;
     let errorMessage = "";
+    let message = "";
+    
     if (errorobj && errorobj.hasOwnProperty(name)) {
       isError = true;
-      errorMessage = errorobj[name].message;
+      message = errorobj[name].message;
+      errorMessage = t(message);
     }
     return {isError , errorMessage}
 }

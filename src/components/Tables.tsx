@@ -1,15 +1,11 @@
 import { Card, CardHeader, CardActionArea, CardActions, Button, CardContent, Grid, makeStyles, createStyles, Theme } from '@material-ui/core';
 import DeckIcon from '@material-ui/icons/Deck';
-import FlipCard from '../components/FlipCard'
 import Avatar from '@material-ui/core/Avatar';
-import { red } from '@material-ui/core/colors';
-import { useState } from 'react';
 import { IOrders } from '../store/actions/actionsInterfaces/IRestaurantActions';
 import Grow from '@material-ui/core/Grow';
-import Paper from '@material-ui/core/Paper';
 interface TablesType {
     numberTable: number;
-    isAvailable: 'inherit' | 'primary' | 'secondary' | 'action' | 'disabled' | 'error';
+    isSelected: boolean ,//'inherit' | 'primary' | 'secondary' | 'action' | 'disabled' | 'error';
     flipTable: boolean,
     order: IOrders
 }
@@ -22,27 +18,27 @@ const useStyles = makeStyles((theme: Theme) =>
         root: {
             maxWidth: 345,
         },
-        avatar: {
-            backgroundColor: red[500],
-        },
         paper: {
             margin: theme.spacing(1),
         },
     }),
 );
 
-const Tables = ({ numberTable, isAvailable, flipTable, order }: TablesType) => {
-    debugger
-    const classes = useStyles();
+const Tables = ({ numberTable, isSelected, flipTable, order }: TablesType) => {
+    const classes = useStyles(); 
+    const avatar  = isSelected ? "#f1f1f196" : "#0062cca1"
+    
+    const colorAvatar = isSelected ? "error" : "primary"
+
     return (
         <Grid item xs={4} md={4} >
-            <Card className={classes.root} style={{ backgroundColor: " #f1f1f196" }} >
+            <Card className={classes.root} style={{ backgroundColor: "#f1f1f196" }} >
                 <CardActionArea>
-                    <CardHeader className={classes.avatar}
+                    <CardHeader style= {{ backgroundColor: avatar}}
                         avatar={
                             <Avatar  >
                                 <DeckIcon fontSize={"large"}
-                                    color={isAvailable} />
+                               color={colorAvatar} />
                             </Avatar>
                         }
                         title={<p

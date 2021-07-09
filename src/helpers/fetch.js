@@ -1,6 +1,6 @@
 import interceptorHttp from "./interceptorHttp";
 
-const baseUrl = process.env.REACT_APP_API_URL;
+const baseUrl = process.env.REACT_APP_API_DASHBOARD_URL;
 
 const getHttp =(token)=>{
     return interceptorHttp(baseUrl,token);
@@ -20,6 +20,8 @@ const postRequest = (token,endpoint,data)=>{
 }
 
 const fetchSinToken = ( endpoint, data, method = 'GET' ) => {
+    
+
     const url = `${ baseUrl }/${ endpoint }`;
     if ( method === 'GET' ) {
         return fetch( url );
