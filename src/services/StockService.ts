@@ -9,7 +9,6 @@ class StockService {
       }
     
       addStock = async ( data: any)=>{
-          
         return  this.postRequest(`${this.endPoint}addItemStock`,data)
         }
 

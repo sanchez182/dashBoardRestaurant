@@ -11,7 +11,9 @@
       "dashboarMenu": "Dashboard Menú",
       "addPlate": "Agregar nuevo platillo",
       "addDrink": "Agregar nueva bebida",
-      "addStock": "Agregar items al stock"
+      "addStock": "Agregar items al stock",
+      "stockList": "Stock List"
+      
       
     }
   },   

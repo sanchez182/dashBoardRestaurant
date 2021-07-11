@@ -5,6 +5,7 @@ import AddPlate from "../pages/administration/AddPlate";
 import AddStock from "../pages/administration/AddStock";
 import TableScreen from "../pages/administration/ClientTables/TableScreen";
 import DashboardMenu from "../pages/administration/DashboardMenu";
+import StockList from "../pages/administration/StockList";
 
 
 export const routesList = [
@@ -30,7 +31,11 @@ export const routesList = [
                 {
                     name: 'addStock', iconName: <Tune />, path: '/addStock', showInMenu: false, level: 2,
                     isPrivate: true, exact: true, component: AddStock
+                }, {
+                    name: 'stockList', iconName: <Tune />, path: '/stockList', showInMenu: false, level: 2,
+                    isPrivate: true, exact: true, component: StockList
                 },
+                
             ]
     }
 ]

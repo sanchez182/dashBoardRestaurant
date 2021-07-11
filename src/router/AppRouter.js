@@ -13,7 +13,7 @@ export const AppRouter = () => {
     const dispatch = useDispatch();
     const { checking, uid } = useSelector(state => state.auth);
 
-    const screens = ["addPlate", "addDrink","addStock"]
+    const screens = ["addPlate", "addDrink","stockList","addStock"]
     useEffect(() => {
         if(!localStorage.getItem('token')){
             dispatch(checkingFinish());

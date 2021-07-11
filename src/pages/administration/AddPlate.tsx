@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { useCallback } from 'react';
 import { COMPONENTSTYPE } from '../../components/EnumsComponents';
 import SharedForm from '../../components/SharedForm';
 
@@ -19,12 +18,7 @@ const numberData = [
   ];
   
 const AddPlate: FC = () => {
-  const onSubmit = useCallback(
-    (data:any) => {
-      console.log(data);
-    },
-    [],
-  )
+
   const inputs = [
     {
         name: "nameV",
@@ -58,7 +52,7 @@ const AddPlate: FC = () => {
     }}
 ]
   return (
-      <SharedForm onSubmit={onSubmit} inputs={inputs} haveMoneyInputs={false}/>
+      <SharedForm actionSubmit={()=>{}} inputs={inputs} haveMoneyInputs={false}/>
   );
 };
 

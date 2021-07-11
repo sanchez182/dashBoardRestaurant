@@ -1,30 +1,10 @@
 import React, { FC } from 'react';
-import { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { addStock } from '../../actionsApi/stockActions';
 import { COMPONENTSTYPE } from '../../components/EnumsComponents';
 import SharedForm from '../../components/SharedForm'; 
-import { RootState } from '../../store';
 
-const AddStock: FC = () => {
-  const dispatch = useDispatch()
-  const {  idRestaurant } = useSelector((state: RootState )=> state.auth);
-
-  const onSubmit = useCallback(
-    (data:any) => {
-      const model = {
-        idRestaurant,
-        itemStock : [{
-          itemdDescription: data.productName,
-          quantityPortion: data.productName,
-          registerDate: Date.now()
-        }] 
-      }
-      dispatch(addStock(model))
-    },
-    [idRestaurant,dispatch],
-  )
  
+const AddStock: FC = () => {
   const inputs = [
     {
         name: "productName",
@@ -34,7 +14,7 @@ const AddStock: FC = () => {
           required:"labels.stockForm.productNameError"}
     },
   {
-    name: "Quantity Portions",
+    name: "quantityPortions",
     type: 'number',
     label: "labels.stockForm.quantityPortions",
     componentName: COMPONENTSTYPE.input,
@@ -55,7 +35,7 @@ const AddStock: FC = () => {
 
 
   return (
-      <SharedForm onSubmit={onSubmit} inputs={inputs} haveMoneyInputs={false}/>
+      <SharedForm actionSubmit={addStock} inputs={inputs} haveMoneyInputs={false}/>
   );
 };
 
