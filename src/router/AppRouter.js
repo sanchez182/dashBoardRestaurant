@@ -11,14 +11,14 @@ import { checkingFinish } from '../store/actions/authActions';
 
 export const AppRouter = () => {
     const dispatch = useDispatch();
-    const { checking, uid } = useSelector(state => state.auth);
+    const { checking, token, uid } = useSelector(state => state.auth);
 
-    const screens = ["addPlate", "addDrink","stockList","addStock"]
+    const screens = ["addRestaurantInfo","addPlate", "addDrink","stockList","addStock"]
     useEffect(() => {
-        if(!localStorage.getItem('token')){
+        if(!token){
             dispatch(checkingFinish());
         }
-    }, [dispatch])
+    }, [dispatch,token])
 
     if (checking) {
         return (<h5>Espere un momento por favor...</h5>);

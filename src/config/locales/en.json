@@ -9,6 +9,7 @@
     "sidebar": {
       "link":{
         "dashboarMenu": "Dashboard Menú",
+        "addRestaurantInfo": "Restaurant Info",
         "addPlate": "Add new plate",
         "addDrink": "Add new drink",
         "addStock": "Add items to stock",
@@ -16,6 +17,7 @@
       }
     },
     "labels": {
+      "formButton": "Save data",
       "stockForm":{
         "productName": "Product name",
         "productNameError" : "Product name required",
@@ -24,7 +26,15 @@
         "price": "Price",
         "priceError": "Price is required",
         "currencyLabel" : "Select price currency"
+      },
+      "restaurantInfo":{
+        "fieldError" : "This field is required",
+        "restaurantDescription": "Restaurant description",
+        "ubication" : "Ubication",
+        "quantityTables": "Quantity Tables",
+        "phone": "Phone"
       }
+      
     },
 
     "header": {

@@ -10,7 +10,7 @@ export const startLogin = ( email, password ) => {
         const resp = await fetchSinToken( 'auth/login', { email, password }, 'POST' );
         const body = resp.data
         if( resp.status === 201 ) {
-           dispatch(getRestaurantData(body.idRestaurant,body)) //este id viene por param en la url principal
+           dispatch(getRestaurantData(body)) //este id viene por param en la url principal
         } else {
             Swal.fire('Error', body.msg, 'error');
         }
@@ -64,7 +64,6 @@ export const startRegister = ( email, password, name ) => {
  
 export const startLogout = () => {
     return ( dispatch ) => {
-        localStorage.clear(); 
         dispatch( logout() );
     }
 }

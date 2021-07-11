@@ -70,7 +70,7 @@ export const interceptorHttp = (processUrl, token) => {
         customHeaders = [
             {
                 key: 'Authorization',
-                value: `Bearer ${token}`, //store.getState().userdata.token
+                value: `Bearer ${store.getState().auth.token}`, //store.getState().userdata.token
             }
         ]
     }

@@ -6,6 +6,8 @@ const initialState: IPayloadAuth = {
      checking: true,
      uid: null,
      name: null,
+     token: null ,
+     tokenExpiresIn: null,
      idRestaurant: null,
      wasDasborad: false
 }

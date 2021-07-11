@@ -10,7 +10,7 @@ import {
 export default function StockList() {
   return (
     <div style={{ height: 300, width: '100%' }}>
-      <DataGrid rows={rows} columns={columns} edi/>
+      <DataGrid rows={rows} columns={columns} />
       
     </div>
   );
@@ -24,7 +24,6 @@ const columns: GridColumns = [
     headerName: 'Date Created',
     type: 'date',
     width: 180,
-    
     editable: true,
   },
   {

@@ -2,14 +2,14 @@ import interceptorHttp from "../helpers/interceptorHttp";
 
 class RestaurantService {
     endPoint = '/restaurant/' 
-    baseUrl = process.env.REACT_APP_API_MENU_URL;
+    baseUrl = process.env.REACT_APP_API_DASHBOARD_URL;
 
     getHttp =()=>{
         return interceptorHttp(this.baseUrl);
       }
 
-      getRestaurantData = async (idRestaurant: string)=>{
-      return  this.getRequest(`${this.endPoint}${idRestaurant}`)
+      getRestaurantData = async ()=>{
+      return  this.getRequest(`${this.endPoint}`)
      //  return  this.getRequest(`${this.endPoint}`)
       }
 

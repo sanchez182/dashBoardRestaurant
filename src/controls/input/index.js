@@ -1,14 +1,12 @@
 import { Controller } from "react-hook-form";
 import TextField from "@material-ui/core/TextField";
 import { verifyData } from '../inputsVerify';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import "./index.css";
 
 function FormInput(props) { 
-  const { name, label,control, errorobj,type, rules,adorn } = props;
+  const { name, label,control, errorobj,type, rules,startAdornment} = props;
   const  {isError , errorMessage} = verifyData(errorobj,name, props.tranlation)
-  
-  
+ 
   return (  
     <Controller
     name={name}
@@ -18,7 +16,7 @@ function FormInput(props) {
       <TextField
       type={type}
       InputProps={{
-        startAdornment: <InputAdornment position="start">{adorn}</InputAdornment>,
+        startAdornment
       }}
         fullWidth={true}
         label={label}

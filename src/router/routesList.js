@@ -2,6 +2,7 @@
 import { Tune } from "@material-ui/icons";
 import AddDrink from "../pages/administration/AddDrink";
 import AddPlate from "../pages/administration/AddPlate";
+import AddRestaurantInfo from "../pages/administration/AddRestaurantInfo";
 import AddStock from "../pages/administration/AddStock";
 import TableScreen from "../pages/administration/ClientTables/TableScreen";
 import DashboardMenu from "../pages/administration/DashboardMenu";
@@ -20,9 +21,13 @@ export const routesList = [
         level: 1,
         children:
             [
+                
                 {
                     name: 'addPlate', iconName: <Tune />, path: '/addPlate', showInMenu: false, level: 2,
                     isPrivate: true, exact: true, component: AddPlate
+                },{
+                    name: 'addRestaurantInfo', iconName: <Tune />, path: '/AddRestaurantInfo', showInMenu: false, level: 2,
+                    isPrivate: true, exact: true, component: AddRestaurantInfo
                 },
                 {
                     name: 'addDrink', iconName: <Tune />, path: '/addDrink', showInMenu: false, level: 2,

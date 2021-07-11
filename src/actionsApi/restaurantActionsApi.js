@@ -8,17 +8,15 @@ import { setRestaurantData } from "../store/actions/restaurantActions";
 
  const service = new RestaurantService();
 
- export const getRestaurantData = (idRestaurant,body)=>async(dispatch)=>{
-    const response = await service.getRestaurantData(idRestaurant)
+ export const getRestaurantData = (body)=>async(dispatch)=>{
+    const response = await service.getRestaurantData()
     dispatch(setRestaurantData(response.data))
     dispatch(apiCallSuccess())
     dispatch( setAuthLogin({
       checking: false,
       uid: body.uid,
       name: body.name,
-      idRestaurant: body.idRestaurant
+      token: body.token ,
+      tokenExpiresIn: body.expiresIn
   }) )
-
-  localStorage.setItem('token', body.token );
-  localStorage.setItem('token-expiresIn', body.expiresIn );
  }

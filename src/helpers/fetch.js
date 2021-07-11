@@ -20,8 +20,6 @@ const postRequest = (token,endpoint,data)=>{
 }
 
 const fetchSinToken = ( endpoint, data, method = 'GET' ) => {
-    
-
     const url = `${ baseUrl }/${ endpoint }`;
     if ( method === 'GET' ) {
         return fetch( url );
@@ -31,10 +29,9 @@ const fetchSinToken = ( endpoint, data, method = 'GET' ) => {
 }
 
 const fetchConToken = ( endpoint, data, method = 'GET' ) => { 
-    const token = localStorage.getItem('token') || '';
     if ( method === 'GET' ) {
         return new Promise(async (resolve,reject)=>{
-            getHttp(token)
+            getHttp(true)
             .get(`${endpoint}`)
             .then(response=>{
                 resolve(response)
@@ -44,7 +41,7 @@ const fetchConToken = ( endpoint, data, method = 'GET' ) => {
             })
         })
     }else{
-        return postRequest(token,endpoint,data)
+        return postRequest(true,endpoint,data)
     }
     
 }

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Grid, makeStyles } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
 import { useForm } from 'react-hook-form';
 import FormInput from '../controls/input';
+import FormInputItems from '../controls/inputAddItems';
 import FormSelect from '../controls/select';
 import { COMPONENTSTYPE } from './EnumsComponents';
 import { Theme } from '@material-ui/core/styles';
@@ -36,15 +36,15 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface ISharedForm {
   actionSubmit: any;
   inputs: any[],
-  haveMoneyInputs: boolean
+  haveMoneyInputs: boolean,
 }
 
 
 const setComponent = (componentName: String) => {
   let renderComponent;
   switch (componentName) {
-    case COMPONENTSTYPE.input:
-      renderComponent = FormInput;
+    case COMPONENTSTYPE.inputAddItems:
+      renderComponent = FormInputItems;
       break;
     case COMPONENTSTYPE.select:
       renderComponent = FormSelect;
@@ -71,7 +71,6 @@ const SharedForm = ({ actionSubmit, inputs, haveMoneyInputs }: ISharedForm) => {
       registerDate: Date.now()
     }
     dispatch(actionSubmit(model)).then(() => {
-      debugger
       inputs.forEach(element => {
         reset({ [element.name]: "" });
       });
@@ -107,16 +106,16 @@ const SharedForm = ({ actionSubmit, inputs, haveMoneyInputs }: ISharedForm) => {
               adorn={element.currency && currency}
               type={element.type}
               tranlation={tranlation}
-              errorobj={errors} />
+              errorobj={errors}
+              startAdornment={element.startAdornment}
+              endAdornment={element.endAdornment}
+            />
           </Grid>)
         })}
         <Grid item xs={12} md={12} >
-          {/*         <Button type="submit" style={{float: 'right'}} variant="contained" color="primary">
-          Guardar datos
-        </Button> */}
           <LoadingButton
             isLoading={loadingRequest}
-            textButton="Guardar datos"
+            textButton={tranlation("labels.formButton")}
             type="submit"
             classButton=""
             handleSubmit={() => { }}
