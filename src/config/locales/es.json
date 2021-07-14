@@ -5,7 +5,18 @@
   "busy": "Ocupada",
   "textSelectTable": "Seleccione su mesa",
   "returnToHomepage": "Return to homepage",
-
+  "closeRestaurantLabel": "Cerrado",
+  "days":{
+    "monday": "Lunes",
+    "tuesday": "Martes",
+    "wednesday": "Miercoles",
+    "tursday": "Jueves",
+    "friday": "Viernes",
+    "saturday": "Sábados",
+    "sunday": "Domigos"
+  },
+  "insite": "En sitio",
+  "toCarry": "Para llevar",
   "sidebar": {
     "link":{
       "dashboarMenu": "Dashboard Menú",
@@ -34,7 +45,10 @@
       "restaurantDescription": "Description del restaurante",
       "ubication" : "Ubicación",
       "quantityTables": "Cantidad de mesas",
-      "phone": "Teléfono"
+      "phone": "Teléfono",
+      "phoneMaxlength": "8 números como máximo",
+      "foodTypeList": "Tipos de comida",
+      "foodTimeList": "Tiempos de comida"
     }
   },
 

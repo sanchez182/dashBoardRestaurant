@@ -6,8 +6,6 @@ export const PrivateRoute = ({
     component: Component,
     ...rest
 }) => {
-    debugger
-    //
     return (
         <Route { ...rest }
         component={ (props) => (

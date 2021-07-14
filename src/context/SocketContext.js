@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { createContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSocket } from '../hooks/useSocket'
-import { checkRestaurantTableSeledted, setOrderState } from '../store/actions/restaurantActions';
+import { setOrderState } from '../store/actions/ordersActions';
+import { checkRestaurantTableSeledted } from '../store/actions/restaurantActions';
 export const SocketContext = createContext();
 
 
@@ -10,7 +11,8 @@ export const SocketProvider = ({ children }) => {
 
     const { socket, online, conectarSocket, desconectarSocket } = useSocket('http://localhost:4002');
     const { uid } = useSelector(state => state.auth);
-    const { _id, tableList, orders } = useSelector((state) => state.restaurantData);
+    const { _id, tableList } = useSelector((state) => state.restaurantData.restaurantInfo);
+    const {  orders } = useSelector((state) => state.orderData);
     const dispatch = useDispatch()
 
     useEffect(() => {

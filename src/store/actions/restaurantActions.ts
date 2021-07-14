@@ -1,4 +1,4 @@
-import { GET_RESTAURANT,UPDATE_SELECTED_TABLE , SET_ORDER_STATE,IRestaurant,
+import { GET_RESTAURANT,SET_SERVICES,UPDATE_SELECTED_TABLE ,IRestaurant,
   IModelRestaurant} from './actionsInterfaces/IRestaurantActions';
 
 
@@ -18,10 +18,10 @@ IRestaurant => {
   }
 }
 
-export const setOrderState = (payload: any):
+export const setDataService = (payload: any):
 IRestaurant => {
   return {
-    type: SET_ORDER_STATE,
+    type: SET_SERVICES,
     payload 
   }
 }

@@ -6,7 +6,6 @@ import { verifyData } from '../inputsVerify';
 import "./index.css";
 import { List, ListItem, ListItemText, ListItemAvatar, Avatar, ListItemSecondaryAction } from "@material-ui/core";
 import IconButton from '@material-ui/core/IconButton';
-import PhoneButton from '@material-ui/icons/Phone';
 import DeleteIcon from '@material-ui/icons/Delete';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AddButton from '@material-ui/icons/Add';
@@ -14,20 +13,19 @@ import AddButton from '@material-ui/icons/Add';
 
 
 function FormInput(props) {
-  const { name, label, control, errorobj, type, rules, startAdornment } = props;
+  const { name, label, control, errorobj,setItemState,state,defaultValue,placeholder,hasArrayElements, type, rules, startAdornment } = props;
   const { isError, errorMessage } = verifyData(errorobj, name, props.tranlation)
-
+  const {arrayItemName, iconList} = hasArrayElements
   const inputRef = useRef(null);
-  const [item, setItem] = useState([])
   const endAdornment = <InputAdornment position="end">
     <IconButton
       aria-label="add New Item"
       color="primary"
       onClick={() => {
-        if (inputRef.current.value) {
-          const data = [...item]
-          data.push(inputRef.current.value)
-          setItem(data)
+        if (!isError && inputRef.current.value) {
+          const data = {...state}
+          data.itemState[arrayItemName].push(inputRef.current.value)
+          setItemState(data)
         }
       }}>
       <AddButton />
@@ -49,11 +47,12 @@ function FormInput(props) {
                 startAdornment,
                 endAdornment
               }}
+              placeholder={placeholder}
               inputRef={inputRef}
               fullWidth={true}
               label={label}
               variant="filled"
-              value={value}
+              value={ value ? value : defaultValue }
               onChange={onChange}
               error={isError}
               helperText={errorMessage}
@@ -65,23 +64,23 @@ function FormInput(props) {
 
 
       <List dense={true}>
-        {item && item.map(newItem => {
+        {state.itemState[arrayItemName] && state.itemState[arrayItemName].map(newItem => {
           return <ListItem>
             <ListItemAvatar>
               <Avatar>
-                <PhoneButton />
+                {iconList}
               </Avatar>
             </ListItemAvatar>
-            <ListItemText
+            <ListItemText 
+            style={{color: isError && "red"}}
               primary={newItem}
             />
             <ListItemSecondaryAction>
               <IconButton edge="end" aria-label="delete" id={newItem}
                 onClick={(event) => {
-                  debugger
-                  let data = [...item]
-                  data = data.filter(x => x !== event.currentTarget.id);
-                  setItem(data)
+                  let data = {...state} 
+                  data.itemState[arrayItemName] = data.itemState[arrayItemName].filter(x => x !== event.currentTarget.id);
+                  setItemState(data)
                 }}>
                 <DeleteIcon />
               </IconButton>

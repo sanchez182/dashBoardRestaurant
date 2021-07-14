@@ -5,10 +5,22 @@
     "busy": "Busy",
     "textSelectTable": "Select your table",
     "returnToHomepage": "Return to homepage",
+    "closeRestaurantLabel": "Close",
 
+    "days":{
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "tursday": "Tursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    },
+    "insite": "In site",
+    "toCarry": "To carry",
     "sidebar": {
       "link":{
-        "dashboarMenu": "Dashboard Menú",
+        "dashboarMenu": "Dashboard Menu",
         "addRestaurantInfo": "Restaurant Info",
         "addPlate": "Add new plate",
         "addDrink": "Add new drink",
@@ -32,7 +44,12 @@
         "restaurantDescription": "Restaurant description",
         "ubication" : "Ubication",
         "quantityTables": "Quantity Tables",
-        "phone": "Phone"
+        "phone": "Phone",
+        "phoneMaxlength": "8 max numbers",
+        "foodTypeList": "Food type",
+        "foodTimeList": "Food time"
+        
+        
       }
       
     },

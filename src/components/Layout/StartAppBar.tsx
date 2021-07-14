@@ -13,7 +13,7 @@ const StartAppBar = () => {
 
     const { t } = useTranslation();
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const { name } = useSelector((state: RootState) => state.restaurantData);
+    const { name } = useSelector((state: RootState) => state.restaurantData.restaurantInfo);
 
     const history = useHistory();
 

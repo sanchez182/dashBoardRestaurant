@@ -5,6 +5,15 @@ import SharedForm from '../../components/SharedForm';
 
  
 const AddStock: FC = () => {
+
+  const createModel =(data:any)=>{
+    return {
+        itemdDescription: data.productName,
+        quantityPortion: data.quantityPortions,
+        registerDate: Date.now()
+      }
+}
+
   const inputs = [
     {
         name: "productName",
@@ -35,7 +44,7 @@ const AddStock: FC = () => {
 
 
   return (
-      <SharedForm actionSubmit={addStock} inputs={inputs} haveMoneyInputs={false}/>
+      <SharedForm actionSubmit={addStock} createModel = {createModel} inputs={inputs} haveMoneyInputs={false}/>
   );
 };
 

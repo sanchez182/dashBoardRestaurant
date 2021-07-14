@@ -6,7 +6,6 @@ import { apiCallSuccess } from "../store/actions/requestActions";
 
 
  export const addStock = (body) => {
-  debugger
   return (dispatch) => {
       return  service.addStock(body).then((response)=>{
         debugger

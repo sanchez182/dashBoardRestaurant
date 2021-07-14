@@ -1,20 +1,26 @@
 
 import {
-  GET_RESTAURANT, SET_ORDER_STATE, UPDATE_SELECTED_TABLE, IRestaurant,
+  GET_RESTAURANT, SET_SERVICES,UPDATE_SELECTED_TABLE, IRestaurant,
   IModelRestaurant
 } from '../actions/actionsInterfaces/IRestaurantActions';
 
 
-const initialState: IModelRestaurant = {
-  _id: null,
+const initialState: IModelRestaurant = { restaurantInfo : {_id: null,
   name: "",
-  ubication: null,
+  restaurantDescription: "",
+  ubication: null, 
+  services: {express: false, inSite: false, toGo: false },
   img: "",
   foodTimeList: [],
-  foodTypeList: [],
+  foodTypeList: [{
+    foodTypeName: "",
+    isActive: false,
+    showInApp: false,
+  }],
+  phoneList: [],
   drinkTypeList: [],
-  tableList: [],
-  orders: []
+  tableList: []}
+  
 }
 
 
@@ -30,12 +36,11 @@ const restaurantReducer = (state = initialState, action: IRestaurant) => {
         ...state,
         tableList: action.payload
       }
-      case SET_ORDER_STATE:
+      case SET_SERVICES:
         return {
           ...state,
-          orders: action.payload
+          services: action.payload
         }
-      
     default:
       return state;
   }

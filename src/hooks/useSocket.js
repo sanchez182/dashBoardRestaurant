@@ -7,7 +7,7 @@ export const useSocket = ( serverPath ) => {
     
     const [ socket, setSocket ] = useState(null);
     const [ online, setOnline ] = useState(false);
-    const { _id } = useSelector((state) => state.restaurantData);
+    const { _id } = useSelector((state) => state.restaurantData.restaurantInfo);
 
     const conectarSocket = useCallback( () => {
 

@@ -2,7 +2,7 @@
 import { Tune } from "@material-ui/icons";
 import AddDrink from "../pages/administration/AddDrink";
 import AddPlate from "../pages/administration/AddPlate";
-import AddRestaurantInfo from "../pages/administration/AddRestaurantInfo";
+import AddRestaurantInfo from "../pages/administration/restaurnatInfo/AddRestaurantInfo";
 import AddStock from "../pages/administration/AddStock";
 import TableScreen from "../pages/administration/ClientTables/TableScreen";
 import DashboardMenu from "../pages/administration/DashboardMenu";

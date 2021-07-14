@@ -1,13 +1,13 @@
 import { Card, CardHeader, CardActionArea, CardActions, Button, CardContent, Grid, makeStyles, createStyles, Theme } from '@material-ui/core';
 import DeckIcon from '@material-ui/icons/Deck';
 import Avatar from '@material-ui/core/Avatar';
-import { IOrders } from '../store/actions/actionsInterfaces/IRestaurantActions';
 import Grow from '@material-ui/core/Grow';
+import { IOrder } from '../store/actions/actionsInterfaces/IOrdersActions';
 interface TablesType {
     numberTable: number;
     isSelected: boolean ,//'inherit' | 'primary' | 'secondary' | 'action' | 'disabled' | 'error';
     flipTable: boolean,
-    order: IOrders
+    order: IOrder | undefined
 }
 
 

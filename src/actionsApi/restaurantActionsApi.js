@@ -1,7 +1,8 @@
 import RestaurantService from "../services/RestaurantService";
 import { setAuthLogin } from "../store/actions/authActions";
+import { setOpenMessageAlert } from "../store/actions/messageAlertActions";
 import { apiCallSuccess } from "../store/actions/requestActions";
-import { setRestaurantData } from "../store/actions/restaurantActions";
+import { setDataService, setRestaurantData } from "../store/actions/restaurantActions";
  
  
 
@@ -10,7 +11,7 @@ import { setRestaurantData } from "../store/actions/restaurantActions";
 
  export const getRestaurantData = (body)=>async(dispatch)=>{
     const response = await service.getRestaurantData()
-    dispatch(setRestaurantData(response.data))
+    dispatch(setRestaurantData({restaurantInfo:response.data}))
     dispatch(apiCallSuccess())
     dispatch( setAuthLogin({
       checking: false,
@@ -20,3 +21,20 @@ import { setRestaurantData } from "../store/actions/restaurantActions";
       tokenExpiresIn: body.expiresIn
   }) )
  }
+
+ export const updateRestaurantInfo = (body) => {
+   debugger
+  return (dispatch) => {
+      return  service.updateRestaurantInfo(body).then((response)=>{
+        debugger
+        if(response.status === 200){
+          dispatch(apiCallSuccess()) 
+          dispatch(setRestaurantData({restaurantInfo:response.data}))
+          dispatch(setOpenMessageAlert({ show: true, message:'Se actualizo la información correcatemente', severity: 'success' }));
+          return (response)
+        } 
+       }).catch((error)=>{
+        return (error)
+       })
+  }
+}

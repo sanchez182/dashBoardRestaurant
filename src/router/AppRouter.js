@@ -3,11 +3,12 @@ import { Switch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { PublicRoute } from './PublicRoute';
 import LoginScreen from '../pages/auth/LoginScreen';
-import Page404 from '../pages/404';
+import { ThemeProvider } from '@material-ui/styles';
 import RenderPrivateRoutes from './MenuRoutes';
 import AlertComponent from '../components/AlertComponent';
 import {SocketProvider} from '../context/SocketContext';
 import { checkingFinish } from '../store/actions/authActions';
+import themeMUI from '../config/themeMUI';
 
 export const AppRouter = () => {
     const dispatch = useDispatch();
@@ -28,6 +29,7 @@ export const AppRouter = () => {
        
 
         <SocketProvider>
+        <ThemeProvider theme={themeMUI}>
             <AlertComponent />
             <Switch>
 
@@ -46,6 +48,7 @@ export const AppRouter = () => {
                 />
 
             </Switch>
+            </ThemeProvider>
             </SocketProvider>
 
     )
