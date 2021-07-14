@@ -13,7 +13,7 @@ import AddButton from '@material-ui/icons/Add';
 
 
 function FormInput(props) {
-  const { name, label, control, errorobj,setItemState,state,defaultValue,placeholder,hasArrayElements, type, rules, startAdornment } = props;
+  const { name, label, control, errorobj,setItemState,state,placeholder,hasArrayElements, type, rules, startAdornment } = props;
   const { isError, errorMessage } = verifyData(errorobj, name, props.tranlation)
   const {arrayItemName, iconList} = hasArrayElements
   const inputRef = useRef(null);
@@ -52,7 +52,7 @@ function FormInput(props) {
               fullWidth={true}
               label={label}
               variant="filled"
-              value={ value ? value : defaultValue }
+              value={ value   }
               onChange={onChange}
               error={isError}
               helperText={errorMessage}

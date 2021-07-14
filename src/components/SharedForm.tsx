@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {  Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 import FormInput from '../controls/input';
 import FormInputItems from '../controls/inputAddItems';
@@ -51,10 +51,10 @@ const setComponent = (componentName: String) => {
     case COMPONENTSTYPE.select:
       renderComponent = FormSelect;
       break;
-      case COMPONENTSTYPE.checkBoxInput:
-        renderComponent = CheckboxInput;
-        break;
-      
+    case COMPONENTSTYPE.checkBoxInput:
+      renderComponent = CheckboxInput;
+      break;
+
     default:
       renderComponent = FormInput;
       break;
@@ -63,8 +63,8 @@ const setComponent = (componentName: String) => {
 }
 
 
-const SharedForm = ({ actionSubmit,createModel, inputs,childElement, haveMoneyInputs }: ISharedForm) => {
-  const [state, setstate] = useState<any>({inputs: [],itemState:{} })
+const SharedForm = ({ actionSubmit, createModel, inputs, childElement, haveMoneyInputs }: ISharedForm) => {
+  const [state, setstate] = useState<any>({ inputs: [], itemState: {} })
 
   const [currency, setCurrency] = React.useState('$');
   const { loadingRequest } = useSelector((state: RootState) => state.requestReducer);
@@ -72,45 +72,50 @@ const SharedForm = ({ actionSubmit,createModel, inputs,childElement, haveMoneyIn
 
   const setFormData = (data: any) => {
     const model = createModel(data)
-   dispatch(actionSubmit(model)).then(() => {
-      let  clearItemsState = {...state.itemState}
-      let oldState:any;
-      state.inputs.forEach((element:any) => {
-        reset({ [element.name]: "" }); 
-        if(element.hasArrayElements){
-        clearItemsState[element.hasArrayElements.arrayItemName] = []
+    dispatch(actionSubmit(model)).then(() => {
+      let clearItemsState = { ...state.itemState }
+      let oldState: any;
+      state.inputs.forEach((element: any) => {
+        reset({ [element.name]: "" });
+        if (element.hasArrayElements) {
+          clearItemsState[element.hasArrayElements.arrayItemName] = []
         }
       });
-      oldState = {...state}
+      oldState = { ...state }
       oldState.itemState = clearItemsState
       setstate(oldState)
-   })
+    })
   }
 
   const { t: tranlation } = useTranslation();
-  const { handleSubmit, reset, control, formState: { errors } } = useForm();
+  const { handleSubmit, reset, control, setValue, formState: { errors } } = useForm();
 
   useEffect(() => {
-    const newObject = {...state.itemState}
-     
+    const newObject = { ...state.itemState }
     inputs.forEach(element => {
-      debugger
       element["Component"] = setComponent(element.componentName)
-      if(element.hasArrayElements){
+      if (element.hasArrayElements) {
         newObject[element.hasArrayElements.arrayItemName] = []
-        if(element.hasArrayElements.arrayValues?.length > 0){
-          element.hasArrayElements.arrayValues.forEach((item:any) => {
-          newObject[element.hasArrayElements.arrayItemName].push(item)
+        if (element.hasArrayElements.arrayValues?.length > 0) {
+          element.hasArrayElements.arrayValues.forEach((item: any) => {
+            newObject[element.hasArrayElements.arrayItemName].push(item)
           })
         }
       }
     });
-    setstate({inputs,itemState:newObject })
+    setstate({ inputs, itemState: newObject })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputs])
 
+
+  useEffect(() => {
+    state.inputs.forEach((element: any) => {
+      setValue(element.name, element.defaultValue);
+    });
+  }, [state.inputs, setValue])
   return (
 
-    <form  style={{ width: "100%" }} onSubmit={handleSubmit(setFormData)}>
+    <form style={{ width: "100%" }} onSubmit={handleSubmit(setFormData)}>
       <Grid container spacing={1}>
         {haveMoneyInputs &&
           <Grid item xs={12} md={6} >
@@ -129,7 +134,6 @@ const SharedForm = ({ actionSubmit,createModel, inputs,childElement, haveMoneyIn
               type={element.type}
               tranlation={tranlation}
               errorobj={errors}
-              defaultValue={element.defaultValue}
               placeholder={element.placeholder}
               state={state}
               setItemState={setstate}
@@ -139,11 +143,11 @@ const SharedForm = ({ actionSubmit,createModel, inputs,childElement, haveMoneyIn
             />
           </Grid>)
         })}
-        {childElement && 
-        <Grid item xs={12} md={12} >
+        {childElement &&
+          <Grid item xs={12} md={12} >
             {childElement}
           </Grid>}
-       
+
         <Grid item xs={12} md={12} >
           <LoadingButton
             isLoading={loadingRequest}
