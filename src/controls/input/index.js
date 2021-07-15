@@ -4,7 +4,7 @@ import { verifyData } from '../inputsVerify';
 import "./index.css";
 
 function FormInput(props) { 
-  const { name, label,control, errorobj,type,rules,startAdornment} = props;
+  const { name, label,control, errorobj,type,rules,placeholder,startAdornment} = props;
   const  {isError , errorMessage} = verifyData(errorobj,name, props.tranlation)
  
   return (  
@@ -19,6 +19,7 @@ function FormInput(props) {
         startAdornment
       }}
         fullWidth={true}
+        placeholder={placeholder}
         label={label}
         variant="filled"
         value={ value}

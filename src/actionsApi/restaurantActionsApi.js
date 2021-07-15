@@ -24,16 +24,18 @@ import { setDataService, setRestaurantData } from "../store/actions/restaurantAc
 
  export const updateRestaurantInfo = (body) => {
    debugger
-  return (dispatch) => {
+  return (dispatch,) => {
       return  service.updateRestaurantInfo(body).then((response)=>{
         debugger
         if(response.status === 200){
           dispatch(apiCallSuccess()) 
-          dispatch(setRestaurantData({restaurantInfo:response.data}))
           dispatch(setOpenMessageAlert({ show: true, message:'Se actualizo la información correcatemente', severity: 'success' }));
+          dispatch(setRestaurantData({restaurantInfo:response.data}))
           return (response)
         } 
        }).catch((error)=>{
+        dispatch(apiCallSuccess()) 
+        dispatch(setOpenMessageAlert({ show: true, message:'Error al intentar actualizar la información', severity: 'error' }));
         return (error)
        })
   }

@@ -25,7 +25,9 @@
         "addPlate": "Add new plate",
         "addDrink": "Add new drink",
         "addStock": "Add items to stock",
-        "stockList": "Stock List"
+        "stockList": "Stock List",
+        "tablesAdministration": "Tables administration"
+        
       }
     },
     "labels": {
@@ -42,7 +44,8 @@
       "restaurantInfo":{
         "fieldError" : "This field is required",
         "restaurantDescription": "Restaurant description",
-        "ubication" : "Ubication",
+        "ubication" : "Ubication (latitude, -longitude)",
+        "direction" : "Restaurant direction",
         "quantityTables": "Quantity Tables",
         "phone": "Phone",
         "phoneMaxlength": "8 max numbers",

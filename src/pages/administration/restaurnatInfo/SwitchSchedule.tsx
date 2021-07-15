@@ -9,8 +9,7 @@ export default function SwitchSchedule({ setSchedule, state }: any) {
   const { t } = useTranslation();
 
   const handleChange =(event: React.ChangeEvent<HTMLInputElement>)=>{
-    const textValue = !event.target.checked ? t("closeRestaurantLabel") : ""
-    setSchedule({ ...state, [event.target.name + "Text"]: textValue,[event.target.name]: event.target.checked });
+    setSchedule({ ...state,[event.target.name]: event.target.checked });
   }
   
   const onChange =(event: React.ChangeEvent<HTMLInputElement>)=>{

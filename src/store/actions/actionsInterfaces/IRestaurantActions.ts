@@ -14,23 +14,35 @@ interface IFoodTypeList {
   showInApp: boolean,
 }
 
+export interface ISchedule {
+  day: string;
+  hour: string;
+  open: boolean;
+}
+
+ interface IUbication {
+  long: number | null,
+  lat: number | null,
+  direction: string | null,
+}
+
+
 export interface IService  {express: boolean, inSite: boolean, toGo: boolean }
-interface IData {
+ 
+
+export interface IModelRestaurant { restaurantInfo : {
   _id: String | null,
   restaurantDescription: String | null,
   name: String,
-  ubication: any,
+  ubication: IUbication,
   img: String,
   foodTimeList: [],
   foodTypeList: IFoodTypeList[],
   drinkTypeList: [],
   phoneList: [],
-  services:IService,
-  tableList: Itable[]
-}
- 
-
-export interface IModelRestaurant { restaurantInfo : IData}
+  schedule: ISchedule[],
+  services:IService
+}}
 
 
 interface SetRestaurantAction {

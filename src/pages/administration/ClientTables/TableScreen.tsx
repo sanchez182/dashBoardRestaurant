@@ -12,7 +12,7 @@ const TableScreen = () => {
     //tableList 
     const { t } = useTranslation();
     const { language } = useSelector((state:RootState) => state.lang);
-    const { tableList } = useSelector((state:RootState) => state.restaurantData.restaurantInfo);
+   // const { tableList } = useSelector((state:RootState) => state.restaurantData.restaurantInfo);
     const {  orders } = useSelector((state:RootState)=> state.orderData);
     if (orders) {
         console.log(orders)
@@ -22,7 +22,7 @@ const TableScreen = () => {
 
     return (
         <Grid container className="flex-section">
-            <Grid item xs={12} md={8}  className="flex-col-scroll">
+     {/*        <Grid item xs={12} md={8}  className="flex-col-scroll">
             <h1> Ordenes en sitio</h1>
                 {tableList &&
                     <Grid container >
@@ -57,7 +57,7 @@ debugger
                         }
                     </Grid>
                 }
-            </Grid>
+            </Grid> */}
         </Grid>
     );
 }

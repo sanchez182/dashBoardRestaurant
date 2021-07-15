@@ -11,6 +11,7 @@ import requestReducer from './reducers/requestReducer';
 import restaurantReducer from './reducers/restaurantReducer ';
 import { AUTH_LOGOUT } from './actions/actionsInterfaces/IAuthActions';
 import ordersReducer from './reducers/ordersReducer';
+import tablesReducer from './reducers/tablesReducer';
 
 const appReducer = combineReducers({
   lang: langReducer,
@@ -20,7 +21,8 @@ const appReducer = combineReducers({
   openMessageAlert:alertComponentReducer,
   requestReducer,
   restaurantData: restaurantReducer, 
-  orderData: ordersReducer
+  orderData: ordersReducer,
+  tablesData: tablesReducer
 });
  
 const rootReducer  = (state:any, action:any) => {

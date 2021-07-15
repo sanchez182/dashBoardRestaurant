@@ -11,26 +11,23 @@ import { RootState } from "../../../store";
 import { useSelector } from "react-redux";
 import { updateRestaurantInfo } from "../../../actionsApi/restaurantActionsApi";
 import { IService } from "../../../store/actions/actionsInterfaces/IRestaurantActions";
+import { setScheduleState } from "./setSchedule";
+
 
 const AddRestaurantInfo: FC = () => {
-  const { name, tableList, phoneList, restaurantDescription, foodTypeList,services, foodTimeList } = useSelector((state: RootState) => state.restaurantData.restaurantInfo);
+  const { name, phoneList, restaurantDescription, schedule, ubication, foodTypeList, services, foodTimeList } = useSelector((state: RootState) => state.restaurantData.restaurantInfo);
   debugger
   //   const startAdornment = <InputAdornment position="start">{adorn}</InputAdornment>
+
+  //#region  States 
+
   const [state, setState] = React.useState<IService>({
     express: false,
     inSite: false,
     toGo: false,
   });
 
- useEffect(() => {
-    setState({
-      express: services.express,
-      inSite: services.inSite,
-      toGo: services.toGo,
-    });
-  }, [services]) 
-
-  const [schedule, setSchedule] = React.useState({
+  const [scheduleState, setSchedule] = React.useState({
     monday: false,
     mondayText: "",
     tuesday: false,
@@ -47,6 +44,22 @@ const AddRestaurantInfo: FC = () => {
     sundayText: "",
   });
 
+  //#endregion
+
+
+  useEffect(() => {
+    const newSchedule = setScheduleState({ ...scheduleState }, schedule)
+    setSchedule(newSchedule);
+    setState({
+      express: services.express,
+      inSite: services.inSite,
+      toGo: services.toGo,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [services])
+
+
+
   const renderFood = () => {
     let timeList: string[] = []
     foodTypeList.forEach((element) => {
@@ -55,28 +68,37 @@ const AddRestaurantInfo: FC = () => {
     return timeList
   }
 
-  const createModel = (data: any) => {
+
+  const createModel = (data: any, itemState: any) => {
+    debugger
+    const ubicationSplit = data.ubication.split(",")
     const body = {
       restaurantDescription: data.restaurantDescription,
+      img: "",
+      createdDate: Date.now(),
+      updatedRegister: Date.now(),
       ubication: {
-        long: 123,
-        lat: 323
+        direction: data.direction,
+        long: ubicationSplit[0],
+        lat: ubicationSplit[1]
       },//data.ubication,
-      foodTypeList: data.foodTypeList,
-      foodTimeList: data.foodTimeList,
-      phoneList: data.phone,
-      quantityTables: data.quantityTables,
+      drinkTypeList: [],
+      foodTypeList: itemState.foodTypeList,
+      foodTimeList: itemState.foodTimeList,
+      phoneList: itemState.telephones,
+     // tableList: data.quantityTables,
+      isOpen: true,
       services:
         { express: state.express, inSite: state.inSite, toGo: state.toGo }
       ,
       schedule: [
-        { day: "monday", hour: schedule.mondayText },
-        { day: "tuesday", hour: schedule.tuesdayText },
-        { day: "wednesday", hour: schedule.wednesdayText },
-        { day: "tursday", hour: schedule.tursdayText },
-        { day: "friday", hour: schedule.fridayText },
-        { day: "saturday", hour: schedule.saturdayText },
-        { day: "sunday", hour: schedule.sundayText },
+        { day: "monday", hour: scheduleState.mondayText },
+        { day: "tuesday", hour: scheduleState.tuesdayText },
+        { day: "wednesday", hour: scheduleState.wednesdayText },
+        { day: "tursday", hour: scheduleState.tursdayText },
+        { day: "friday", hour: scheduleState.fridayText },
+        { day: "saturday", hour: scheduleState.saturdayText },
+        { day: "sunday", hour: scheduleState.sundayText },
       ],
     };
     debugger;
@@ -94,12 +116,22 @@ const AddRestaurantInfo: FC = () => {
       },
     },
     {
-      name: "ubication",
-      label: "labels.restaurantInfo.ubication",
+      name: "direction",
+      label: "labels.restaurantInfo.direction",
       componentName: COMPONENTSTYPE.input,
+      defaultValue: "" ,//ubication.direction,
       rules: {
         required: "labels.restaurantInfo.fieldError",
       },
+    }, {
+      name: "ubication",
+      label: "labels.restaurantInfo.ubication",
+      componentName: COMPONENTSTYPE.input,
+      defaultValue: `${ubication.lat} - ${ubication.long}`,
+      rules: {
+        required: "labels.restaurantInfo.fieldError",
+      },
+      placeholder: "Example : 1233, -12333"
     },
     {
       name: "foodTypeList",
@@ -138,16 +170,6 @@ const AddRestaurantInfo: FC = () => {
         iconList: <PhoneButton />,
       },
     },
-    {
-      name: "quantityTables",
-      type: "number",
-      defaultValue: tableList.length,
-      label: "labels.restaurantInfo.quantityTables",
-      componentName: COMPONENTSTYPE.input,
-      rules: {
-        required: "labels.restaurantInfo.fieldError",
-      },
-    },
     /*  {
            name: "Price",
            type: 'number',
@@ -159,13 +181,14 @@ const AddRestaurantInfo: FC = () => {
            }} */
   ];
 
+
   const childElement = (
     <Grid container>
       <Grid item xs={12} md={6}>
         <SwitchServices setState={setState} state={state} />
       </Grid>
       <Grid item xs={12} md={6}>
-        <SwitchSchedule setSchedule={setSchedule} state={schedule} />
+        <SwitchSchedule setSchedule={setSchedule} state={scheduleState} />
       </Grid>
     </Grid>
   );

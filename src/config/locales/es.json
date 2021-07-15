@@ -24,9 +24,8 @@
       "addPlate": "Agregar nuevo platillo",
       "addDrink": "Agregar nueva bebida",
       "addStock": "Agregar items al stock",
-      "stockList": "Stock List"
-      
-      
+      "stockList": "Stock List",
+      "tablesAdministration": "Administración de mesas"
     }
   },   
   "labels": {
@@ -43,7 +42,8 @@
     "restaurantInfo":{
       "fieldError" : "Este campo es requerido",
       "restaurantDescription": "Description del restaurante",
-      "ubication" : "Ubicación",
+      "ubication" : "Ubicación (latitud, -longitud)",
+      "direction" : "Dirección de restaurant",
       "quantityTables": "Cantidad de mesas",
       "phone": "Teléfono",
       "phoneMaxlength": "8 números como máximo",

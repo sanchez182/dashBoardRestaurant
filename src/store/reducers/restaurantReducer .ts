@@ -8,9 +8,15 @@ import {
 const initialState: IModelRestaurant = { restaurantInfo : {_id: null,
   name: "",
   restaurantDescription: "",
-  ubication: null, 
+  ubication: {
+    long: null,
+    lat: null,
+    direction: null
+
+  }, 
   services: {express: false, inSite: false, toGo: false },
   img: "",
+  schedule: [],
   foodTimeList: [],
   foodTypeList: [{
     foodTypeName: "",
@@ -18,8 +24,7 @@ const initialState: IModelRestaurant = { restaurantInfo : {_id: null,
     showInApp: false,
   }],
   phoneList: [],
-  drinkTypeList: [],
-  tableList: []}
+  drinkTypeList: []}
   
 }
 

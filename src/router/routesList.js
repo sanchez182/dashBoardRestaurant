@@ -7,6 +7,8 @@ import AddStock from "../pages/administration/AddStock";
 import TableScreen from "../pages/administration/ClientTables/TableScreen";
 import DashboardMenu from "../pages/administration/DashboardMenu";
 import StockList from "../pages/administration/StockList";
+import TablesAdministration from "../pages/administration/TablesAdministration";
+
 
 
 export const routesList = [
@@ -39,7 +41,11 @@ export const routesList = [
                 }, {
                     name: 'stockList', iconName: <Tune />, path: '/stockList', showInMenu: false, level: 2,
                     isPrivate: true, exact: true, component: StockList
+                }, {
+                    name: 'tablesAdministration', iconName: <Tune />, path: '/tablesAdministration', showInMenu: false, level: 2,
+                    isPrivate: true, exact: true, component: TablesAdministration
                 },
+                
                 
             ]
     }

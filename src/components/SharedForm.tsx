@@ -13,6 +13,8 @@ import { AnyAction } from "redux";
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import CheckboxInput from '../controls/checkbox';
+import { setOpenMessageAlert } from '../store/actions/messageAlertActions';
+import { apiCallSuccess } from '../store/actions/requestActions';
 
 type State = { a: string }; // your state type
 type AppDispatch = ThunkDispatch<State, any, AnyAction>;
@@ -71,19 +73,22 @@ const SharedForm = ({ actionSubmit, createModel, inputs, childElement, haveMoney
   const dispatch: AppDispatch = useDispatch();
 
   const setFormData = (data: any) => {
-    const model = createModel(data)
-    dispatch(actionSubmit(model)).then(() => {
-      let clearItemsState = { ...state.itemState }
-      let oldState: any;
-      state.inputs.forEach((element: any) => {
-        reset({ [element.name]: "" });
-        if (element.hasArrayElements) {
-          clearItemsState[element.hasArrayElements.arrayItemName] = []
-        }
-      });
-      oldState = { ...state }
-      oldState.itemState = clearItemsState
-      setstate(oldState)
+    const model = createModel(data,state.itemState)
+    dispatch(actionSubmit(model)).then((response: any) => {
+      if (response.status === 200) {
+        let clearItemsState = { ...state.itemState }
+        let oldState: any;
+        state.inputs.forEach((element: any) => {
+          reset({ [element.name]: "" });
+          if (element.hasArrayElements) {
+            clearItemsState[element.hasArrayElements.arrayItemName] = []
+          }
+        });
+        oldState = { ...state }
+        oldState.itemState = clearItemsState
+        setstate(oldState)
+      }
+
     })
   }
 
@@ -104,7 +109,7 @@ const SharedForm = ({ actionSubmit, createModel, inputs, childElement, haveMoney
       }
     });
     setstate({ inputs, itemState: newObject })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputs])
 
 
