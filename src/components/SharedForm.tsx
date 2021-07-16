@@ -13,34 +13,18 @@ import { AnyAction } from "redux";
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import CheckboxInput from '../controls/checkbox';
-import { setOpenMessageAlert } from '../store/actions/messageAlertActions';
-import { apiCallSuccess } from '../store/actions/requestActions';
 
 type State = { a: string }; // your state type
 type AppDispatch = ThunkDispatch<State, any, AnyAction>;
-// or restrict to specific actions instead of AnyAction
-
-/* const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    justifyContent: 'center',
-    alignItems: 'center',
-
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-      width: "100%",
-    },
-    '& .MuiButtonBase-root': {
-      margin: theme.spacing(2),
-    },
-  },
-})); */
-
 interface ISharedForm {
   actionSubmit: any;
   inputs: any[],
   createModel?: any;
   haveMoneyInputs: boolean,
-  childElement?: any
+  childElement?: any;
+  fullWidthForm?: boolean;
+  idElement?: string | null;
+  
 }
 
 
@@ -65,7 +49,7 @@ const setComponent = (componentName: String) => {
 }
 
 
-const SharedForm = ({ actionSubmit, createModel, inputs, childElement, haveMoneyInputs }: ISharedForm) => {
+const SharedForm = ({ actionSubmit, createModel,idElement, fullWidthForm,inputs, childElement, haveMoneyInputs }: ISharedForm) => {
   const [state, setstate] = useState<any>({ inputs: [], itemState: {} })
 
   const [currency, setCurrency] = React.useState('$');
@@ -73,7 +57,7 @@ const SharedForm = ({ actionSubmit, createModel, inputs, childElement, haveMoney
   const dispatch: AppDispatch = useDispatch();
 
   const setFormData = (data: any) => {
-    const model = createModel(data,state.itemState)
+    const model = createModel(data,state.itemState, idElement)
     dispatch(actionSubmit(model)).then((response: any) => {
       if (response.status === 200) {
         let clearItemsState = { ...state.itemState }
@@ -123,11 +107,11 @@ const SharedForm = ({ actionSubmit, createModel, inputs, childElement, haveMoney
     <form style={{ width: "100%" }} onSubmit={handleSubmit(setFormData)}>
       <Grid container spacing={1}>
         {haveMoneyInputs &&
-          <Grid item xs={12} md={6} >
+          <Grid item xs={12} md={fullWidthForm ? 12 : 6}  >
             <CurrencyComponent setCurrency={setCurrency} currency={currency} currencyLabel={tranlation("labels.stockForm.currencyLabel")} />
           </Grid>}
         {state.inputs && state.inputs.map((element: any) => {
-          return (<Grid item xs={12} md={6} key={element.name}>
+          return (<Grid item xs={12} md={fullWidthForm ? 12 : 6} key={element.name}>
             <element.Component control={control}
               name={element.name}
               key={element.name}

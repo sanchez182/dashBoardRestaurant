@@ -17,9 +17,10 @@ class TableService {
         return this.postRequest(`${this.endPoint}`,body)
     }
 
-    updateRestaurantInfo = async (data: any) => {
-        return this.pustRequest(`${this.endPoint}`, data)
+    updateTable =(idTable:string,body:any)=>{
+        return this.pustRequest(`${this.endPoint}/${idTable}`,body)
     }
+
 
     private postRequest = async (endpoint: String, data: any) => {
         return new Promise(async (resolve, reject) => {

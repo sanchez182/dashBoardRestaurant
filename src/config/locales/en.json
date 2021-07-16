@@ -51,10 +51,13 @@
         "phoneMaxlength": "8 max numbers",
         "foodTypeList": "Food type",
         "foodTimeList": "Food time"
-        
+      },
+      "tableAdministration":{
+        "tableType": "Table Type",
+        "available": "Available"
         
       }
-      
+  
     },
 
     "header": {

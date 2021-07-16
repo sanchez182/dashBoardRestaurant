@@ -4,6 +4,7 @@ import { SET_TABLES,UPDATE_SELECTED_TABLE ,ITableModel,
 
 export const setDataToTables = (payload: ITableModel[]):
 ITableAction => {
+  debugger
   return {
     type: SET_TABLES,
     payload 

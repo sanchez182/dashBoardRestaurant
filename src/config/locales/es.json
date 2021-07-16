@@ -6,7 +6,7 @@
   "textSelectTable": "Seleccione su mesa",
   "returnToHomepage": "Return to homepage",
   "closeRestaurantLabel": "Cerrado",
-  "days":{
+  "days": {
     "monday": "Lunes",
     "tuesday": "Martes",
     "wednesday": "Miercoles",
@@ -18,7 +18,7 @@
   "insite": "En sitio",
   "toCarry": "Para llevar",
   "sidebar": {
-    "link":{
+    "link": {
       "dashboarMenu": "Dashboard Menú",
       "addRestaurantInfo": "Información de restaurante",
       "addPlate": "Agregar nuevo platillo",
@@ -27,32 +27,35 @@
       "stockList": "Stock List",
       "tablesAdministration": "Administración de mesas"
     }
-  },   
+  },
   "labels": {
     "formButton": "Guardar información",
-    "stockForm":{
+    "stockForm": {
       "productName": "Nombre de producto",
-      "productNameError" : "Nombre de producto es requerido",
+      "productNameError": "Nombre de producto es requerido",
       "quantityPortions": "Cantidad de Porciones",
       "quantityPortionsError": "La cantidad es requerida",
       "price": "Precio",
       "priceError": "Precio es requerido",
-      "currencyLabel" : "Seleccione la moneda para los precios"
+      "currencyLabel": "Seleccione la moneda para los precios"
     },
-    "restaurantInfo":{
-      "fieldError" : "Este campo es requerido",
+    "restaurantInfo": {
+      "fieldError": "Este campo es requerido",
       "restaurantDescription": "Description del restaurante",
-      "ubication" : "Ubicación (latitud, -longitud)",
-      "direction" : "Dirección de restaurant",
+      "ubication": "Ubicación (latitud, -longitud)",
+      "direction": "Dirección de restaurant",
       "quantityTables": "Cantidad de mesas",
       "phone": "Teléfono",
       "phoneMaxlength": "8 números como máximo",
       "foodTypeList": "Tipos de comida",
       "foodTimeList": "Tiempos de comida"
+    },
+    "tableAdministration": {
+      "tableType": "Tipo de mesa",
+      "available": "Disponible"
     }
   },
-
-  "header": {
-    "title": "Dashboard Menú"
+    "header": {
+      "title": "Dashboard Menú"
+    }
   }
-}
