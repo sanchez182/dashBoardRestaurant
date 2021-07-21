@@ -1,29 +1,18 @@
 import interceptorHttp from "../helpers/interceptorHttp";
 
-class TableService {
-    endPoint = '/tables/'
-    baseUrl = process.env.REACT_APP_API_DASHBOARD_URL;
+class CommonService {
 
+
+    private baseUrl : string; 
+
+    constructor(baseUrl : any){
+        this.baseUrl = baseUrl
+    }
     getHttp = () => {
-        
         return interceptorHttp(this.baseUrl);
     }
 
-    getDataTables = async () => {
-        return this.getRequest(`${this.endPoint}`)
-        //  return  this.getRequest(`${this.endPoint}`)
-    }
-
-    createTable =(body:any)=>{
-        return this.postRequest(`${this.endPoint}`,body)
-    }
-
-    updateTable =(idTable:string,body:any)=>{
-        return this.pustRequest(`${this.endPoint}/${idTable}`,body)
-    }
-
-
-    private postRequest = async (endpoint: String, data: any) => {
+    public  postRequest = async (endpoint: String, data: any) => {
         return new Promise(async (resolve, reject) => {
             this.getHttp()
                 .post(`${endpoint}`, data)
@@ -36,7 +25,7 @@ class TableService {
         })
     }
 
-    private pustRequest = async (endpoint: String, data: any) => {
+    public pustRequest = async (endpoint: String, data: any) => {
         return new Promise(async (resolve, reject) => {
             this.getHttp()
                 .put(`${endpoint}`, data)
@@ -50,7 +39,7 @@ class TableService {
     }
 
 
-    private getRequest = async (endpoint: String) => {
+    public getRequest = async (endpoint: String) => {
         return new Promise(async (resolve, reject) => {
             this.getHttp()
                 .get(`${endpoint}`)
@@ -64,4 +53,4 @@ class TableService {
     }
 }
 
-export default TableService;
+export default CommonService;

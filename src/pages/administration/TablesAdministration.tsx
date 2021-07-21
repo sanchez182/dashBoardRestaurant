@@ -21,6 +21,9 @@ import { RootState } from "../../store";
 import { COMPONENTSTYPE } from "../../components/EnumsComponents";
 import SharedForm from "../../components/SharedForm";
 import { ITableModel } from "../../store/actions/actionsInterfaces/ITableActions";
+import Cloury from "./CloudinayComponent";
+ 
+
 
 const TablesAdministration: FC = () => {
   const dispatch = useDispatch();
@@ -30,7 +33,9 @@ const TablesAdministration: FC = () => {
   const [state, setState] = useState<ITableModel[]>([]);
 
   debugger;
-  useEffect(() => {
+  useEffect(() => { 
+ 
+    debugger
     dispatch(getTableData());
   }, [dispatch]);
 
@@ -52,11 +57,11 @@ const TablesAdministration: FC = () => {
     setState(tables);
   };
 
-  const deleteItem =(table: any)=>{
-    if(!table._id){ 
-    let tables = [...state];
-    tables = tables.filter((x:any)=> x.tableNumber !== table.tableNumber);
-    setState(tables);
+  const deleteItem = (table: any) => {
+    if (!table._id) {
+      let tables = [...state];
+      tables = tables.filter((x: any) => x.tableNumber !== table.tableNumber);
+      setState(tables);
     }
     debugger
   }
@@ -111,17 +116,18 @@ const TablesAdministration: FC = () => {
   ];
 
   return (
-    <Grid container style={{ gridGap: "6px" }}>
+    <Grid container >
       <Grid item xs={12} md={12} spacing={3}>
         <Button variant="contained" color="primary" onClick={addNewTable}>
           Agregar nueva mesa
         </Button>
       </Grid>
-      {state.length > 0 &&
+      <Cloury/>
+  {/*     {state.length > 0 &&
         state.map((element: ITableModel) => {
           return (
             <Card
-              elevation={3} 
+              elevation={3}
             >
               <CardHeader
                 title={
@@ -130,19 +136,19 @@ const TablesAdministration: FC = () => {
                   </h3>
                 }
                 action={
-                  <IconButton aria-label="settings"  onClick={()=>deleteItem(element)}>
-                    <DeleteIcon fontSize={"inherit"} color={"error"}/>
+                  <IconButton aria-label="settings" onClick={() => deleteItem(element)}>
+                    <DeleteIcon fontSize={"inherit"} color={"error"} />
                   </IconButton>
                 }
               />
               <CardContent
               >
-                  <Icon>
-                    <DeckIcon
-                      style={{ fontSize: "9.71875rem", marginLeft: "26%" }}
-                      color="secondary"
-                    />
-                  </Icon> 
+                <Icon>
+                  <DeckIcon
+                    style={{ fontSize: "9.71875rem", marginLeft: "26%" }}
+                    color="secondary"
+                  />
+                </Icon>
                 <Grid item xs={12}>
                   <SharedForm
                     idElement={element._id}
@@ -157,7 +163,7 @@ const TablesAdministration: FC = () => {
               </CardContent>
             </Card>
           );
-        })}
+        })} */}
     </Grid>
   );
 };
