@@ -6,15 +6,21 @@ import { setDataToTables } from "../store/actions/tableActions";
 
 
  const service = new CloudinaryService();
-
- export const getIamges = ()=>async(dispatch)=>{
-    const response = await service.getRestaurantImages() 
-    if(response.status === 200){
-      debugger
-   // dispatch(setDataToTables(response.data))
-    }
-    dispatch(apiCallSuccess())
-
+ 
+ export const getImages = () => { 
+  return (dispatch,) => {
+      return  service.getRestaurantImages().then((response)=>{
+        debugger
+        if(response.status === 200){
+          dispatch(apiCallSuccess())  
+          //dispatch(setDataToTables(response.data))
+          return (response.data)
+        } 
+       }).catch((error)=>{
+        dispatch(apiCallSuccess())  
+        return (error)
+       })
+  }
  }
 
 /*  export const uploadImageToRestaurant = (body)=>async(dispatch)=>{

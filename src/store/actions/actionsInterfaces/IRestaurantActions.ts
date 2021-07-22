@@ -14,6 +14,12 @@ interface IFoodTypeList {
   showInApp: boolean,
 }
 
+export interface IFoodTimeList {
+  foodTimeName: string,
+  isActive: boolean,
+  showInApp: boolean,
+}
+
 export interface ISchedule {
   day: string;
   hour: string;
@@ -36,7 +42,7 @@ export interface IModelRestaurant { restaurantInfo : {
   name: String,
   ubication: IUbication,
   img: String,
-  foodTimeList: [],
+  foodTimeList: IFoodTimeList[],
   foodTypeList: IFoodTypeList[],
   drinkTypeList: [],
   phoneList: [],

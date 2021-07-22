@@ -30,7 +30,8 @@ import { setDataService, setRestaurantData } from "../store/actions/restaurantAc
         if(response.status === 200){
           dispatch(apiCallSuccess()) 
           dispatch(setOpenMessageAlert({ show: true, message:'Se actualizo la información correcatemente', severity: 'success' }));
-          dispatch(setRestaurantData({restaurantInfo:response.data}))
+          debugger
+          dispatch(setRestaurantData(body))
           return (response)
         } 
        }).catch((error)=>{

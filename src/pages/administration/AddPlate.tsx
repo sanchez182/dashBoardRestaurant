@@ -4,16 +4,16 @@ import SharedForm from '../../components/SharedForm';
 
 const numberData = [
     {
-      id: "10",
-      label: "Ten",
+      id: "1",
+      label: "Vegana",
     },
     {
-      id: "20",
-      label: "Twenty",
+      id: "2",
+      label: "Vegetariana",
     },
     {
-      id: "30",
-      label: "Thirty",
+      id: "3",
+      label: "Todo",
     },
   ];
   
@@ -21,8 +21,8 @@ const AddPlate: FC = () => {
 
   const inputs = [
     {
-        name: "nameV",
-        label: "Name",
+        name: "plateName",
+        label: "labels.plateForm.plateName",
         componentName: COMPONENTSTYPE.input,
         rules:{
           required: 'First name required',
@@ -32,8 +32,8 @@ const AddPlate: FC = () => {
           }}
     },
     {
-      name: "apellido",
-      label: "Apellido",
+      name: "plateDescription",
+      label: "labels.plateForm.plateDescription",
       componentName: COMPONENTSTYPE.input,
       rules:{
         required: 'Apellido required',
@@ -41,15 +41,19 @@ const AddPlate: FC = () => {
           value: 4,
           message: 'This input exceed maxLength.',
         }}
-  },
+  }, 
   {
-    name: "selV",
-    label: "Numbers",
+    name: "foodTypeName",
+    label: "labels.plateForm.foodTypeName",
+    componentName: COMPONENTSTYPE.select, 
     options:numberData, 
-    componentName: COMPONENTSTYPE.select,
     rules:{
-      required: 'SelV is required'
-    }}
+      required: 'Apellido required',
+      maxLength: {
+        value: 4,
+        message: 'This input exceed maxLength.',
+      }}
+}
 ]
   return (
       <SharedForm actionSubmit={()=>{}} inputs={inputs} haveMoneyInputs={false}/>

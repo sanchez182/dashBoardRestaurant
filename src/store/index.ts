@@ -12,6 +12,7 @@ import restaurantReducer from './reducers/restaurantReducer ';
 import { AUTH_LOGOUT } from './actions/actionsInterfaces/IAuthActions';
 import ordersReducer from './reducers/ordersReducer';
 import tablesReducer from './reducers/tablesReducer';
+import imagesReducer from './reducers/imagesReducer';
 
 const appReducer = combineReducers({
   lang: langReducer,
@@ -22,7 +23,8 @@ const appReducer = combineReducers({
   requestReducer,
   restaurantData: restaurantReducer, 
   orderData: ordersReducer,
-  tablesData: tablesReducer
+  tablesData: tablesReducer,
+  imagesReducer
 });
  
 const rootReducer  = (state:any, action:any) => {

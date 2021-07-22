@@ -64,13 +64,13 @@ const SharedForm = ({ actionSubmit, createModel,idElement, fullWidthForm,inputs,
         let oldState: any;
         state.inputs.forEach((element: any) => {
           reset({ [element.name]: "" });
-          if (element.hasArrayElements) {
+       /*    if (element.hasArrayElements) {
             clearItemsState[element.hasArrayElements.arrayItemName] = []
-          }
+          } */
         });
-        oldState = { ...state }
-        oldState.itemState = clearItemsState
-        setstate(oldState)
+       oldState = { ...state }
+       /*   oldState.itemState = clearItemsState*/
+        setstate(oldState) 
       }
 
     })
