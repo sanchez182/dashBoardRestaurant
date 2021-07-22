@@ -37,7 +37,7 @@ const routes = (screens) => {
 }
 
 
-export const RenderPrivateRoutes = ({ screens }) => {
+export const RenderPrivateRoutes = ({ screens,history }) => {
     const { open } = useSelector((state) => state.drawerState);
     const [routesState, setRoutes] = useState(null)
 
@@ -54,6 +54,7 @@ export const RenderPrivateRoutes = ({ screens }) => {
         <main className={open ? "contentOpen" : "content"}   >
             <PrivateRoute
                 exact
+                history={history}
                 path={"/dashBoardRestaurant"}
                 component={DashboardMenu}
                 isAuthenticated={true}
@@ -61,6 +62,7 @@ export const RenderPrivateRoutes = ({ screens }) => {
             {
                 routesState && routesState.map((element, index) => {
                     return <PrivateRoute
+                        history={history}
                         key={index}
                         exact
                         path={element.path}

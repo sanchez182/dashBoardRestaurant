@@ -9,6 +9,12 @@ import AlertComponent from '../components/AlertComponent';
 import {SocketProvider} from '../context/SocketContext';
 import { checkingFinish } from '../store/actions/authActions';
 import themeMUI from '../config/themeMUI';
+import { createBrowserHistory, createHashHistory } from 'history';
+import { isElectron } from '../utils/utils';
+
+const history = isElectron()
+  ? createHashHistory()
+  : createBrowserHistory();
 
 export const AppRouter = () => {
     const dispatch = useDispatch();
@@ -33,11 +39,13 @@ export const AppRouter = () => {
             <AlertComponent />
             <Switch>
 
-                {!!uid && <RenderPrivateRoutes screens={screens} />}
+                {!!uid && <RenderPrivateRoutes screens={screens} 
+                    history={history} />}
                 <PublicRoute
                     exact
                     path="/"
                     component={LoginScreen}
+                    history={history}
                 />
 
                 <PublicRoute
@@ -45,6 +53,7 @@ export const AppRouter = () => {
                     path="*"
                     component={LoginScreen}
                     isAuthenticated={!!uid}
+                    history={history}
                 />
 
             </Switch>

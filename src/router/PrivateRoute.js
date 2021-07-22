@@ -4,10 +4,12 @@ import { Route, Redirect } from 'react-router-dom';
 export const PrivateRoute = ({
     isAuthenticated,
     component: Component,
+    history,
     ...rest
 }) => {
     return (
-        <Route { ...rest }
+        <Route { ...rest } 
+        history={history}
         component={ (props) => (
             ( isAuthenticated )
                 ? ( <Component { ...props } /> )
