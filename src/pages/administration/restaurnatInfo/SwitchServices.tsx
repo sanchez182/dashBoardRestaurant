@@ -15,7 +15,7 @@ export default function SwitchServices({setState,state}:any) {
 //videos[target.value as keyof IVideoData]
   return (
     <FormControl component="fieldset">
-      <FormLabel component="legend">Assign responsibility</FormLabel>
+      <FormLabel component="legend">Services</FormLabel>
       <FormGroup>
         <FormControlLabel
           control={<Switch 

@@ -13,6 +13,7 @@ import { AnyAction } from "redux";
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import CheckboxInput from '../controls/checkbox';
+import FormSwitch from '../controls/switch';
 
 type State = { a: string }; // your state type
 type AppDispatch = ThunkDispatch<State, any, AnyAction>;
@@ -23,8 +24,9 @@ interface ISharedForm {
   haveMoneyInputs: boolean,
   childElement?: any;
   fullWidthForm?: boolean;
+  clearFormAfterAction?: boolean;
   idElement?: string | null;
-  
+
 }
 
 
@@ -40,6 +42,10 @@ const setComponent = (componentName: String) => {
     case COMPONENTSTYPE.checkBoxInput:
       renderComponent = CheckboxInput;
       break;
+    case COMPONENTSTYPE.switch:
+      renderComponent = FormSwitch;
+      break;
+
 
     default:
       renderComponent = FormInput;
@@ -49,28 +55,32 @@ const setComponent = (componentName: String) => {
 }
 
 
-const SharedForm = ({ actionSubmit, createModel,idElement, fullWidthForm,inputs, childElement, haveMoneyInputs }: ISharedForm) => {
+const SharedForm = ({ actionSubmit, createModel, idElement,clearFormAfterAction, fullWidthForm, inputs, childElement, haveMoneyInputs }: ISharedForm) => {
   const [state, setstate] = useState<any>({ inputs: [], itemState: {} })
 
   const [currency, setCurrency] = React.useState('$');
   const { loadingRequest } = useSelector((state: RootState) => state.requestReducer);
   const dispatch: AppDispatch = useDispatch();
 
-  const setFormData = (data: any) => {
-    const model = createModel(data,state.itemState, idElement)
+  const setFormData = async(data: any) => {
+    const model = await createModel(data, state.itemState, idElement)
+    debugger
     dispatch(actionSubmit(model)).then((response: any) => {
       if (response.status === 200) {
         let clearItemsState = { ...state.itemState }
         let oldState: any;
-        state.inputs.forEach((element: any) => {
-          reset({ [element.name]: "" });
-       /*    if (element.hasArrayElements) {
+        if(clearFormAfterAction){
+           state.inputs.forEach((element: any) => {
+            reset({ [element.name]: "" });
+         // if (element.hasArrayElements && element.hasArrayElements.clearAfterAction) {
             clearItemsState[element.hasArrayElements.arrayItemName] = []
-          } */
+          //}
         });
-       oldState = { ...state }
-       /*   oldState.itemState = clearItemsState*/
-        setstate(oldState) 
+        oldState = { ...state }
+        oldState.itemState = clearItemsState
+        setstate(oldState)
+        }
+       
       }
 
     })
@@ -107,7 +117,7 @@ const SharedForm = ({ actionSubmit, createModel,idElement, fullWidthForm,inputs,
     <form style={{ width: "100%" }} onSubmit={handleSubmit(setFormData)}>
       <Grid container spacing={1}>
         {haveMoneyInputs &&
-          <Grid item xs={12} md={fullWidthForm ? 12 : 6}  >
+          <Grid item xs={12} md={12}  >
             <CurrencyComponent setCurrency={setCurrency} currency={currency} currencyLabel={tranlation("labels.stockForm.currencyLabel")} />
           </Grid>}
         {state.inputs && state.inputs.map((element: any) => {
@@ -115,10 +125,12 @@ const SharedForm = ({ actionSubmit, createModel,idElement, fullWidthForm,inputs,
             <element.Component control={control}
               name={element.name}
               key={element.name}
+              multiLine={element.multiLine}
               options={element.options}
               label={tranlation(element.label)}
               rules={element.rules}
               required={true}
+              defaultValue={element.defaultValue}
               adorn={element.currency && currency}
               type={element.type}
               tranlation={tranlation}

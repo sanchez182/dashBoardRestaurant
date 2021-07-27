@@ -26,31 +26,42 @@
         "addDrink": "Add new drink",
         "addStock": "Add items to stock",
         "stockList": "Stock List",
+        "supplierInfo": "Info suppliers",
         "tablesAdministration": "Tables administration"
         
       }
     },
     "labels": {
+      "email": "Email",
+      "phone": "Phone",
+      "emailFormatError": "Invalid format",
       "formButton": "Save data",
+      "requiredField": "This field is required",
       "stockForm":{
         "productName": "Product name",
-        "productNameError" : "Product name required",
         "quantityPortions": "Quantity portions",
-        "quantityPortionsError": "Quantity portions is required",
         "price": "Price",
-        "priceError": "Price is required",
-        "currencyLabel" : "Select price currency"
+        "currencyLabel" : "Select price currency",
+        "code": "Product code",
+        "supplierName": "Supplier name"
       },
+      "plateForm":{
+        "foodTypeName": "Type food",
+        "ingredients": "Ingredients",
+        "plateDescription": "Plate description",
+        "plateName": "Plate name"
+      },
+
       "restaurantInfo":{
-        "fieldError" : "This field is required",
         "restaurantDescription": "Restaurant description",
         "ubication" : "Ubication (latitude, -longitude)",
         "direction" : "Restaurant direction",
         "quantityTables": "Quantity Tables",
-        "phone": "Phone",
         "phoneMaxlength": "8 max numbers",
         "foodTypeList": "Food type",
-        "foodTimeList": "Food time"
+        "foodTimeList": "Food time",
+        "isOpen": "Restaurant Open"
+        
       },
       "tableAdministration":{
         "tableType": "Table Type",

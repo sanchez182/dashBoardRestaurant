@@ -7,11 +7,12 @@ import AppRouter from './router/AppRouter';
 import store from './store';
 import './assets/scss/App.scss'; 
 import { useReactPWAInstall } from "react-pwa-install";
-
+import 'primereact/resources/primereact.min.css'
+import 'primeicons/primeicons.css'
+import 'primereact/resources/themes/md-light-indigo/theme.css'
 
 const App = () => { 
    const { pwaInstall, supported, isInstalled } = useReactPWAInstall();
-   debugger
    const handleClick = () => {
     pwaInstall({
       title: "Install Web App",

@@ -1,5 +1,6 @@
 import { ITableAction, ITableModel, SET_TABLES,UPDATE_SELECTED_TABLE } from './../actions/actionsInterfaces/ITableActions';
 
+
 const tablesReducer  = (state: ITableModel[] = [], action: ITableAction) => {
   switch (action.type) {
     case SET_TABLES:

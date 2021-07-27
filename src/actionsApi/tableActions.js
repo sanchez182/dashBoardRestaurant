@@ -9,7 +9,6 @@ import { setDataToTables } from "../store/actions/tableActions";
 
  export const getTableData = ()=>async(dispatch)=>{
     const response = await service.getDataTables() 
-    debugger
     if(response.status === 200){
       
     dispatch(setDataToTables(response.data))
@@ -20,10 +19,8 @@ import { setDataToTables } from "../store/actions/tableActions";
 
 
   const createTable = (body) => {
-  debugger
  return (dispatch,) => {
      return  service.createTable(body).then((response)=>{
-       debugger
        if(response.status === 200){
          dispatch(apiCallSuccess()) 
          dispatch(setOpenMessageAlert({ show: true, message:'Se creo correcatemente la mesa', severity: 'success' }));
@@ -39,10 +36,9 @@ import { setDataToTables } from "../store/actions/tableActions";
 }
 
  const updateTable = (idTable,body) => {
-  debugger
  return (dispatch,) => {
      return  service.updateTable(idTable,body).then((response)=>{
-       debugger
+       
        if(response.status === 200){
          dispatch(apiCallSuccess()) 
          dispatch(setOpenMessageAlert({ show: true, message:'Se actualizo correcatemente la mesa', severity: 'success' }));

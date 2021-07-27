@@ -37,19 +37,6 @@ function CheckboxInput(props) {
       </FormGroup>
       <FormHelperText>Be careful</FormHelperText>
     </FormControl>
-     /*  <TextField
-      type={type}
-      InputProps={{
-        startAdornment
-      }}
-        fullWidth={true}
-        label={label}
-        variant="filled"
-        value={value}
-        onChange={onChange}
-        error={isError}
-        helperText={errorMessage}
-      /> */
     )}
   />  
   );

@@ -8,7 +8,7 @@ import { apiCallSuccess } from "../store/actions/requestActions";
  export const addStock = (body) => {
   return (dispatch) => {
       return  service.addStock(body).then((response)=>{
-        debugger
+        
         if(response.status === 200){
           dispatch(apiCallSuccess())
           dispatch(setOpenMessageAlert({ show: true, message:'Intem se agrego', severity: 'success' }));

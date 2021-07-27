@@ -10,10 +10,6 @@ const currencies = [
   {
     value: '$',
     label: '$',
-  },
-  {
-    value: '€',
-    label: '€',
   }
 ];
 
@@ -21,8 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       '& .MuiTextField-root': {
-        margin: theme.spacing(1),
-        width: '25ch',
+        margin: theme.spacing(1)
       },
     },
   }),
@@ -42,6 +37,7 @@ export default function CurrencyComponent({currency, setCurrency,currencyLabel}:
           select
           label={currencyLabel}
           value={currency}
+          fullWidth={true}
           onChange={handleChange}
           SelectProps={{
             native: true,

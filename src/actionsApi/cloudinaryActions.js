@@ -10,7 +10,7 @@ import { setDataToTables } from "../store/actions/tableActions";
  export const getImages = () => { 
   return (dispatch,) => {
       return  service.getRestaurantImages().then((response)=>{
-        debugger
+        
         if(response.status === 200){
           dispatch(apiCallSuccess())  
           //dispatch(setDataToTables(response.data))
@@ -26,27 +26,23 @@ import { setDataToTables } from "../store/actions/tableActions";
 /*  export const uploadImageToRestaurant = (body)=>async(dispatch)=>{
   const response = await service.uploadImageToRestaurant(body) 
   if(response.status === 200){
-    debugger
+    
  // dispatch(setDataToTables(response.data))
   }
   dispatch(apiCallSuccess())
 
 } */
+ 
 
-export const uploadImageToRestaurant = (body) => { 
- return (dispatch,) => {
-     return  service.uploadImageToRestaurant(body).then((response)=>{
-       debugger
-       if(response.status === 200){
-         dispatch(apiCallSuccess()) 
-         dispatch(setOpenMessageAlert({ show: true, message:'Se creo correcatemente la imagen', severity: 'success' }));
-         //dispatch(setDataToTables(response.data))
-         return (response.data.uploadedImage)
-       } 
-      }).catch((error)=>{
-       dispatch(apiCallSuccess()) 
-       dispatch(setOpenMessageAlert({ show: true, message:'Error al intentar crear la imagen', severity: 'error' }));
-       return (error)
-      })
- }
+export const uploadImageToRestaurant = async (body) => { 
+  return new Promise(async (resolve, reject) => {
+      service.uploadImageToRestaurant(body).then((response)=>{
+      if(response.status === 200){
+        //dispatch(setDataToTables(response.data))
+        resolve (response.data.uploadedImage)
+      } 
+     }).catch((error)=>{
+      reject (error)
+     })
+  })
 }

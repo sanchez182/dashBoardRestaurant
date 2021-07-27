@@ -10,13 +10,11 @@ export interface Itable {
 
 interface IFoodTypeList {
   foodTypeName: string,
-  isActive: boolean,
   showInApp: boolean,
 }
 
 export interface IFoodTimeList {
   foodTimeName: string,
-  isActive: boolean,
   showInApp: boolean,
 }
 
@@ -40,7 +38,9 @@ export interface IModelRestaurant { restaurantInfo : {
   _id: String | null,
   restaurantDescription: String | null,
   name: String,
+  email: String,
   ubication: IUbication,
+  isOpen: boolean,
   img: String,
   foodTimeList: IFoodTimeList[],
   foodTypeList: IFoodTypeList[],

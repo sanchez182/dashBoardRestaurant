@@ -42,8 +42,8 @@ interface ILoadingButton {
   textButton: string;
   type : "button" | "submit";   // '"button" | "reset" | "submit" | undefined';
   classButton: string;
-  handleSubmit: ()=> void | null;
-  icon: string
+  handleSubmit?: ()=> void | null;
+  icon?: string
 }
 
 

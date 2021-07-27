@@ -32,10 +32,8 @@ const TablesAdministration: FC = () => {
   );
   const [state, setState] = useState<ITableModel[]>([]);
 
-  debugger;
+  ;
   useEffect(() => { 
- 
-    debugger
     dispatch(getTableData());
   }, [dispatch]);
 
@@ -63,7 +61,7 @@ const TablesAdministration: FC = () => {
       tables = tables.filter((x: any) => x.tableNumber !== table.tableNumber);
       setState(tables);
     }
-    debugger
+    
   }
   const createModel = (data: any, itemState: any, idElement: string) => {
     const model = {
@@ -73,7 +71,7 @@ const TablesAdministration: FC = () => {
       type: data.tableType,
       state: "",
     };
-    debugger;
+    ;
   };
 
   const inputs = [
@@ -122,8 +120,8 @@ const TablesAdministration: FC = () => {
           Agregar nueva mesa
         </Button>
       </Grid>
-      <Cloury/>
-  {/*     {state.length > 0 &&
+ {/*      <Cloury/> */}
+       {state.length > 0 &&
         state.map((element: ITableModel) => {
           return (
             <Card
@@ -163,7 +161,7 @@ const TablesAdministration: FC = () => {
               </CardContent>
             </Card>
           );
-        })} */}
+        })} 
     </Grid>
   );
 };

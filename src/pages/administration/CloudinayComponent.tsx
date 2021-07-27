@@ -8,90 +8,78 @@ import { AnyAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 import { setImages } from '../../store/actions/imagesActions';
 import { IImagesRestaurant } from '../../store/actions/actionsInterfaces/IImagesRestaurant';
+import { Button, Grid } from '@material-ui/core';
 
 
 type State = { a: string }; // your state type
 type AppDispatch = ThunkDispatch<State, any, AnyAction>;
 
-const CloudinayComponent = () => {
- 
-        const files: IImagesRestaurant[] = useSelector(
-            (state: RootState) => state.imagesReducer
-          );
+const CloudinayComponent = ({ dataState, setDataState }: any) => {
+
+    const files: IImagesRestaurant[] = useSelector(
+        (state: RootState) => state.imagesReducer
+    );
 
     const dispatch: AppDispatch = useDispatch();
-    const [dataState, setDataState] = useState({
-        loading: false,
-        image: '',
-        urlImage: '',
-        newImage: ''
-    })
 
-    useEffect( () => { 
-        debugger
-        if(!files[0].file){
+/*     useEffect(() => {
+
+        if (files.length > 0 && !files[0].file) {
             dispatch(getImages()).then(async (response: any) => {
-                        
-                        let image = await fetch(response.resources[0].secure_url);
-                        let data = await image.blob();
-                        let metadata = {
-                            type: 'image/jpeg'
-                        };
-                        let file = new File([data], "test.jpg", metadata);
-                        debugger 
-                        let obje : IImagesRestaurant[] = [];
-                        obje.push({
-                            _id: "1",
-                            file: window.URL.createObjectURL(file),
-                            name: ""
-                        }) 
-                        dispatch(setImages(obje)) 
-                    })
-        }
-         
 
-   
-    },[dispatch])
+                let image = await fetch(response.resources[0].secure_url);
+                let data = await image.blob();
+                let metadata = {
+                    type: 'image/jpeg'
+                };
+                let file = new File([data], "test.jpg", metadata);
+
+                let obje: IImagesRestaurant[] = [];
+                obje.push({
+                    _id: "1",
+                    file: window.URL.createObjectURL(file),
+                    name: ""
+                })
+                dispatch(setImages(obje))
+            })
+        }
+
+
+
+    }, [dispatch]) */
 
     const uploadWidget = async (event: any) => {
-        setDataState({ ...dataState, image: event.target.files[0], loading: true })
-
-
-        // const res = await fetch("https://api.cloudinary.com/v1_1/ddb12hbdl/image/upload",
-        //     {
-        //         method: 'POST',
-        //         body: data
-        //     })
-
-        // const file = await res.json()
-        // console.log(file)
-
-        // setState({ ...state, loading: false, image: file.secure_url })
-
-    }
-
-    const sendData = () => {
-        const data = new FormData()
         debugger
-        data.append('file', dataState.image)
-        data.append('folder', "restaurant4")
-        dispatch(uploadImageToRestaurant(data)).then((response: any) => {
-            setDataState({ ...dataState, urlImage: response.secure_url })
-        })
+        setDataState({ ...dataState, image: event.target.files[0], loading: true })
     }
 
+    const image = dataState.image ? window.URL.createObjectURL(dataState.image) : require("../../assets/no-Image-Placeholder.png").default
     return (
-        <div className="main">
-            <input type="file" placeholder="upload image" onChange={uploadWidget} />
-            <button type="button" onClick={sendData} > Send data</button>
-            {files[0].file &&
+        <Grid container alignContent="center" alignItems="center">
+            <Grid item xs={12} md={12}>
+                <img src={image} style={{ width: "300px", height: "286px" }} alt="" />
+            </Grid> 
+            <Grid item xs={12} md={12}>
+                <input
+                    onChange={uploadWidget}
+                    accept="image/*"
+                    style={{ display: "none" }}
+                    id="contained-button-file"
+                    multiple
+                    type="file"
+                />
+                <label htmlFor="contained-button-file">
+                    <Button variant="contained" color="primary" component="span">
+                        Upload
+                    </Button>
+                </label>
+            </Grid> 
+
+            {/*  {files.length > 0 && files[0].file &&
 
                 <img src={files[0].file} style={{ width: "300px" }} alt="" />
-            }
-
-
-
-        </div>
+            } */}
+        </Grid>
     )
 
 }

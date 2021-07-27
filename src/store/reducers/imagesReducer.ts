@@ -5,8 +5,7 @@ import { SET_IMAGES,
 const imagesReducer  = (state: IImagesRestaurant[] = [], action: IImagesAction) => {
   switch (action.type) {
     case SET_IMAGES:
-      debugger
-      return action.payload
+      return  [ ...state,action.payload]
       
     case UPDATE_IMAGE:
       return  [ ...state,action.payload]

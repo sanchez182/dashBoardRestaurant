@@ -10,19 +10,19 @@ import SwitchSchedule from "./SwitchSchedule";
 import { RootState } from "../../../store";
 import { useSelector } from "react-redux";
 import { updateRestaurantInfo } from "../../../actionsApi/restaurantActionsApi";
-import { IFoodTimeList, IService } from "../../../store/actions/actionsInterfaces/IRestaurantActions";
 import { setScheduleState } from "./setSchedule";
-
+import InputMultiItem from "./InputMultiItem";
+import { IService } from "../../../store/actions/actionsInterfaces/IRestaurantActions";
+import { FormControlLabel } from "@material-ui/core";
+import Switch from '@material-ui/core/Switch';
+import { useTranslation } from "react-i18next";
 
 const AddRestaurantInfo: FC = () => {
   const restaurantData = useSelector((state: RootState) => state.restaurantData);
-  const restaurantInfo = useSelector((state: RootState) => state.restaurantData.restaurantInfo);
-  const { name, phoneList, restaurantDescription, schedule, ubication, foodTypeList, services, foodTimeList } =restaurantInfo
-  debugger
-  //   const startAdornment = <InputAdornment position="start">{adorn}</InputAdornment>
-
+  const { restaurantInfo } = restaurantData
+  const { name, phoneList, restaurantDescription, isOpen, schedule, email,ubication, foodTypeList, services, foodTimeList } = restaurantInfo
+  const { t } = useTranslation();
   //#region  States 
-
   const [state, setState] = React.useState<IService>({
     express: false,
     inSite: false,
@@ -45,17 +45,20 @@ const AddRestaurantInfo: FC = () => {
     sunday: false,
     sundayText: "",
   });
-
-  const [inputsForm, setInputsForm] = React.useState<any>(null);
-  const [foodTimeState, setFoodTimeState] = React.useState<any>(null);
+  const [timeList, setTimeList] = React.useState<any>([]);
+  const [typeList, setTypeList] = React.useState<any>([]);
+  const [inputsForm, setInputsForm] = React.useState<any>([]);
+  const [isOpenCheck, setIsOpen] = React.useState<boolean>(false);
 
   //#endregion 
 
   useEffect(() => {
     const newSchedule = setScheduleState({ ...scheduleState }, schedule)
     setSchedule(newSchedule);
-    setInputsForm(renderInpu())
-    //renderFoodTime()
+    setTimeList(foodTimeList)
+    setTypeList(foodTypeList)
+    setInputsForm(inputs);
+    setIsOpen(isOpen)
     setState({
       express: services.express,
       inSite: services.inSite,
@@ -63,43 +66,15 @@ const AddRestaurantInfo: FC = () => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [restaurantData])
- 
 
-  const renderFoodTime = () => {
-    let timeList: string[] = []
-    debugger
-    foodTimeList.forEach((element) => {
-      timeList.push(element.foodTimeName)
-    })
-    return timeList
-  }
 
-  const renderFoodType = () => {
-    let typeList: string[] = []
-    foodTypeList.forEach((element) => {
-      typeList.push(element.foodTypeName)
-    })
-    return typeList
-  }
-
-  const foodTimeCreate =(foodTimeList: any[] )=>{
-    const list: IFoodTimeList[]=[];
-    foodTimeList.forEach((element)=>{
-      list.push({
-        foodTimeName: element,
-        isActive: true,
-        showInApp: true
-      })
-    })
-   return list
-  }
-
-  const createModel = (data: any, itemState: any) => {
-    debugger
+  const createModel = async (data: any, itemState: any) => {
+    
     const ubicationSplit = data.ubication.split(",")
     const body = {
       restaurantDescription: data.restaurantDescription,
       img: "",
+      email: data.email,
       createdDate: Date.now(),
       updatedRegister: Date.now(),
       ubication: {
@@ -108,11 +83,11 @@ const AddRestaurantInfo: FC = () => {
         lat: ubicationSplit[1]
       },//data.ubication,
       drinkTypeList: [],
-      foodTypeList: itemState.foodTypeList,
-      foodTimeList: foodTimeCreate(itemState.foodTimeList),
+      foodTypeList: typeList,
+      foodTimeList: timeList,
       phoneList: itemState.telephones,
-     // tableList: data.quantityTables,
-      isOpen: true,
+      // tableList: data.quantityTables,
+      isOpen: isOpenCheck,
       services:
         { express: state.express, inSite: state.inSite, toGo: state.toGo }
       ,
@@ -126,27 +101,40 @@ const AddRestaurantInfo: FC = () => {
         { day: "sunday", hour: scheduleState.sundayText },
       ],
     };
-    debugger;
+    ;
     return body;
   };
-  const renderInpu = ()=>{
-    return   [
+
+  const inputs =
+    [
       {
         name: "restaurantDescription",
         label: "labels.restaurantInfo.restaurantDescription",
         componentName: COMPONENTSTYPE.input,
         defaultValue: restaurantDescription,
         rules: {
-          required: "labels.restaurantInfo.fieldError",
+          required: "labels.requiredField",
         },
+      },{
+        name: "email",
+        label: "labels.email",
+        componentName: COMPONENTSTYPE.input,
+        defaultValue: email,
+        rules: {
+          required: "labels.requiredField",
+          pattern: {
+            message: "labels.emailFormatError",
+            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+          } 
+        }
       },
       {
         name: "direction",
         label: "labels.restaurantInfo.direction",
         componentName: COMPONENTSTYPE.input,
-        defaultValue: "" ,//ubication.direction,
+        defaultValue: ubication.direction,
         rules: {
-          required: "labels.restaurantInfo.fieldError",
+          required: "labels.requiredField",
         },
       }, {
         name: "ubication",
@@ -154,34 +142,14 @@ const AddRestaurantInfo: FC = () => {
         componentName: COMPONENTSTYPE.input,
         defaultValue: `${ubication.long},${ubication.lat}`,
         rules: {
-          required: "labels.restaurantInfo.fieldError",
+          required: "labels.requiredField",
         },
         placeholder: "Example : 1233, -12333"
       },
       {
-        name: "foodTypeList",
-        label: "labels.restaurantInfo.foodTypeList",
-        componentName: COMPONENTSTYPE.inputAddItems,
-        hasArrayElements: {
-          arrayItemName: "foodTypeList",
-          arrayValues: renderFoodType(),
-          iconList: <FastfoodIcon />,
-        },
-      },
-      {
-        name: "foodTimeList",
-        label: "labels.restaurantInfo.foodTimeList",
-        componentName: COMPONENTSTYPE.inputAddItems,
-        hasArrayElements: {
-          arrayItemName: "foodTimeList",
-          arrayValues: renderFoodTime(),
-          iconList: <TimerIcon />,
-        },
-      },
-      {
         name: "phone",
         type: "number",
-        label: "labels.restaurantInfo.phone",
+        label: "labels.phone",
         componentName: COMPONENTSTYPE.inputAddItems,
         rules: {
           maxLength: {
@@ -191,27 +159,36 @@ const AddRestaurantInfo: FC = () => {
         },
         placeholder: "00000000",
         hasArrayElements: {
+          clearAfterAction: false,
           arrayItemName: "telephones",
           arrayValues: phoneList,
           iconList: <PhoneButton />,
         },
-      },
-      /*  {
-             name: "Price",
-             type: 'number',
-             currency: true,
-             label: "labels.stockForm.price",
-             componentName: COMPONENTSTYPE.input,
-             rules:{
-               required: "labels.stockForm.priceError", 
-             }} */
+      }
     ];
-  }
- 
+
+
 
 
   const childElement = (
-    <Grid container>
+    <Grid container spacing={1}>
+
+      <Grid item xs={12} md={6}>
+        <InputMultiItem itemList={timeList} setItemList={setTimeList}
+          controlLabel="Show in Menu"
+          inputLabel="labels.restaurantInfo.foodTimeList"
+          itemName="foodTimeName"
+          iconList={<TimerIcon />}
+          controlName="showInApp" />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <InputMultiItem itemList={typeList} setItemList={setTypeList}
+          controlLabel="Show in Menu"
+          inputLabel="labels.restaurantInfo.foodTypeList"
+          itemName="foodTypeName"
+          iconList={<FastfoodIcon />}
+          controlName="showInApp" />
+      </Grid>
       <Grid item xs={12} md={6}>
         <SwitchServices setState={setState} state={state} />
       </Grid>
@@ -240,17 +217,24 @@ const AddRestaurantInfo: FC = () => {
         />
         <h1>{name}</h1>
       </Grid>
-        {
-          inputsForm &&
-           <SharedForm
-        childElement={childElement}
-        createModel={createModel}
-        actionSubmit={updateRestaurantInfo}
-        inputs={inputsForm}
-        haveMoneyInputs={false}
-      />
-        }
-     
+      <Grid container justify={"flex-end"} alignContent="center" alignItems={"center"}>
+      <FormControlLabel
+        control={<Switch
+          color="primary" checked={isOpenCheck} onChange={(event: any) => { setIsOpen(event.target.checked) }} name={"isOpen"} />}
+        label={t("labels.restaurantInfo.isOpen")}
+      />      </Grid>
+      {
+        inputsForm &&
+        <SharedForm
+        clearFormAfterAction={false}
+          childElement={childElement}
+          createModel={createModel}
+          actionSubmit={updateRestaurantInfo}
+          inputs={inputsForm}
+          haveMoneyInputs={false}
+        />
+      }
+
     </>
   );
 };

@@ -3,9 +3,9 @@ import { SET_IMAGES,
   IImagesAction} from './actionsInterfaces/IImagesRestaurant';
 
 
-export const setImages = (payload: IImagesRestaurant[]):
+export const setImages = (payload: IImagesRestaurant):
 IImagesAction => {
-  debugger
+  
   return {
     type: SET_IMAGES,
     payload 

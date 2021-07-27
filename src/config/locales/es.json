@@ -21,6 +21,7 @@
     "link": {
       "dashboarMenu": "Dashboard Menú",
       "addRestaurantInfo": "Información de restaurante",
+      "supplierInfo": "Información de proveedores",
       "addPlate": "Agregar nuevo platillo",
       "addDrink": "Agregar nueva bebida",
       "addStock": "Agregar items al stock",
@@ -29,26 +30,34 @@
     }
   },
   "labels": {
+    "email": "Correo electrónico",
+    "phone": "Teléfono",
+    "emailFormatError": "Formato de correo inválido",
     "formButton": "Guardar información",
+    "requiredField": "Este campo es requerido",
     "stockForm": {
       "productName": "Nombre de producto",
-      "productNameError": "Nombre de producto es requerido",
       "quantityPortions": "Cantidad de Porciones",
-      "quantityPortionsError": "La cantidad es requerida",
       "price": "Precio",
-      "priceError": "Precio es requerido",
-      "currencyLabel": "Seleccione la moneda para los precios"
+      "currencyLabel": "Seleccione la moneda para los precios",
+      "code": "Código de producto",
+      "supplierName": "Nombre del proveedor"
+    },
+    "plateForm":{
+      "foodTypeName": "Tipo de platillo",
+      "ingredients": "Ingredientes",
+      "plateDescription": "Descripción del platillo",
+      "plateName": "Nombre del platillo"
     },
     "restaurantInfo": {
-      "fieldError": "Este campo es requerido",
       "restaurantDescription": "Description del restaurante",
       "ubication": "Ubicación (latitud, -longitud)",
       "direction": "Dirección de restaurant",
       "quantityTables": "Cantidad de mesas",
-      "phone": "Teléfono",
       "phoneMaxlength": "8 números como máximo",
       "foodTypeList": "Tipos de comida",
-      "foodTimeList": "Tiempos de comida"
+      "foodTimeList": "Tiempos de comida",
+      "isOpen": "Restaurante Abierto"
     },
     "tableAdministration": {
       "tableType": "Tipo de mesa",

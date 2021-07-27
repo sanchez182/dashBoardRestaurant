@@ -8,6 +8,7 @@ import TableScreen from "../pages/administration/ClientTables/TableScreen";
 import DashboardMenu from "../pages/administration/DashboardMenu";
 import StockList from "../pages/administration/StockList";
 import TablesAdministration from "../pages/administration/TablesAdministration";
+import SupplierInfo from "../pages/administration/SupplierInfo";
 
 
 
@@ -28,9 +29,13 @@ export const routesList = [
                     name: 'addPlate', iconName: <Tune />, path: '/addPlate', showInMenu: false, level: 2,
                     isPrivate: true, exact: true, component: AddPlate
                 },{
+                    name: 'supplierInfo', iconName: <Tune />, path: '/SupplierInfo', showInMenu: false, level: 2,
+                    isPrivate: true, exact: true, component: SupplierInfo
+                },{
                     name: 'addRestaurantInfo', iconName: <Tune />, path: '/AddRestaurantInfo', showInMenu: false, level: 2,
                     isPrivate: true, exact: true, component: AddRestaurantInfo
                 },
+                
                 {
                     name: 'addDrink', iconName: <Tune />, path: '/addDrink', showInMenu: false, level: 2,
                     isPrivate: true, exact: true, component: AddDrink

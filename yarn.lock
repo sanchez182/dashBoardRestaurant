@@ -10700,6 +10700,16 @@ pretty-format@^26.6.0, pretty-format@^26.6.2:
     ansi-styles "^4.0.0"
     react-is "^17.0.1"
 
+primeicons@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/primeicons/-/primeicons-4.1.0.tgz#19eaef8ef5594b0006358ae64e738d03e167c9bb"
+  integrity sha512-uEv2pSPk1zQCfaB2VgnUfnUxxlGryYi+5rbdxmZBBt5v9S/pscIQYS5YDLxsQZ7D9jn5c76+Tx5wX/2J1nK6sA==
+
+primereact@^6.5.0:
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/primereact/-/primereact-6.5.0.tgz#c548bd14026201d2501147c1f5d1f9d2d979af92"
+  integrity sha512-DI3196nePwEhhAWEdHw6VwrOTyfK3dq1/495HFxFzAa8VJHJ41oT9KXLOLs0sKbnm70uT4kTapBh1qXsy/LTqg==
+
 private@^0.1.6:
   version "0.1.8"
   resolved "https://registry.npmjs.org/private/-/private-0.1.8.tgz"

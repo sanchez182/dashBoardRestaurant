@@ -4,9 +4,8 @@ import { verifyData } from '../inputsVerify';
 import "./index.css";
 
 function FormInput(props) { 
-  const { name, label,control, errorobj,type,rules,placeholder,startAdornment} = props;
+  const { name, label,control, multiLine, errorobj,type,rules,placeholder,startAdornment} = props;
   const  {isError , errorMessage} = verifyData(errorobj,name, props.tranlation)
- 
   return (  
     <Controller
     name={name}
@@ -15,6 +14,8 @@ function FormInput(props) {
     render={({ field: { onChange, value }}) => (
       <TextField
       type={type}
+      multiline={multiLine}
+      maxRows={4}
       InputProps={{
         startAdornment
       }}

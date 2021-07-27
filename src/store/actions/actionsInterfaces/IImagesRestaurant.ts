@@ -11,7 +11,7 @@ export interface IImagesRestaurant{
 
 interface SetImagesAction {
   type: String;
-  payload: IImagesRestaurant[];
+  payload: IImagesRestaurant;
 }
 
 export type IImagesAction = SetImagesAction;

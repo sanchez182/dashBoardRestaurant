@@ -7,7 +7,9 @@ import {
 
 const initialState: IModelRestaurant = { restaurantInfo : {_id: null,
   name: "",
+  email: "",
   restaurantDescription: "",
+  isOpen: false,
   ubication: {
     long: null,
     lat: null,
@@ -20,7 +22,6 @@ const initialState: IModelRestaurant = { restaurantInfo : {_id: null,
   foodTimeList: [],
   foodTypeList: [{
     foodTypeName: "",
-    isActive: false,
     showInApp: false,
   }],
   phoneList: [],
