@@ -15,10 +15,10 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { getAllPlates } from '../../actionsApi/plateActions';
 import './table.css'
-const ItemList = ({emptyProduct,product ,setProduct}) => {
+const ItemList = ({emptyProduct,product ,setProduct,setProducts,products}) => {
 
 
-    const [products, setProducts] = useState(null);
+   // const [products, setProducts] = useState(null);
     const [deleteProductDialog, setDeleteProductDialog] = useState(false);
     const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
     //const [product, setProduct] = useState(emptyProduct);
@@ -153,11 +153,12 @@ const ItemList = ({emptyProduct,product ,setProduct}) => {
         return (  <Button label="Delete" icon="pi pi-trash" className="p-button-danger" onClick={confirmDeleteSelected} disabled={!selectedProducts || !selectedProducts.length} />)
     }
 
-
+/*     const image = typeof dataState.urlImage === 'object' ? window.URL.createObjectURL(dataState.urlImage) : dataState.urlImage 
+    const defaultImage =require("../../assets/no-Image-Placeholder.png").default */
 
     const imageBodyTemplate = (rowData) => {
-        return <img src={rowData.img}
-            onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={rowData.image}
+        return <img src={rowData.urlImage}
+            onError={(e) => e.target.src = require("../../assets/no-Image-Placeholder.png").default} alt={rowData.image}
             style={{
                 height: "120px",
                 width: "120px"

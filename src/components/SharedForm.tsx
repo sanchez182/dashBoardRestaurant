@@ -66,23 +66,23 @@ const SharedForm = ({ actionSubmit, createModel, idElement,clearFormAfterAction,
     const model = await createModel(data, state.itemState, idElement)
     debugger
     if(typeof model === 'object' ){
-      dispatch(actionSubmit(model)).then((response: any) => {
-      if (response.status === 200) {
+      actionSubmit(model).then(() => {
+        debugger
+     // if (response.status === 200) {
         let clearItemsState = { ...state.itemState }
         let oldState: any;
         if(clearFormAfterAction){
            state.inputs.forEach((element: any) => {
             reset({ [element.name]: "" });
-         // if (element.hasArrayElements && element.hasArrayElements.clearAfterAction) {
+         if (element.hasArrayElements && element.hasArrayElements.clearAfterAction) {
             clearItemsState[element.hasArrayElements.arrayItemName] = []
-          //}
+         }
         });
         oldState = { ...state }
         oldState.itemState = clearItemsState
         setstate(oldState)
         }
-       return response
-      }
+      //}
     })
     }
   }

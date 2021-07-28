@@ -1,7 +1,7 @@
 import { FormControlLabel, Grid, Switch } from '@material-ui/core';
 import React, { FC, useState } from 'react';
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { COMPONENTSTYPE } from '../../components/EnumsComponents';
 import SharedForm from '../../components/SharedForm';
 import { RootState } from '../../store';
@@ -13,39 +13,41 @@ import { sendImageToCloudinary } from '../../components/cloudinaryFunctions';
 import { createOrUpdatePlate } from '../../actionsApi/plateActions';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { apiCallSuccess } from '../../store/actions/requestActions';
+import { setOpenMessageAlert } from '../../store/actions/messageAlertActions';
 
 
-let emptyProduct = {
+const emptyProduct = {
   _id: null,
   plateName: '',
-  img: null,
+  urlImage: null,
+  idImg: null,
   plateDescription: '',
   foodType: null,
   price: 0,
   ingredients: []
 };
 
-const AddPlate: FC = () => { 
+const defaultList = {
+  isValid: false, message: '',
+  list: []
+}
+const AddPlate: FC = () => {
   const { t } = useTranslation();
+  const dispatch = useDispatch()
   const { foodTypeList } = useSelector((state: RootState) => state.restaurantData.restaurantInfo);
   //#region States
- const [typeList, setTypeList] = useState<{ id: number; label: string; }[]>([])
+  const [typeList, setTypeList] = useState<{ id: number; label: string; }[]>([])
   const [inputsForm, setInputsForm] = React.useState<any>([]);
 
-  const [plateActive, setPlateActive] = useState<boolean>(false)
-  const [ingredientList, setIngredientList] = React.useState<any>({
-    isValid: false, message: '',
-    list: []
-  });
-  const [dataState, setDataState] = useState<any>({
-    image: null,
-    urlImg: '',
-    newImage: ''
-  })
+  const [products, setProducts] = useState<any>([]);
+  const [plateActive, setPlateActive] = useState<any>(null)
+  const [ingredientList, setIngredientList] = React.useState<any>(defaultList);
+  const [urlImage, setUrlImage] = useState<any>()
   const [product, setProduct] = useState(emptyProduct);
 
   //#endregion
- 
+
 
   //#region effects
 
@@ -58,7 +60,7 @@ const AddPlate: FC = () => {
       })
       setTypeList(arrayType)
     })
-  }, [foodTypeList,product])
+  }, [foodTypeList, product])
 
   useEffect(() => {
     if (typeList.length > 0) {
@@ -94,7 +96,7 @@ const AddPlate: FC = () => {
           name: "foodTypeName",
           label: "labels.plateForm.foodTypeName",
           componentName: COMPONENTSTYPE.select,
-          defaultValue: typeList.find((x:any)=>  x.label === product.foodType)?.id  ,
+          defaultValue: typeList.find((x: any) => x.label === product.foodType)?.id,
           options: typeList,
           rules: {
             required: 'Apellido required',
@@ -123,41 +125,69 @@ const AddPlate: FC = () => {
 
 
 
-  const setSeleted=(data:any)=>{
+  const setSeleted = (data: any) => {
+    debugger
     setProduct(data);
     setPlateActive(data.showInMenu)
-    setIngredientList({list: data.ingredients, isValid: true, message: '' });
-    debugger
-    setDataState({urlImg:data.img});
+    setIngredientList({ list: data.ingredients, isValid: true, message: '' });
+    setUrlImage(data.urlImage);
   }
 
   const checkInputsStatus = () => {
-    debugger
     if (ingredientList.list.length <= 0) {
       setIngredientList({ ...ingredientList, isValid: false, message: t('atItemRequired') })
       return false
     }
     return true
   }
-  const createOrUpdate =(data:any)=>{
-    debugger
-    const pos = createOrUpdatePlate(data)
-    return  pos
+
+  const createOrUpdate = async (data: any) => {
+    return new Promise(async (resolve, reject) => {
+      await createOrUpdatePlate(data).then(({ plate }) => {
+        let message = '';
+        const newData: any = [...products]
+        if (product._id) {
+          message = 'Se actualizo correcatemente el platillo'
+          const index = newData.findIndex((x: any) => x._id === plate._id)
+          newData[index] = plate
+          setProducts(newData);
+        } else {
+          newData.push(plate);
+          setProducts(newData);
+          message = 'Se creo correcatemente el platillo';
+        }
+        setUrlImage(null);
+        setIngredientList(defaultList)
+        dispatch(apiCallSuccess());
+        dispatch(setOpenMessageAlert({ show: true, message, severity: 'success' }));
+        resolve(true)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
   }
 
   const createModel = async (data: any) => {
-    debugger
+
     if (memoizedCheckInputsStatus()) {
       let uploadedImage = null
-      if(!dataState.image){
-        uploadedImage = '../../assets/no-Image-Placeholder.png'
-      }else{
-       uploadedImage = await sendImageToCloudinary(dataState)
+      let idImg = null
+      if (product._id) {
+        if (product.urlImage !== urlImage) {
+          uploadedImage = await sendImageToCloudinary(urlImage,product.idImg )
+        } else {
+
+          uploadedImage = product.urlImage
+          idImg = product.idImg
+        }
+      } else {
+        uploadedImage = await sendImageToCloudinary(urlImage,'')
       }
       return {
         _id: product._id,
-        img: uploadedImage,
-        showInMenu: true,
+        urlImage: uploadedImage,
+        idImg: idImg,
+        showInMenu: plateActive,
         plateName: data.plateName,
         plateDescription: data.plateDescription,
         foodType: typeList?.find((x) => x.id === data.foodTypeName)?.label,
@@ -171,14 +201,16 @@ const AddPlate: FC = () => {
   };
 
   const memoizedCheckInputsStatus = useCallback(checkInputsStatus, [ingredientList, t])
-  const memoizedCreateModel = useCallback(createModel, [memoizedCheckInputsStatus, dataState, ingredientList, typeList])
+  const memoizedCreateModel = useCallback(createModel, [memoizedCheckInputsStatus, product._id, product.urlImage, product.idImg, plateActive, typeList, ingredientList.list, urlImage])
 
   const childElement = (
     <Grid container spacing={1}>
       <Grid item xs={12} md={6}>
         <FormControlLabel
           control={<Switch
-            color="primary" checked={plateActive} onChange={() => setPlateActive(!plateActive)} name="plateActive" />}
+            color="primary" checked={plateActive} onChange={(event) => {
+              debugger
+              setPlateActive(event.currentTarget.checked)}} name="plateActive" />}
           label={"show in menu"}
         />
       </Grid>
@@ -192,8 +224,8 @@ const AddPlate: FC = () => {
           controlName="showInApp" />
       </Grid>
       <Grid item xs={12} md={12}>
-        <CloudinayComponent dataState={dataState}
-          setDataState={setDataState} />
+        <CloudinayComponent urlImage={urlImage}
+          setUrlImage={setUrlImage} />
       </Grid>
     </Grid>
   );
@@ -202,13 +234,16 @@ const AddPlate: FC = () => {
     <>
       {inputsForm &&
         <SharedForm
-          clearFormAfterAction={false}
+          clearFormAfterAction={true}
           childElement={childElement}
           actionSubmit={createOrUpdate}
           inputs={inputsForm} createModel={memoizedCreateModel} haveMoneyInputs={true} />
       }
-      <ItemList product={product} emptyProduct={emptyProduct} setProduct={setSeleted}
-/>
+      <ItemList product={product} emptyProduct={emptyProduct}
+        products={products}
+        setProducts={setProducts}
+        setProduct={setSeleted}
+      />
     </>
   );
 };

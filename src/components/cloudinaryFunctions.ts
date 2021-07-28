@@ -1,9 +1,11 @@
 import { uploadImageToRestaurant } from "../actionsApi/cloudinaryActions"
 
-export const sendImageToCloudinary = async(dataState:any) => {
+export const sendImageToCloudinary = async(urlImage:string, oldImage:any) => {
+    debugger
     const data = new FormData() 
-    data.append('file', dataState.image)
+    data.append('file', urlImage)
     data.append('folder', "restaurant4")
+    data.append('oldImage', oldImage)
     return await uploadImageToRestaurant(data)
 }
 
