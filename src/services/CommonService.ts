@@ -8,13 +8,13 @@ class CommonService {
     constructor(baseUrl : any){
         this.baseUrl = baseUrl
     }
-    getHttp = () => {
-        return interceptorHttp(this.baseUrl);
+    getHttp = (token:boolean) => {
+        return interceptorHttp(this.baseUrl,token);
     }
 
-    public  postRequest = async (endpoint: String, data: any) => {
+    public  postRequest = async (endpoint: String, data: any,token:boolean) => {
         return new Promise(async (resolve, reject) => {
-            this.getHttp()
+            this.getHttp(token)
                 .post(`${endpoint}`, data)
                 .then(response => {
                     resolve(response)
@@ -25,9 +25,9 @@ class CommonService {
         })
     }
 
-    public pustRequest = async (endpoint: String, data: any) => {
+    public pustRequest = async (endpoint: String, data: any,token:boolean) => {
         return new Promise(async (resolve, reject) => {
-            this.getHttp()
+            this.getHttp(token)
                 .put(`${endpoint}`, data)
                 .then(response => {
                     resolve(response)
@@ -39,9 +39,9 @@ class CommonService {
     }
 
 
-    public getRequest = async (endpoint: String) => {
+    public getRequest = async (endpoint: String,token:boolean) => {
         return new Promise(async (resolve, reject) => {
-            this.getHttp()
+            this.getHttp(token)
                 .get(`${endpoint}`)
                 .then(response => {
                     resolve(response)

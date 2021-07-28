@@ -54,6 +54,7 @@ const AddRestaurantInfo: FC = () => {
 
   useEffect(() => {
     const newSchedule = setScheduleState({ ...scheduleState }, schedule)
+    
     setSchedule(newSchedule);
     setTimeList(foodTimeList)
     setTypeList(foodTypeList)
@@ -69,7 +70,7 @@ const AddRestaurantInfo: FC = () => {
 
 
   const createModel = async (data: any, itemState: any) => {
-    
+    debugger
     const ubicationSplit = data.ubication.split(",")
     const body = {
       restaurantDescription: data.restaurantDescription,

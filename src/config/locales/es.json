@@ -6,6 +6,7 @@
   "textSelectTable": "Seleccione su mesa",
   "returnToHomepage": "Return to homepage",
   "closeRestaurantLabel": "Cerrado",
+  "atItemRequired": "Se requiere al menos un elemento",
   "days": {
     "monday": "Lunes",
     "tuesday": "Martes",
@@ -28,6 +29,9 @@
       "stockList": "Stock List",
       "tablesAdministration": "Administración de mesas"
     }
+  },
+  "buttons":{
+    "uploadImage": "Seleccionar Imagen del platillo"
   },
   "labels": {
     "email": "Correo electrónico",

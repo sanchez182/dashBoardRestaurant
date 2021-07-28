@@ -8,25 +8,27 @@ import TextField from "@material-ui/core/TextField";
 import { useTranslation } from 'react-i18next';
 import { useRef } from 'react';
 
-export default function InputMultiControl({ itemList, setItemList, iconList, inputLabel, itemName }: any) {
+export default function InputMultiControl({ itemList, setItemList, iconList, inputLabel, itemName } : any) {
   const { t } = useTranslation();
-
+  debugger 
   const inputRef = useRef<any>(null);
+
   const endAdornment = <InputAdornment position="end">
     <IconButton
       aria-label="add New Item"
       color="primary"
       onClick={() => {
         if (inputRef.current.value) {
-          const data = [...itemList]
-          if (!data.find((x: any) => x[itemName] === inputRef.current.value)) {
-            data.push({
+          const data = {...itemList}
+          if (!data.list.find((x: any) => x[itemName] === inputRef.current.value)) {
+            data.list.push({
               [itemName]: inputRef.current.value,
               portions: 0
             })
+            data.message = ''
+            data.isValid = true
             setItemList(data)
           }
-
         }
       }
       }
@@ -39,32 +41,35 @@ export default function InputMultiControl({ itemList, setItemList, iconList, inp
   const renderAddOrRemoveQuantity = (icon: any, newItem: any, ariaLabel: string) => {
     return <IconButton aria-label={ariaLabel} id={newItem[itemName]}
       onClick={(event) => {
-        let data = [...itemList]
-        const index = data.findIndex(x => x[itemName] === event.currentTarget.id); 
-        let quantity: number = ariaLabel === 'addQuantity' ? 1 : ( data[index].portions === 0  ? 0 : -1);
-        data[index].portions = data[index].portions + quantity
+        let data = {...itemList}
+        const index = data.list.findIndex((x:any) => x[itemName] === event.currentTarget.id); 
+        let quantity: number = ariaLabel === 'addQuantity' ? 1 : ( data.list[index].portions === 0  ? 0 : -1);
+        data.list[index].portions = data.list[index].portions + quantity
         setItemList(data)
       }}
     >
       {icon}
     </IconButton>
   }
+
   return (
     <>
       <TextField
         type={"text"}
         InputProps={{
           endAdornment
-        }}
+        }} 
         inputRef={inputRef}
         fullWidth={true}
         label={t(inputLabel)}
-        variant="filled"
+        variant="filled" 
+        error={!itemList.isValid && itemList.message !== '' }
+        helperText={itemList.message}
       />
 
 
       <List dense={true}>
-        {itemList && itemList.map((newItem: any) => {
+        {itemList.list && itemList.list.map((newItem: any) => {
           return <ListItem>
             <ListItemAvatar>
               <Avatar>
@@ -81,8 +86,8 @@ export default function InputMultiControl({ itemList, setItemList, iconList, inp
               {renderAddOrRemoveQuantity(<RemoveIcon />, newItem, "removeQuantity")}
               <IconButton edge="end" aria-label="delete" id={newItem[itemName]}
                 onClick={(event) => {
-                  let data = [...itemList]
-                  data = data.filter(x => x[itemName] !== event.currentTarget.id);
+                  let data = {...itemList}
+                  data.list = data.list.filter((x:any) => x[itemName] !== event.currentTarget.id);
                   setItemList(data)
                 }}
               >

@@ -12,53 +12,35 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import { RadioButton } from 'primereact/radiobutton';
 import { InputNumber } from 'primereact/inputnumber';
 import { Dialog } from 'primereact/dialog';
-import { InputText } from 'primereact/inputtext'; 
+import { InputText } from 'primereact/inputtext';
+import { getAllPlates } from '../../actionsApi/plateActions';
+import './table.css'
+const ItemList = ({emptyProduct,product ,setProduct}) => {
 
- const ItemList = () => {
-
-    let emptyProduct = {
-        id: null,
-        name: '',
-        image: null,
-        description: '',
-        category: null,
-        price: 0,
-        quantity: 0,
-        rating: 0,
-        inventoryStatus: 'INSTOCK'
-    };
 
     const [products, setProducts] = useState(null);
-    const [productDialog, setProductDialog] = useState(false);
     const [deleteProductDialog, setDeleteProductDialog] = useState(false);
     const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
-    const [product, setProduct] = useState(emptyProduct);
+    //const [product, setProduct] = useState(emptyProduct);
     const [selectedProducts, setSelectedProducts] = useState(null);
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
     const dt = useRef(null);
-    const productService = new ProductService();
 
     useEffect(() => {
-        productService.getProducts().then(data => {
+        getAllPlates().then(data => {
             debugger
-            setProducts(data)});
+            setProducts(data)
+        });
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const formatCurrency = (value) => {
         return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
     }
 
-    const openNew = () => {
-        setProduct(emptyProduct);
-        setSubmitted(false);
-        setProductDialog(true);
-    }
-
     const hideDialog = () => {
         setSubmitted(false);
-        setProductDialog(false);
     }
 
     const hideDeleteProductDialog = () => {
@@ -74,7 +56,7 @@ import { InputText } from 'primereact/inputtext';
 
         if (product.name.trim()) {
             let _products = [...products];
-            let _product = {...product};
+            let _product = { ...product };
             if (product.id) {
                 const index = findIndexById(product.id);
 
@@ -89,14 +71,13 @@ import { InputText } from 'primereact/inputtext';
             }
 
             setProducts(_products);
-            setProductDialog(false);
             setProduct(emptyProduct);
         }
     }
 
     const editProduct = (product) => {
-        setProduct({...product});
-        setProductDialog(true);
+        debugger
+        setProduct({ ...product });
     }
 
     const confirmDeleteProduct = (product) => {
@@ -133,9 +114,6 @@ import { InputText } from 'primereact/inputtext';
         return id;
     }
 
-    const exportCSV = () => {
-        dt.current.exportCSV();
-    }
 
     const confirmDeleteSelected = () => {
         setDeleteProductsDialog(true);
@@ -150,14 +128,14 @@ import { InputText } from 'primereact/inputtext';
     }
 
     const onCategoryChange = (e) => {
-        let _product = {...product};
+        let _product = { ...product };
         _product['category'] = e.value;
         setProduct(_product);
     }
 
     const onInputChange = (e, name) => {
         const val = (e.target && e.target.value) || '';
-        let _product = {...product};
+        let _product = { ...product };
         _product[`${name}`] = val;
 
         setProduct(_product);
@@ -165,44 +143,29 @@ import { InputText } from 'primereact/inputtext';
 
     const onInputNumberChange = (e, name) => {
         const val = e.value || 0;
-        let _product = {...product};
+        let _product = { ...product };
         _product[`${name}`] = val;
 
         setProduct(_product);
     }
 
-    const leftToolbarTemplate = () => {
-        return (
-            <React.Fragment>
-                <Button label="New" icon="pi pi-plus" className="p-button-success p-mr-2" onClick={openNew} />
-                <Button label="Delete" icon="pi pi-trash" className="p-button-danger" onClick={confirmDeleteSelected} disabled={!selectedProducts || !selectedProducts.length} />
-            </React.Fragment>
-        )
+    const rightToolbarTemplate = () => {
+        return (  <Button label="Delete" icon="pi pi-trash" className="p-button-danger" onClick={confirmDeleteSelected} disabled={!selectedProducts || !selectedProducts.length} />)
     }
 
-    const rightToolbarTemplate = () => {
-        return (
-            <React.Fragment>
-                <FileUpload mode="basic" accept="image/*" maxFileSize={1000000} label="Import" chooseLabel="Import" className="p-mr-2 p-d-inline-block" />
-                <Button label="Export" icon="pi pi-upload" className="p-button-help" onClick={exportCSV} />
-            </React.Fragment>
-        )
-    }
+
 
     const imageBodyTemplate = (rowData) => {
-        return <img src={`showcase/demo/images/product/${rowData.image}`} onError={(e) => e.target.src='https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={rowData.image} className="product-image" />
+        return <img src={rowData.img}
+            onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={rowData.image}
+            style={{
+                height: "120px",
+                width: "120px"
+            }} />
     }
 
     const priceBodyTemplate = (rowData) => {
         return formatCurrency(rowData.price);
-    }
-
-    const ratingBodyTemplate = (rowData) => {
-        return <Rating value={rowData.rating} readOnly cancel={false} />;
-    }
-
-    const statusBodyTemplate = (rowData) => {
-        return <span className={`product-badge status-${rowData.inventoryStatus.toLowerCase()}`}>{rowData.inventoryStatus}</span>;
     }
 
     const actionBodyTemplate = (rowData) => {
@@ -247,83 +210,51 @@ import { InputText } from 'primereact/inputtext';
             <Toast ref={toast} />
 
             <div className="card">
-                <Toolbar className="p-mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}></Toolbar>
+                <Toolbar className="p-mb-4" right={rightToolbarTemplate}></Toolbar>
 
                 <DataTable ref={dt} value={products} selection={selectedProducts} onSelectionChange={(e) => setSelectedProducts(e.value)}
-                    dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]}
+                    dataKey="_id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]}
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
                     globalFilter={globalFilter}
                     header={header}>
 
                     <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
-                    <Column field="code" header="Code" sortable></Column>
-                    <Column field="name" header="Name" sortable></Column>
+                    <Column field="plateName" header="PlateName" sortable></Column>
                     <Column header="Image" body={imageBodyTemplate}></Column>
                     <Column field="price" header="Price" body={priceBodyTemplate} sortable></Column>
-                    <Column field="category" header="Category" sortable></Column>
-                    <Column field="rating" header="Reviews" body={ratingBodyTemplate} sortable></Column>
-                    <Column field="inventoryStatus" header="Status" body={statusBodyTemplate} sortable></Column>
+                    <Column field="foodType" header="Food Type" sortable></Column>
+                    {/* <Column field="inventoryStatus" header="Status" body={statusBodyTemplate} sortable></Column> */}
                     <Column body={actionBodyTemplate}></Column>
                 </DataTable>
             </div>
 
-            <Dialog visible={productDialog} style={{ width: '450px' }} header="Product Details" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
-                {product.image && <img src={`showcase/demo/images/product/${product.image}`} onError={(e) => e.target.src='https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={product.image} className="product-image" />}
-                <div className="p-field">
-                    <label htmlFor="name">Name</label>
-                    <InputText id="name" value={product.name} onChange={(e) => onInputChange(e, 'name')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.name })} />
-                    {submitted && !product.name && <small className="p-error">Name is required.</small>}
-                </div>
-                <div className="p-field">
-                    <label htmlFor="description">Description</label>
-                    <InputTextarea id="description" value={product.description} onChange={(e) => onInputChange(e, 'description')} required rows={3} cols={20} />
-                </div>
+            {/*         "_id": "60ff43483094ed853e83615b",
+        "plateName": "Arroz con pollo",
+        "plateDescription": "La descripcion",
+        "img": "la imagen",
+        "price": 23.23,
+        "foodType": "Vegana",
+        "showInMenu": true,
+        "ingredients": [
+            {
+                "ingredientName": "pollo",
+                "portions": 2
+            }
+        ],
+        "createdDate": "2012-12-12T06:00:00.000Z", */}
 
-                <div className="p-field">
-                    <label className="p-mb-3">Category</label>
-                    <div className="p-formgrid p-grid">
-                        <div className="p-field-radiobutton p-col-6">
-                            <RadioButton inputId="category1" name="category" value="Accessories" onChange={onCategoryChange} checked={product.category === 'Accessories'} />
-                            <label htmlFor="category1">Accessories</label>
-                        </div>
-                        <div className="p-field-radiobutton p-col-6">
-                            <RadioButton inputId="category2" name="category" value="Clothing" onChange={onCategoryChange} checked={product.category === 'Clothing'} />
-                            <label htmlFor="category2">Clothing</label>
-                        </div>
-                        <div className="p-field-radiobutton p-col-6">
-                            <RadioButton inputId="category3" name="category" value="Electronics" onChange={onCategoryChange} checked={product.category === 'Electronics'} />
-                            <label htmlFor="category3">Electronics</label>
-                        </div>
-                        <div className="p-field-radiobutton p-col-6">
-                            <RadioButton inputId="category4" name="category" value="Fitness" onChange={onCategoryChange} checked={product.category === 'Fitness'} />
-                            <label htmlFor="category4">Fitness</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="p-formgrid p-grid">
-                    <div className="p-field p-col">
-                        <label htmlFor="price">Price</label>
-                        <InputNumber id="price" value={product.price} onValueChange={(e) => onInputNumberChange(e, 'price')} mode="currency" currency="USD" locale="en-US" />
-                    </div>
-                    <div className="p-field p-col">
-                        <label htmlFor="quantity">Quantity</label>
-                        <InputNumber id="quantity" value={product.quantity} onValueChange={(e) => onInputNumberChange(e, 'quantity')} integeronly />
-                    </div>
-                </div>
-            </Dialog>
 
             <Dialog visible={deleteProductDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductDialogFooter} onHide={hideDeleteProductDialog}>
                 <div className="confirmation-content">
-                    <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem'}} />
+                    <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
                     {product && <span>Are you sure you want to delete <b>{product.name}</b>?</span>}
                 </div>
             </Dialog>
 
             <Dialog visible={deleteProductsDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductsDialogFooter} onHide={hideDeleteProductsDialog}>
                 <div className="confirmation-content">
-                    <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem'}} />
+                    <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
                     {product && <span>Are you sure you want to delete the selected products?</span>}
                 </div>
             </Dialog>

@@ -65,7 +65,8 @@ const SharedForm = ({ actionSubmit, createModel, idElement,clearFormAfterAction,
   const setFormData = async(data: any) => {
     const model = await createModel(data, state.itemState, idElement)
     debugger
-    dispatch(actionSubmit(model)).then((response: any) => {
+    if(typeof model === 'object' ){
+      dispatch(actionSubmit(model)).then((response: any) => {
       if (response.status === 200) {
         let clearItemsState = { ...state.itemState }
         let oldState: any;
@@ -80,14 +81,14 @@ const SharedForm = ({ actionSubmit, createModel, idElement,clearFormAfterAction,
         oldState.itemState = clearItemsState
         setstate(oldState)
         }
-       
+       return response
       }
-
     })
+    }
   }
 
   const { t: tranlation } = useTranslation();
-  const { handleSubmit, reset, control, setValue, formState: { errors } } = useForm();
+  const { handleSubmit, reset, control, setValue, formState: { errors } } = useForm(); 
 
   useEffect(() => {
     const newObject = { ...state.itemState }
@@ -146,7 +147,7 @@ const SharedForm = ({ actionSubmit, createModel, idElement,clearFormAfterAction,
         })}
         {childElement &&
           <Grid item xs={12} md={12} >
-            {childElement}
+            {childElement} 
           </Grid>}
 
         <Grid item xs={12} md={12} >
@@ -154,7 +155,7 @@ const SharedForm = ({ actionSubmit, createModel, idElement,clearFormAfterAction,
             isLoading={loadingRequest}
             textButton={tranlation("labels.formButton")}
             type="submit"
-            classButton=""
+            classButton="floatRight"
             handleSubmit={() => { }}
             icon=""
           />

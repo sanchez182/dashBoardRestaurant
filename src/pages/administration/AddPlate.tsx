@@ -9,77 +9,45 @@ import ItemList from './ItemList';
 import InputMultiControl from './restaurnatInfo/InputMultiControl';
 import LocalPizzaIcon from '@material-ui/icons/LocalPizza';
 import CloudinayComponent from './CloudinayComponent';
-import { createUrlImage, sendImageToCloudinary } from '../../components/cloudinaryFunctions';
-import { useDispatch } from 'react-redux';
-import { setImages } from '../../store/actions/imagesActions';
+import { sendImageToCloudinary } from '../../components/cloudinaryFunctions';
+import { createOrUpdatePlate } from '../../actionsApi/plateActions';
+import { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 
 
-const AddPlate: FC = () => {
+let emptyProduct = {
+  _id: null,
+  plateName: '',
+  img: null,
+  plateDescription: '',
+  foodType: null,
+  price: 0,
+  ingredients: []
+};
 
-
+const AddPlate: FC = () => { 
+  const { t } = useTranslation();
   const { foodTypeList } = useSelector((state: RootState) => state.restaurantData.restaurantInfo);
-  const dispatch = useDispatch();
-  const [typeList, setTypeList] = useState<any>([])
+  //#region States
+ const [typeList, setTypeList] = useState<{ id: number; label: string; }[]>([])
   const [inputsForm, setInputsForm] = React.useState<any>([]);
 
   const [plateActive, setPlateActive] = useState<boolean>(false)
-  const [ingredientList, setIngredientList] = React.useState<any>([]);
-  const [dataState, setDataState] = useState({
-    loading: false,
-    image: '',
-    urlImage: '',
+  const [ingredientList, setIngredientList] = React.useState<any>({
+    isValid: false, message: '',
+    list: []
+  });
+  const [dataState, setDataState] = useState<any>({
+    image: null,
+    urlImg: '',
     newImage: ''
   })
-  const inputs = [
-    {
-      name: "plateName",
-      label: "labels.plateForm.plateName",
-      componentName: COMPONENTSTYPE.input,
-      rules: {
-        required: 'First name required',
-        maxLength: {
-          value: 4,
-          message: 'This input exceed maxLength.',
-        }
-      }
-    },
-    {
-      name: "plateDescription",
-      label: "labels.plateForm.plateDescription",
-      multiLine: true,
-      componentName: COMPONENTSTYPE.input,
-      rules: {
-        required: 'Apellido required',
-        maxLength: {
-          value: 4,
-          message: 'This input exceed maxLength.',
-        }
-      }
-    },
-    {
-      name: "foodTypeName",
-      label: "labels.plateForm.foodTypeName",
-      componentName: COMPONENTSTYPE.select,
-      options: typeList,
-      rules: {
-        required: 'Apellido required',
-        maxLength: {
-          value: 4,
-          message: 'This input exceed maxLength.',
-        }
-      }
-    },
-    {
-      name: "Price",
-      type: 'number',
-      currency: true,
-      label: "labels.stockForm.price",
-      componentName: COMPONENTSTYPE.input,
-      rules: {
-        required: "labels.stockForm.priceError",
-      }
-    }
-  ]
+  const [product, setProduct] = useState(emptyProduct);
+
+  //#endregion
+ 
+
+  //#region effects
 
   useEffect(() => {
     const arrayType: { id: number; label: string; }[] = [];
@@ -88,36 +56,122 @@ const AddPlate: FC = () => {
         id: index,
         label: element.foodTypeName
       })
-
       setTypeList(arrayType)
     })
-  }, [foodTypeList])
+  }, [foodTypeList,product])
 
   useEffect(() => {
-    if(typeList.length > 0){
-      
-    setInputsForm(inputs);
+    if (typeList.length > 0) {
+      setInputsForm([
+        {
+          name: "plateName",
+          label: "labels.plateForm.plateName",
+          componentName: COMPONENTSTYPE.input,
+          defaultValue: product.plateName,
+          rules: {
+            required: 'First name required',
+            maxLength: {
+              value: 60,
+              message: 'This input exceed maxLength.',
+            }
+          }
+        },
+        {
+          name: "plateDescription",
+          label: "labels.plateForm.plateDescription",
+          multiLine: true,
+          componentName: COMPONENTSTYPE.input,
+          defaultValue: product.plateDescription,
+          rules: {
+            required: 'Apellido required',
+            maxLength: {
+              value: 500,
+              message: 'This input exceed maxLength.',
+            }
+          }
+        },
+        {
+          name: "foodTypeName",
+          label: "labels.plateForm.foodTypeName",
+          componentName: COMPONENTSTYPE.select,
+          defaultValue: typeList.find((x:any)=>  x.label === product.foodType)?.id  ,
+          options: typeList,
+          rules: {
+            required: 'Apellido required',
+            maxLength: {
+              value: 4,
+              message: 'This input exceed maxLength.',
+            }
+          }
+        },
+        {
+          name: "price",
+          type: 'number',
+          currency: true,
+          label: "labels.stockForm.price",
+          defaultValue: product.price,
+          componentName: COMPONENTSTYPE.input,
+          rules: {
+            required: "labels.stockForm.priceError",
+          }
+        }
+      ]);
     }
-  }, [typeList])
+  }, [product.foodType, product.plateDescription, product.plateName, product.price, typeList])
+
+  //#endregion
+
+
+
+  const setSeleted=(data:any)=>{
+    setProduct(data);
+    setPlateActive(data.showInMenu)
+    setIngredientList({list: data.ingredients, isValid: true, message: '' });
+    debugger
+    setDataState({urlImg:data.img});
+  }
+
+  const checkInputsStatus = () => {
+    debugger
+    if (ingredientList.list.length <= 0) {
+      setIngredientList({ ...ingredientList, isValid: false, message: t('atItemRequired') })
+      return false
+    }
+    return true
+  }
+  const createOrUpdate =(data:any)=>{
+    debugger
+    const pos = createOrUpdatePlate(data)
+    return  pos
+  }
 
   const createModel = async (data: any) => {
     debugger
-    const uploadedImage = await sendImageToCloudinary(dataState)
-    debugger
-    const createImage = await createUrlImage(uploadedImage)
-    dispatch(setImages(createImage))
-debugger
-    return  {
-      img: uploadedImage.secure_url,
-      plateName: data.plateName,
-      plateDescription: data.plateDescription,
-      foodTypeName: data.foodTypeName,
-      updatatedDate: Date.now(),
-      price: data.price
-    };
+    if (memoizedCheckInputsStatus()) {
+      let uploadedImage = null
+      if(!dataState.image){
+        uploadedImage = '../../assets/no-Image-Placeholder.png'
+      }else{
+       uploadedImage = await sendImageToCloudinary(dataState)
+      }
+      return {
+        _id: product._id,
+        img: uploadedImage,
+        showInMenu: true,
+        plateName: data.plateName,
+        plateDescription: data.plateDescription,
+        foodType: typeList?.find((x) => x.id === data.foodTypeName)?.label,
+        updatatedDate: Date.now(),
+        price: data.price,
+        ingredients: ingredientList.list
+      };
+    } else {
+      return false
+    }
   };
 
-
+  const memoizedCheckInputsStatus = useCallback(checkInputsStatus, [ingredientList, t])
+  const memoizedCreateModel = useCallback(createModel, [memoizedCheckInputsStatus, dataState, ingredientList, typeList])
 
   const childElement = (
     <Grid container spacing={1}>
@@ -147,12 +201,14 @@ debugger
   return (
     <>
       {inputsForm &&
-        <SharedForm actionSubmit={() => { }}
-          childElement={childElement} inputs={inputsForm} createModel={createModel} haveMoneyInputs={true} />
+        <SharedForm
+          clearFormAfterAction={false}
+          childElement={childElement}
+          actionSubmit={createOrUpdate}
+          inputs={inputsForm} createModel={memoizedCreateModel} haveMoneyInputs={true} />
       }
-
-      <ItemList />
-
+      <ItemList product={product} emptyProduct={emptyProduct} setProduct={setSeleted}
+/>
     </>
   );
 };

@@ -5,10 +5,6 @@ import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      display: 'flex',
-      alignItems: 'center',
-    },
     wrapper: {
       margin: theme.spacing(1),
       position: 'relative',
@@ -47,7 +43,7 @@ interface ILoadingButton {
 }
 
 
-export default function LoadingButton({isLoading,textButton,type,handleSubmit,icon}: ILoadingButton) {
+export default function LoadingButton({isLoading,classButton,textButton,type,handleSubmit,icon}: ILoadingButton) {
   const classes = useStyles(); 
 /*   const [success, setSuccess] = React.useState(false); 
 
@@ -56,7 +52,7 @@ export default function LoadingButton({isLoading,textButton,type,handleSubmit,ic
   }); 
   */
   return (
-    <div className={classes.root}>
+    <div className={classButton}>
  
       <div className={classes.wrapper}>
         <Button

@@ -6,7 +6,7 @@
     "textSelectTable": "Select your table",
     "returnToHomepage": "Return to homepage",
     "closeRestaurantLabel": "Close",
-
+    "atItemRequired": "At least one item is required",
     "days":{
       "monday": "Monday",
       "tuesday": "Tuesday",
@@ -30,6 +30,9 @@
         "tablesAdministration": "Tables administration"
         
       }
+    },
+    "buttons":{
+      "uploadImage": "Select plate Image"
     },
     "labels": {
       "email": "Email",

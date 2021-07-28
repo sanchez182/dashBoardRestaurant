@@ -9,6 +9,7 @@ import { RootState } from '../../store';
 import { setImages } from '../../store/actions/imagesActions';
 import { IImagesRestaurant } from '../../store/actions/actionsInterfaces/IImagesRestaurant';
 import { Button, Grid } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 
 type State = { a: string }; // your state type
@@ -16,6 +17,7 @@ type AppDispatch = ThunkDispatch<State, any, AnyAction>;
 
 const CloudinayComponent = ({ dataState, setDataState }: any) => {
 
+    const { t } = useTranslation();
     const files: IImagesRestaurant[] = useSelector(
         (state: RootState) => state.imagesReducer
     );
@@ -53,7 +55,7 @@ const CloudinayComponent = ({ dataState, setDataState }: any) => {
         setDataState({ ...dataState, image: event.target.files[0], loading: true })
     }
 
-    const image = dataState.image ? window.URL.createObjectURL(dataState.image) : require("../../assets/no-Image-Placeholder.png").default
+    const image = dataState.urlImg ? dataState.urlImg :  (dataState.image ? window.URL.createObjectURL(dataState.image) : require("../../assets/no-Image-Placeholder.png").default)
     return (
         <Grid container alignContent="center" alignItems="center">
             <Grid item xs={12} md={12}>
@@ -70,7 +72,7 @@ const CloudinayComponent = ({ dataState, setDataState }: any) => {
                 />
                 <label htmlFor="contained-button-file">
                     <Button variant="contained" color="primary" component="span">
-                        Upload
+                        {t('buttons.uploadImage')}
                     </Button>
                 </label>
             </Grid> 

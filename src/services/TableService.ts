@@ -1,67 +1,30 @@
-import interceptorHttp from "../helpers/interceptorHttp";
+import CommonService from "./CommonService";
 
 class TableService {
     endPoint = '/tables/'
     baseUrl = process.env.REACT_APP_API_DASHBOARD_URL;
 
-    getHttp = () => {
-        
-        return interceptorHttp(this.baseUrl);
-    }
+  
+    
+    private commonService : CommonService;
 
+    constructor(){
+        this.commonService = new CommonService(this.baseUrl);
+    }
+    
     getDataTables = async () => {
-        return this.getRequest(`${this.endPoint}`)
+        return this.commonService.getRequest(`${this.endPoint}`,true)
         //  return  this.getRequest(`${this.endPoint}`)
     }
 
     createTable =(body:any)=>{
-        return this.postRequest(`${this.endPoint}`,body)
+        return this.commonService.postRequest(`${this.endPoint}`,body,true)
     }
 
     updateTable =(idTable:string,body:any)=>{
-        return this.pustRequest(`${this.endPoint}/${idTable}`,body)
+        return this.commonService.pustRequest(`${this.endPoint}/${idTable}`,body,true)
     }
 
-
-    private postRequest = async (endpoint: String, data: any) => {
-        return new Promise(async (resolve, reject) => {
-            this.getHttp()
-                .post(`${endpoint}`, data)
-                .then(response => {
-                    resolve(response)
-                })
-                .catch((error) => {
-                    reject(error)
-                })
-        })
-    }
-
-    private pustRequest = async (endpoint: String, data: any) => {
-        return new Promise(async (resolve, reject) => {
-            this.getHttp()
-                .put(`${endpoint}`, data)
-                .then(response => {
-                    resolve(response)
-                })
-                .catch((error) => {
-                    reject(error)
-                })
-        })
-    }
-
-
-    private getRequest = async (endpoint: String) => {
-        return new Promise(async (resolve, reject) => {
-            this.getHttp()
-                .get(`${endpoint}`)
-                .then(response => {
-                    resolve(response)
-                })
-                .catch((error) => {
-                    reject(error)
-                })
-        })
-    }
 }
 
 export default TableService;

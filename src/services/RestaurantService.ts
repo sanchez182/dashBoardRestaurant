@@ -10,11 +10,11 @@ class RestaurantService {
     }
 
     getRestaurantData = async () => {
-        return this.commonService.getRequest(`${this.endPoint}`)
+        return this.commonService.getRequest(`${this.endPoint}`,true)
     }
 
     updateRestaurantInfo = async (data: any) => {
-        return this.commonService.pustRequest(`${this.endPoint}`, data)
+        return this.commonService.pustRequest(`${this.endPoint}`, data,true)
     }
   
 }
