@@ -12,15 +12,12 @@ export const UploadImage = () => {
    
  
     const onUpload = (event:any) => {
-      
-        debugger
-     //   toast.current.show({severity: 'info', summary: 'Success', detail: 'File Uploaded'});
+           //   toast.current.show({severity: 'info', summary: 'Success', detail: 'File Uploaded'});
     }
     const onSelect = (event:any) => {
         if(fileUploadRef.current.files.length> 1){
          fileUploadRef.current.files.splice(0,1)
         }
-        debugger
      //   toast.current.show({severity: 'info', summary: 'Success', detail: 'File Uploaded'});
     }
     
