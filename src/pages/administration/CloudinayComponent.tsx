@@ -43,17 +43,13 @@ const CloudinayComponent = ({ urlImage, setUrlImage }: any) => {
         setUrlImage(event.target.files[0])
     }
 
-  // const image = urlImage.urlImg ? urlImage.urlImg :  (urlImage.localImage ? window.URL.createObjectURL(urlImage.image) : require("../../assets/no-Image-Placeholder.png").default)
-  debugger  
-  const image = urlImage && typeof urlImage === 'object' ? window.URL.createObjectURL(urlImage) : urlImage 
-    const defaultImage =require("../../assets/no-Image-Placeholder.png").default
-    debugger
+    const image = urlImage && typeof urlImage === 'object' ? window.URL.createObjectURL(urlImage) : urlImage 
+  const defaultImage =require("../../assets/no-Image-Placeholder.png").default
     return (
         <Grid container alignContent="center" alignItems="center">
             <Grid item xs={12} md={12}>
             <img src={image ? image : defaultImage}
             onError={(e:any) => {
-                debugger
                 e.target.src =  defaultImage}} alt='plate-restaurant'
             style={{ width: "300px", height: "286px" }} 
           /> 
