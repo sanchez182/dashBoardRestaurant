@@ -1,7 +1,7 @@
 import { FormControlLabel, Grid, Switch } from '@material-ui/core';
 import React, { FC, useState } from 'react';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { COMPONENTSTYPE } from '../../components/EnumsComponents';
 import SharedForm from '../../components/SharedForm';
 import { RootState } from '../../store';
@@ -13,20 +13,20 @@ import { sendImageToCloudinary } from '../../components/cloudinaryFunctions';
 import { createOrUpdatePlate } from '../../actionsApi/plateActions';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { apiCallSuccess } from '../../store/actions/requestActions';
-import { setOpenMessageAlert } from '../../store/actions/messageAlertActions';
 
 
 const emptyProduct = {
   _id: null,
   plateName: '',
   urlImage: null,
-  idImg: null,
+  idImg: "",
   plateDescription: '',
   foodType: null,
   price: 0,
   ingredients: []
 };
+
+const defaultImg = "../../assets/no-Image-Placeholder.png"
 
 const defaultList = {
   isValid: false, message: '',
@@ -34,16 +34,15 @@ const defaultList = {
 }
 const AddPlate: FC = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch()
   const { foodTypeList } = useSelector((state: RootState) => state.restaurantData.restaurantInfo);
   //#region States
   const [typeList, setTypeList] = useState<{ id: number; label: string; }[]>([])
   const [inputsForm, setInputsForm] = React.useState<any>([]);
 
   const [products, setProducts] = useState<any>([]);
-  const [plateActive, setPlateActive] = useState<any>(null)
+  const [plateActive, setPlateActive] = useState<any>(false)
   const [ingredientList, setIngredientList] = React.useState<any>(defaultList);
-  const [urlImage, setUrlImage] = useState<any>()
+  const [urlImage, setUrlImage] = useState<any>(defaultImg)
   const [product, setProduct] = useState(emptyProduct);
 
   //#endregion
@@ -60,73 +59,130 @@ const AddPlate: FC = () => {
       })
       setTypeList(arrayType)
     })
-  }, [foodTypeList, product])
+  }, [])
 
-  useEffect(() => {
-    if (typeList.length > 0) {
-      setInputsForm([
-        {
-          name: "plateName",
-          label: "labels.plateForm.plateName",
-          componentName: COMPONENTSTYPE.input,
-          defaultValue: product.plateName,
-          rules: {
-            required: 'First name required',
-            maxLength: {
-              value: 60,
-              message: 'This input exceed maxLength.',
-            }
-          }
-        },
-        {
-          name: "plateDescription",
-          label: "labels.plateForm.plateDescription",
-          multiLine: true,
-          componentName: COMPONENTSTYPE.input,
-          defaultValue: product.plateDescription,
-          rules: {
-            required: 'Apellido required',
-            maxLength: {
-              value: 500,
-              message: 'This input exceed maxLength.',
-            }
-          }
-        },
-        {
-          name: "foodTypeName",
-          label: "labels.plateForm.foodTypeName",
-          componentName: COMPONENTSTYPE.select,
-          defaultValue: typeList.find((x: any) => x.label === product.foodType)?.id,
-          options: typeList,
-          rules: {
-            required: 'Apellido required',
-            maxLength: {
-              value: 4,
-              message: 'This input exceed maxLength.',
-            }
-          }
-        },
-        {
-          name: "price",
-          type: 'number',
-          currency: true,
-          label: "labels.stockForm.price",
-          defaultValue: product.price,
-          componentName: COMPONENTSTYPE.input,
-          rules: {
-            required: "labels.stockForm.priceError",
+  const setInputs = useCallback(() => {
+    debugger
+    setInputsForm([
+      {
+        name: "plateName",
+        label: "labels.plateForm.plateName",
+        componentName: COMPONENTSTYPE.input,
+        defaultValue: product.plateName,
+        rules: {
+          required: 'First name required',
+          maxLength: {
+            value: 60,
+            message: 'This input exceed maxLength.',
           }
         }
-      ]);
-    }
-  }, [product.foodType, product.plateDescription, product.plateName, product.price, typeList])
+      },
+      {
+        name: "plateDescription",
+        label: "labels.plateForm.plateDescription",
+        multiLine: true,
+        componentName: COMPONENTSTYPE.input,
+        defaultValue: product.plateDescription,
+        rules: {
+          required: 'Apellido required',
+          maxLength: {
+            value: 500,
+            message: 'This input exceed maxLength.',
+          }
+        }
+      },
+      {
+        name: "foodTypeName",
+        label: "labels.plateForm.foodTypeName",
+        componentName: COMPONENTSTYPE.select,
+        defaultValue: typeList.find((x: any) => x.label === product.foodType)?.id,
+        options: typeList,
+        rules: {
+          required: 'Apellido required',
+          maxLength: {
+            value: 4,
+            message: 'This input exceed maxLength.',
+          }
+        }
+      },
+      {
+        name: "price",
+        type: 'number',
+        currency: true,
+        label: "labels.stockForm.price",
+        defaultValue: product.price,
+        componentName: COMPONENTSTYPE.input,
+        rules: {
+          required: "labels.stockForm.priceError",
+        }
+      }
+    ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product.foodType, product.plateDescription, product.plateName, product.price])
 
+  useEffect(() => {
+    debugger
+    if (typeList.length > 0 && product._id !== null) {
+      setInputs()
+    }
+  }, [typeList, product, setInputs])
+
+  useEffect(() => {
+    debugger
+    setInputs()
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   //#endregion
 
 
 
+  const renderDataInDialog = (data: any) => {
+    /*  {
+       "_id": "610303d782465dd7144e5413",
+       "urlImage": "https://res.cloudinary.com/ddb12hbdl/image/upload/v1627589479/restaurant4/bjqv69byqroq80dyh3qo.jpg",
+       "idImg": "restaurant4/bjqv69byqroq80dyh3qo",
+       "showInMenu": false,
+       "plateName": "ahora si",
+       "plateDescription": "que paso",
+       "foodType": "vegetariana",
+       "updatatedDate": "2021-07-29T20:11:29.382Z",
+       "price": 223,
+       "ingredients": [
+         {
+           "ingredientName": "sa",
+           "portions": 6
+         }
+       ],
+       "__v": 0
+     }  */
+
+    return (
+      <Grid container>
+        <Grid container justifyContent="center">
+          <img src={data.urlImage}
+            onError={(e: any) => {
+              debugger
+              e.target.src = defaultImg
+            }} alt='plate-restaurant'
+            style={{ width: "300px", height: "286px" }}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={12}>
+          <p><strong>Nombre de platillo :</strong> {data.plateName}  </p>
+          <p><strong>Descripcion del platillo :</strong>{data.plateDescription}   </p>
+          <p><strong>Tipo de comida</strong> :{data.foodType}  </p>
+          <p><strong>Ingredientes</strong> :<ul>{data.ingredients.map((element:any)=>{
+            return (<li>Nombre : {element.ingredientName} - <strong>Cantidad: </strong> {element.portions}</li>)
+          })}</ul>  </p>
+        </Grid>
+      </Grid>
+
+    )
+  }
+
   const setSeleted = (data: any) => {
-    debugger
     setProduct(data);
     setPlateActive(data.showInMenu)
     setIngredientList({ list: data.ingredients, isValid: true, message: '' });
@@ -142,46 +198,52 @@ const AddPlate: FC = () => {
   }
 
   const createOrUpdate = async (data: any) => {
-    return new Promise(async (resolve, reject) => {
-      await createOrUpdatePlate(data).then(({ plate }) => {
-        let message = '';
-        const newData: any = [...products]
-        if (product._id) {
-          message = 'Se actualizo correcatemente el platillo'
-          const index = newData.findIndex((x: any) => x._id === plate._id)
-          newData[index] = plate
-          setProducts(newData);
-        } else {
-          newData.push(plate);
-          setProducts(newData);
-          message = 'Se creo correcatemente el platillo';
-        }
-        setUrlImage(null);
-        setIngredientList(defaultList)
-        dispatch(apiCallSuccess());
-        dispatch(setOpenMessageAlert({ show: true, message, severity: 'success' }));
-        resolve(true)
-      }).catch((error) => {
-        reject(error)
-      })
-    })
+    const { plate } = await createOrUpdatePlate(data)
+    debugger
+    const newData: any = [...products]
+    if (product._id) {
+      const index = newData.findIndex((x: any) => x._id === plate._id)
+      newData[index] = plate
+      setProducts(newData);
+
+    } else {
+      newData.push(plate);
+      setProducts(newData);
+    }
+    clearScreem();
   }
 
+  const clearScreem = () => {
+    debugger
+    setProduct(emptyProduct);
+    setUrlImage(defaultImg);
+    setIngredientList({
+      isValid: false, message: '',
+      list: []
+    })
+  }
   const createModel = async (data: any) => {
 
     if (memoizedCheckInputsStatus()) {
       let uploadedImage = null
       let idImg = null
+      debugger
       if (product._id) {
         if (product.urlImage !== urlImage) {
-          uploadedImage = await sendImageToCloudinary(urlImage,product.idImg )
+          uploadedImage = await sendImageToCloudinary(urlImage, product.idImg)
         } else {
 
           uploadedImage = product.urlImage
           idImg = product.idImg
         }
       } else {
-        uploadedImage = await sendImageToCloudinary(urlImage,'')
+        if (typeof urlImage === 'object') {
+          uploadedImage = await sendImageToCloudinary(urlImage, '')
+        } else {
+          uploadedImage = urlImage;
+          idImg = '';
+        }
+
       }
       return {
         _id: product._id,
@@ -209,8 +271,8 @@ const AddPlate: FC = () => {
         <FormControlLabel
           control={<Switch
             color="primary" checked={plateActive} onChange={(event) => {
-              debugger
-              setPlateActive(event.currentTarget.checked)}} name="plateActive" />}
+              setPlateActive(event.currentTarget.checked)
+            }} name="plateActive" />}
           label={"show in menu"}
         />
       </Grid>
@@ -240,6 +302,7 @@ const AddPlate: FC = () => {
           inputs={inputsForm} createModel={memoizedCreateModel} haveMoneyInputs={true} />
       }
       <ItemList product={product} emptyProduct={emptyProduct}
+        renderDataInDialog={renderDataInDialog}
         products={products}
         setProducts={setProducts}
         setProduct={setSeleted}

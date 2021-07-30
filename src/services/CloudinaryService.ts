@@ -1,4 +1,3 @@
-import interceptorHttp from "../helpers/interceptorHttp";
 import CommonService from "./CommonService";
 
 class CloudinaryService {

@@ -27,6 +27,7 @@ export default function InputMultiControl({ itemList, setItemList, iconList, inp
             })
             data.message = ''
             data.isValid = true
+            inputRef.current.value = ''
             setItemList(data)
           }
         }
@@ -70,7 +71,7 @@ export default function InputMultiControl({ itemList, setItemList, iconList, inp
 
       <List dense={true}>
         {itemList.list && itemList.list.map((newItem: any) => {
-          return <ListItem>
+          return <ListItem key={newItem[itemName]}>
             <ListItemAvatar>
               <Avatar>
                 {iconList}

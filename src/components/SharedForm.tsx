@@ -8,15 +8,11 @@ import { COMPONENTSTYPE } from './EnumsComponents';
 import { useTranslation } from 'react-i18next';
 import CurrencyComponent from './CurrencyComponent';
 import LoadingButton from './LoadingButton';
-import { ThunkDispatch } from "redux-thunk";
-import { AnyAction } from "redux";
-import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import CheckboxInput from '../controls/checkbox';
 import FormSwitch from '../controls/switch';
+import { useSelector } from 'react-redux';
 
-type State = { a: string }; // your state type
-type AppDispatch = ThunkDispatch<State, any, AnyAction>;
 interface ISharedForm {
   actionSubmit: any;
   inputs: any[],
@@ -26,6 +22,7 @@ interface ISharedForm {
   fullWidthForm?: boolean;
   clearFormAfterAction?: boolean;
   idElement?: string | null;
+  clearScreen?: any ;
 
 }
 
@@ -55,40 +52,43 @@ const setComponent = (componentName: String) => {
 }
 
 
-const SharedForm = ({ actionSubmit, createModel, idElement,clearFormAfterAction, fullWidthForm, inputs, childElement, haveMoneyInputs }: ISharedForm) => {
+const SharedForm = ({ actionSubmit, createModel, idElement, clearFormAfterAction,
+  fullWidthForm, inputs, childElement, haveMoneyInputs,clearScreen }: ISharedForm) => {
   const [state, setstate] = useState<any>({ inputs: [], itemState: {} })
 
+  const { t: tranlation } = useTranslation();
   const [currency, setCurrency] = React.useState('$');
   const { loadingRequest } = useSelector((state: RootState) => state.requestReducer);
-  const dispatch: AppDispatch = useDispatch();
 
-  const setFormData = async(data: any) => {
+  const setFormData = async (data: any) => {
     const model = await createModel(data, state.itemState, idElement)
     debugger
-    if(typeof model === 'object' ){
-      actionSubmit(model).then(() => {
-        debugger
-     // if (response.status === 200) {
-        let clearItemsState = { ...state.itemState }
-        let oldState: any;
-        if(clearFormAfterAction){
-           state.inputs.forEach((element: any) => {
-            reset({ [element.name]: "" });
-         if (element.hasArrayElements && element.hasArrayElements.clearAfterAction) {
-            clearItemsState[element.hasArrayElements.arrayItemName] = []
-         }
-        });
-        oldState = { ...state }
-        oldState.itemState = clearItemsState
-        setstate(oldState)
+    if (typeof model === 'object') {
+      await actionSubmit(model).then(() => {
+        if (clearFormAfterAction) {
+          clearScreem()
         }
-      //}
-    })
+      })
     }
   }
 
-  const { t: tranlation } = useTranslation();
-  const { handleSubmit, reset, control, setValue, formState: { errors } } = useForm(); 
+  const clearScreem=()=>{
+    let myState = { ...state }
+    let clearItemsState = { ...myState.itemState }
+    debugger
+    myState.inputs.forEach((element: any) => {
+      debugger
+      reset({ [element.name]: "" }); 
+      if(element.defaultValue) {element.defaultValue = "";}
+      if (element.hasArrayElements && element.hasArrayElements.clearAfterAction) {
+        clearItemsState[element.hasArrayElements.arrayItemName] = []
+      }
+    });
+    debugger
+    myState.itemState = clearItemsState
+    setstate(myState)
+  }
+  const { handleSubmit, reset, control, setValue, formState: { errors } } = useForm();
 
   useEffect(() => {
     const newObject = { ...state.itemState }
@@ -122,6 +122,7 @@ const SharedForm = ({ actionSubmit, createModel, idElement,clearFormAfterAction,
             <CurrencyComponent setCurrency={setCurrency} currency={currency} currencyLabel={tranlation("labels.stockForm.currencyLabel")} />
           </Grid>}
         {state.inputs && state.inputs.map((element: any) => {
+          debugger
           return (<Grid item xs={12} md={fullWidthForm ? 12 : 6} key={element.name}>
             <element.Component control={control}
               name={element.name}
@@ -147,7 +148,7 @@ const SharedForm = ({ actionSubmit, createModel, idElement,clearFormAfterAction,
         })}
         {childElement &&
           <Grid item xs={12} md={12} >
-            {childElement} 
+            {childElement}
           </Grid>}
 
         <Grid item xs={12} md={12} >
@@ -159,7 +160,6 @@ const SharedForm = ({ actionSubmit, createModel, idElement,clearFormAfterAction,
             handleSubmit={() => { }}
             icon=""
           />
-
         </Grid>
       </Grid>
     </form>

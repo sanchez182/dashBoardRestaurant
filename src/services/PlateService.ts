@@ -16,12 +16,11 @@ class PlateService {
         return this.commonService.getRequest(`${this.endPoint}`,true)
     }
 
-    createPlate =(body:any)=>{
-        return this.commonService.postRequest(`${this.endPoint}`,body,true)
+    createPlate =async (body:any)=>{
+        return await this.commonService.postRequest(`${this.endPoint}`,body,true)
     }
-
+ 
     updatePlate = async (idTable:string,body:any)=>{
-        debugger
         return this.commonService.pustRequest(`${this.endPoint}${idTable}`,body,true)
     }
 

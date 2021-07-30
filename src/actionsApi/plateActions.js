@@ -1,12 +1,9 @@
-import { createUrlImage } from "../components/cloudinaryFunctions";
 import PlateService from "../services/PlateService";
-import { setImages } from "../store/actions/imagesActions";
+import store from "../store";
 import { setOpenMessageAlert } from "../store/actions/messageAlertActions";
-import { apiCallSuccess } from "../store/actions/requestActions";
-import { setDataToTables } from "../store/actions/tableActions";
 
 
-
+const dispatch = store.dispatch;
 const service = new PlateService();
 
 export const getAllPlates = async () => {
@@ -48,31 +45,51 @@ return response.data
   }
 } */
 
-export const createPlate = async ( body) => {
+/* export const createPlate = async ( body) => {
   return new Promise(async (resolve, reject) => {
     service.createPlate(body).then((response) => {
+      debugger
       if(response.status === 200){
-        //dispatch(setDataToTables(response.data))
         resolve (response.data)
       } 
      }).catch((error)=>{
+       debugger
       reject (error)
      })
   })
+} */
+
+export const createPlate = async ( body) => {
+  const response = await  service.createPlate(body)
+  if(response.status === 200){
+    dispatch(setOpenMessageAlert({ show: true, message:'Se creo correctamente el platillo', severity: 'success' }));
+    return (response.data)
+  } 
+  return false
 }
 
 
-export const updatePlate = async (idPlate, body) => {
+export const updatePlate = async ( idPlate, body) => {
+  const response = await  service.updatePlate(idPlate, body)
+  if(response.status === 200){
+    dispatch(setOpenMessageAlert({ show: true, message:'Se actualizo correctamente el platillo', severity: 'success' }));
+    return ({plate:response.data.plate.value})
+  } 
+  return false
+}
+
+/* export const updatePlate = async (idPlate, body) => {
   return new Promise(async (resolve, reject) => {
     service.updatePlate(idPlate, body).then((response) => {
       if(response.status === 200){
+    dispatch(setOpenMessageAlert({ show: true, message:'Se actualizo correcatemente el platillo', severity: 'success' }));
         resolve ({plate:response.data.plate.value})
       } 
      }).catch((error)=>{
       reject (error)
      })
   })
-}
+} */
 
 /* const updatePlate =async (idTable, body) => {
   return (dispatch,)  => {
@@ -92,7 +109,6 @@ export const updatePlate = async (idPlate, body) => {
 
 
 export const createOrUpdatePlate = async (body) => {
-  debugger
   let dataImage = null
   if(typeof body.urlImage === 'object' ){
     dataImage = body.urlImage
