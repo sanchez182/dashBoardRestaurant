@@ -1,4 +1,4 @@
-import { FormControlLabel, Grid, Switch } from '@material-ui/core';
+import { FormControlLabel, Grid, Switch, Typography } from '@material-ui/core';
 import React, { FC, useState } from 'react';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
@@ -26,7 +26,7 @@ const emptyProduct = {
   ingredients: []
 };
 
-const defaultImg = "../../assets/no-Image-Placeholder.png"
+const defaultImg = require("../../assets/no-Image-Placeholder.png").default
 
 const defaultList = {
   isValid: false, message: '',
@@ -59,6 +59,7 @@ const AddPlate: FC = () => {
       })
       setTypeList(arrayType)
     })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const setInputs = useCallback(() => {
@@ -69,7 +70,7 @@ const AddPlate: FC = () => {
         componentName: COMPONENTSTYPE.input,
         defaultValue: product.plateName,
         rules: {
-          required: 'First name required',
+          required: 'plate name required',
           maxLength: {
             value: 60,
             message: 'This input exceed maxLength.',
@@ -83,7 +84,7 @@ const AddPlate: FC = () => {
         componentName: COMPONENTSTYPE.input,
         defaultValue: product.plateDescription,
         rules: {
-          required: 'Apellido required',
+          required: 'plate description required',
           maxLength: {
             value: 500,
             message: 'This input exceed maxLength.',
@@ -97,7 +98,7 @@ const AddPlate: FC = () => {
         defaultValue: typeList.find((x: any) => x.label === product.foodType)?.id,
         options: typeList,
         rules: {
-          required: 'Apellido required',
+          required: 'Food type required',
           maxLength: {
             value: 4,
             message: 'This input exceed maxLength.',
@@ -161,21 +162,33 @@ const AddPlate: FC = () => {
             onError={(e: any) => {
               e.target.src = defaultImg
             }} alt='plate-restaurant'
-            style={{ width: "300px", height: "286px" }}
+            style={{ width: "300px",borderRadius:"54px", height: "286px" }}
           />
         </Grid>
-
+        {renderTemplate("labels.plateForm.plateName", data.plateName)}
+        {renderTemplate("labels.stockForm.price", data.price)}
+        {renderTemplate("labels.plateForm.plateDescription", data.plateDescription)}
+        {renderTemplate("labels.plateForm.foodTypeName", data.foodType)}
         <Grid item xs={12} md={12}>
-          <p><strong>Nombre de platillo :</strong> {data.plateName}  </p>
-          <p><strong>Descripcion del platillo :</strong>{data.plateDescription}   </p>
-          <p><strong>Tipo de comida</strong> :{data.foodType}  </p>
-          <p><strong>Ingredientes</strong> :<ul>{data.ingredients.map((element:any)=>{
-            return (<li>Nombre : {element.ingredientName} - <strong>Cantidad: </strong> {element.portions}</li>)
-          })}</ul>  </p>
+          <h3>{t("labels.plateForm.ingredients")} </h3>
+          <ul>{data.ingredients.map((element: any) => {
+            return (<li>{element.ingredientName} 
+            {element.portions > 0 &&
+            <strong> - {t("labels.stockForm.quantityPortions")} :  {element.portions}</strong>
+            }
+            </li>)
+          })}</ul>
         </Grid>
       </Grid>
-
     )
+  }
+
+  const renderTemplate = (title: string, value: string) => {
+    return <Grid item xs={12} md={12} style={{ marginBottom: "12px" }}>
+      <h3>{t(title)}: </h3>
+      <p> {value}</p>
+    </Grid>
+
   }
 
   const setSeleted = (data: any) => {

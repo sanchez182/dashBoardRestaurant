@@ -9,9 +9,11 @@ import { InputText } from 'primereact/inputtext';
 import { getAllPlates } from '../../actionsApi/plateActions';
 import './table.css'
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 const ItemList = ({emptyProduct,product ,setProduct,setProducts,products,renderDataInDialog}) => {
 
 
+    const { t } = useTranslation();
     const [deleteProductDialog, setDeleteProductDialog] = useState(false);
     const [dialogInfo, setDialogInfo] = useState({
         isVisible: false,
@@ -19,7 +21,6 @@ const ItemList = ({emptyProduct,product ,setProduct,setProducts,products,renderD
     });
     const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
     const [selectedProducts, setSelectedProducts] = useState(null);
-    const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
     const dt = useRef(null);
@@ -89,7 +90,8 @@ const ItemList = ({emptyProduct,product ,setProduct,setProducts,products,renderD
             onError={(e) => e.target.src = require("../../assets/no-Image-Placeholder.png").default} alt={rowData.image}
             style={{
                 height: "120px",
-                width: "120px"
+                width: "120px",
+                borderRadius:"12px",
             }} />
     }
 
@@ -155,13 +157,17 @@ const ItemList = ({emptyProduct,product ,setProduct,setProducts,products,renderD
                     {product && <span>Are you sure you want to delete the selected products?</span>}
                 </div>
             </Dialog>
-            <Dialog visible={dialogInfo.isVisible} style={{ width: '64%' }}
-            header="Confirm" modal 
+            {dialogInfo.isVisible &&
+             <Dialog visible={dialogInfo.isVisible} style={{ width: '64%' }}
+            header={t("plateInformation")} modal 
             onHide={()=>setDialogInfo({...dialogInfo, isVisible:false})}>
                 <div className="confirmation-content">
-                {renderDataInDialog(dialogInfo.info)}
+                {dialogInfo.info && renderDataInDialog(dialogInfo.info)}
                 </div>
             </Dialog>
+            
+            }
+           
         </div>
     );
 }
