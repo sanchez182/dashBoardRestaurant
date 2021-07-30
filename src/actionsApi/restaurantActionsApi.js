@@ -45,7 +45,6 @@ import { setDataService, setRestaurantData } from "../store/actions/restaurantAc
 export const updateRestaurantInfo = async (body) => {
   return new Promise(async (resolve, reject) => {
     service.updateRestaurantInfo(body).then((response) => {
-      debugger
       if(response.status === 200){
         dispatch(apiCallSuccess()) 
         dispatch(setOpenMessageAlert({ show: true, message:'Se actualizo la información correcatemente', severity: 'success' }));

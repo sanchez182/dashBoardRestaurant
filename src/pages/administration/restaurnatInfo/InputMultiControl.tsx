@@ -10,7 +10,6 @@ import { useRef } from 'react';
 
 export default function InputMultiControl({ itemList, setItemList, iconList, inputLabel, itemName } : any) {
   const { t } = useTranslation();
-  debugger 
   const inputRef = useRef<any>(null);
 
   const endAdornment = <InputAdornment position="end">

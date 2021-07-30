@@ -62,7 +62,6 @@ const SharedForm = ({ actionSubmit, createModel, idElement, clearFormAfterAction
 
   const setFormData = async (data: any) => {
     const model = await createModel(data, state.itemState, idElement)
-    debugger
     if (typeof model === 'object') {
       await actionSubmit(model).then(() => {
         if (clearFormAfterAction) {
@@ -75,16 +74,13 @@ const SharedForm = ({ actionSubmit, createModel, idElement, clearFormAfterAction
   const clearScreem=()=>{
     let myState = { ...state }
     let clearItemsState = { ...myState.itemState }
-    debugger
     myState.inputs.forEach((element: any) => {
-      debugger
       reset({ [element.name]: "" }); 
       if(element.defaultValue) {element.defaultValue = "";}
       if (element.hasArrayElements && element.hasArrayElements.clearAfterAction) {
         clearItemsState[element.hasArrayElements.arrayItemName] = []
       }
     });
-    debugger
     myState.itemState = clearItemsState
     setstate(myState)
   }
@@ -122,7 +118,6 @@ const SharedForm = ({ actionSubmit, createModel, idElement, clearFormAfterAction
             <CurrencyComponent setCurrency={setCurrency} currency={currency} currencyLabel={tranlation("labels.stockForm.currencyLabel")} />
           </Grid>}
         {state.inputs && state.inputs.map((element: any) => {
-          debugger
           return (<Grid item xs={12} md={fullWidthForm ? 12 : 6} key={element.name}>
             <element.Component control={control}
               name={element.name}

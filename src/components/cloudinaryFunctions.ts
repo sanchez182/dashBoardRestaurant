@@ -1,7 +1,6 @@
 import { uploadImageToRestaurant } from "../actionsApi/cloudinaryActions"
 
 export const sendImageToCloudinary = async(urlImage:string, oldImage:any) => {
-    debugger
     const data = new FormData() 
     data.append('file', urlImage)
     data.append('folder', "restaurant4")

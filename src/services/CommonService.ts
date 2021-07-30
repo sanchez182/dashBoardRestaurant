@@ -17,11 +17,9 @@ class CommonService {
             this.getHttp(token)
                 .post(`${endpoint}`, data)
                 .then(response => {
-                    debugger
                     resolve(response)
                 })
                 .catch((error) => {
-                    debugger
                     reject(error)
                 })
         })

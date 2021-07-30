@@ -62,7 +62,6 @@ const AddPlate: FC = () => {
   }, [])
 
   const setInputs = useCallback(() => {
-    debugger
     setInputsForm([
       {
         name: "plateName",
@@ -121,14 +120,12 @@ const AddPlate: FC = () => {
   }, [product.foodType, product.plateDescription, product.plateName, product.price])
 
   useEffect(() => {
-    debugger
     if (typeList.length > 0 && product._id !== null) {
       setInputs()
     }
   }, [typeList, product, setInputs])
 
   useEffect(() => {
-    debugger
     setInputs()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -162,7 +159,6 @@ const AddPlate: FC = () => {
         <Grid container justifyContent="center">
           <img src={data.urlImage}
             onError={(e: any) => {
-              debugger
               e.target.src = defaultImg
             }} alt='plate-restaurant'
             style={{ width: "300px", height: "286px" }}
@@ -199,7 +195,6 @@ const AddPlate: FC = () => {
 
   const createOrUpdate = async (data: any) => {
     const { plate } = await createOrUpdatePlate(data)
-    debugger
     const newData: any = [...products]
     if (product._id) {
       const index = newData.findIndex((x: any) => x._id === plate._id)
@@ -214,7 +209,6 @@ const AddPlate: FC = () => {
   }
 
   const clearScreem = () => {
-    debugger
     setProduct(emptyProduct);
     setUrlImage(defaultImg);
     setIngredientList({
@@ -227,7 +221,6 @@ const AddPlate: FC = () => {
     if (memoizedCheckInputsStatus()) {
       let uploadedImage = null
       let idImg = null
-      debugger
       if (product._id) {
         if (product.urlImage !== urlImage) {
           uploadedImage = await sendImageToCloudinary(urlImage, product.idImg)

@@ -70,7 +70,6 @@ const AddRestaurantInfo: FC = () => {
 
 
   const createModel = async (data: any, itemState: any) => {
-    debugger
     const ubicationSplit = data.ubication.split(",")
     const body = {
       restaurantDescription: data.restaurantDescription,

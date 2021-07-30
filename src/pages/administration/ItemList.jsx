@@ -27,7 +27,6 @@ const ItemList = ({emptyProduct,product ,setProduct,setProducts,products,renderD
 
     useEffect(() => {
         getAllPlates().then(data => {
-            debugger
             setProducts(data)
         });
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -36,7 +35,6 @@ const ItemList = ({emptyProduct,product ,setProduct,setProducts,products,renderD
         return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
     }
     const editProduct = (product) => {
-        debugger
         setProduct({ ...product });
     }
 
