@@ -3,24 +3,12 @@ import { FileUpload } from 'primereact/fileupload';
 import { ProgressBar } from 'primereact/progressbar';
 import Button from '@material-ui/core/Button';
 import { Tooltip } from 'primereact/tooltip';
-import { Tag } from 'primereact/tag';
 
 export const UploadImage = () => {
-    const [totalSize, setTotalSize] = useState(0);
-    const toast = useRef(null);
+
     const fileUploadRef = useRef<any>(null);
    
- 
-    const onUpload = (event:any) => {
-           //   toast.current.show({severity: 'info', summary: 'Success', detail: 'File Uploaded'});
-    }
-    const onSelect = (event:any) => {
-        if(fileUploadRef.current.files.length> 1){
-         fileUploadRef.current.files.splice(0,1)
-        }
-     //   toast.current.show({severity: 'info', summary: 'Success', detail: 'File Uploaded'});
-    }
-    
+
 
 
     return (
