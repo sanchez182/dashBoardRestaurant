@@ -10,6 +10,7 @@ import { verifyData } from "../inputsVerify";
 function FormSelect(props) {
   const { label, name, options, required,rules, control, errorobj } = props;
   const  {isError , errorMessage} = verifyData(errorobj,name)
+  debugger
   return (
       <Controller
       control={control}

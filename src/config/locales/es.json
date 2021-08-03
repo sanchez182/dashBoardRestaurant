@@ -50,9 +50,16 @@
     },
     "plateForm":{
       "foodTypeName": "Tipo de platillo",
+      "foodTimeName": "Tiempo de platillo",
       "ingredients": "Ingredientes",
       "plateDescription": "Descripción del platillo",
       "plateName": "Nombre del platillo"
+    },
+    "drinkForm":{
+      "drinkTypeName": "Tipo de bebida", 
+      "ingredients": "Ingredientes",
+      "drinkDescription": "Descripción de bebida",
+      "drinkName": "Nombre de bebida"
     },
     "restaurantInfo": {
       "restaurantDescription": "Description del restaurante",
@@ -61,6 +68,7 @@
       "quantityTables": "Cantidad de mesas",
       "phoneMaxlength": "8 números como máximo",
       "foodTypeList": "Tipos de comida",
+      "drinkTypeList": "Tipo de bebida",
       "foodTimeList": "Tiempos de comida",
       "isOpen": "Restaurante Abierto"
     },

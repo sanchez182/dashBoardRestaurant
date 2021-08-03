@@ -20,7 +20,7 @@ import { useTranslation } from "react-i18next";
 const AddRestaurantInfo: FC = () => {
   const restaurantData = useSelector((state: RootState) => state.restaurantData);
   const { restaurantInfo } = restaurantData
-  const { name, phoneList, restaurantDescription, isOpen, schedule, email,ubication, foodTypeList, services, foodTimeList } = restaurantInfo
+  const { name, phoneList, restaurantDescription, isOpen, schedule, email, ubication, foodTypeList, services, foodTimeList } = restaurantInfo
   const { t } = useTranslation();
   //#region  States 
   const [state, setState] = React.useState<IService>({
@@ -47,6 +47,7 @@ const AddRestaurantInfo: FC = () => {
   });
   const [timeList, setTimeList] = React.useState<any>([]);
   const [typeList, setTypeList] = React.useState<any>([]);
+  const [drinkTypeList, setDrinkTypeList] = React.useState<any>([]);
   const [inputsForm, setInputsForm] = React.useState<any>([]);
   const [isOpenCheck, setIsOpen] = React.useState<boolean>(false);
 
@@ -54,7 +55,7 @@ const AddRestaurantInfo: FC = () => {
 
   useEffect(() => {
     const newSchedule = setScheduleState({ ...scheduleState }, schedule)
-    
+
     setSchedule(newSchedule);
     setTimeList(foodTimeList)
     setTypeList(foodTypeList)
@@ -82,9 +83,9 @@ const AddRestaurantInfo: FC = () => {
         long: ubicationSplit[0],
         lat: ubicationSplit[1]
       },//data.ubication,
-      drinkTypeList: [],
       foodTypeList: typeList,
       foodTimeList: timeList,
+      drinkTypeList,
       phoneList: itemState.telephones,
       // tableList: data.quantityTables,
       isOpen: isOpenCheck,
@@ -115,7 +116,7 @@ const AddRestaurantInfo: FC = () => {
         rules: {
           required: "labels.requiredField",
         },
-      },{
+      }, {
         name: "email",
         label: "labels.email",
         componentName: COMPONENTSTYPE.input,
@@ -125,7 +126,7 @@ const AddRestaurantInfo: FC = () => {
           pattern: {
             message: "labels.emailFormatError",
             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-          } 
+          }
         }
       },
       {
@@ -190,10 +191,21 @@ const AddRestaurantInfo: FC = () => {
           controlName="showInApp" />
       </Grid>
       <Grid item xs={12} md={6}>
-        <SwitchServices setState={setState} state={state} />
+        <InputMultiItem itemList={drinkTypeList} setItemList={setDrinkTypeList}
+          controlLabel="Show in Menu"
+          inputLabel="labels.restaurantInfo.drinkTypeList"
+          itemName="drinkTypeName"
+          iconList={<FastfoodIcon />}
+          controlName="showInApp" />
       </Grid>
-      <Grid item xs={12} md={6}>
-        <SwitchSchedule setSchedule={setSchedule} state={scheduleState} />
+
+      <Grid container spacing={1}>
+        <Grid item xs={12} md={6}>
+          <SwitchServices setState={setState} state={state} />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <SwitchSchedule setSchedule={setSchedule} state={scheduleState} />
+        </Grid>
       </Grid>
     </Grid>
   );
@@ -218,15 +230,15 @@ const AddRestaurantInfo: FC = () => {
         <h1>{name}</h1>
       </Grid>
       <Grid container justify={"flex-end"} alignContent="center" alignItems={"center"}>
-      <FormControlLabel
-        control={<Switch
-          color="primary" checked={isOpenCheck} onChange={(event: any) => { setIsOpen(event.target.checked) }} name={"isOpen"} />}
-        label={t("labels.restaurantInfo.isOpen")}
-      />      </Grid>
+        <FormControlLabel
+          control={<Switch
+            color="primary" checked={isOpenCheck} onChange={(event: any) => { setIsOpen(event.target.checked) }} name={"isOpen"} />}
+          label={t("labels.restaurantInfo.isOpen")}
+        />      </Grid>
       {
         inputsForm &&
         <SharedForm
-        clearFormAfterAction={false}
+          clearFormAfterAction={false}
           childElement={childElement}
           createModel={createModel}
           actionSubmit={updateRestaurantInfo}

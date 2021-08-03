@@ -158,7 +158,9 @@ const ItemList = ({emptyProduct,product ,setProduct,setProducts,products,renderD
                 </div>
             </Dialog>
             {dialogInfo.isVisible &&
-             <Dialog visible={dialogInfo.isVisible} style={{ width: '64%' }}
+             <Dialog 
+             scroll='paper'
+             visible={dialogInfo.isVisible} style={{ width: '64%' }}
             header={t("plateInformation")} modal 
             onHide={()=>setDialogInfo({...dialogInfo, isVisible:false})}>
                 <div className="confirmation-content">

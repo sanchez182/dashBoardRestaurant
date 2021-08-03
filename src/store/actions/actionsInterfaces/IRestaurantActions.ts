@@ -30,6 +30,13 @@ export interface ISchedule {
   direction: string | null,
 }
 
+export interface IDrinkType {
+  drinkTypeName: string;
+  isActive: boolean;
+  showInApp: boolean;
+}
+
+
 
 export interface IService  {express: boolean, inSite: boolean, toGo: boolean }
  
@@ -44,7 +51,7 @@ export interface IModelRestaurant { restaurantInfo : {
   img: String,
   foodTimeList: IFoodTimeList[],
   foodTypeList: IFoodTypeList[],
-  drinkTypeList: [],
+  drinkTypeList: IDrinkType[],
   phoneList: [],
   schedule: ISchedule[],
   services:IService

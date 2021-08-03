@@ -50,12 +50,17 @@
         "supplierName": "Supplier name"
       },
       "plateForm":{
-        "foodTypeName": "Type food",
+        "foodTypeName": "Food type",
         "ingredients": "Ingredients",
         "plateDescription": "Plate description",
         "plateName": "Plate name"
       },
-
+      "drinkForm":{
+        "drinkTypeName": "Drink type", 
+        "ingredients": "Ingredients",
+        "drinkDescription": "Drink description",
+        "drinkName": "Drink name"
+      },
       "restaurantInfo":{
         "restaurantDescription": "Restaurant description",
         "ubication" : "Ubication (latitude, -longitude)",
@@ -63,6 +68,7 @@
         "quantityTables": "Quantity Tables",
         "phoneMaxlength": "8 max numbers",
         "foodTypeList": "Food type",
+        "drinkTypeList": "Drink type",
         "foodTimeList": "Food time",
         "isOpen": "Restaurant Open"
         

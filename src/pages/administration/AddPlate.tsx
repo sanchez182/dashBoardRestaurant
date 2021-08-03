@@ -22,9 +22,15 @@ const emptyProduct = {
   idImg: "",
   plateDescription: '',
   foodType: null,
+  foodTime: null,
   price: 0,
   ingredients: []
 };
+ 
+interface IinterfaceList {
+  id: number,
+  label: string,
+}
 
 const defaultImg = require("../../assets/no-Image-Placeholder.png").default
 
@@ -34,9 +40,9 @@ const defaultList = {
 }
 const AddPlate: FC = () => {
   const { t } = useTranslation();
-  const { foodTypeList } = useSelector((state: RootState) => state.restaurantData.restaurantInfo);
+  const { foodTypeList, foodTimeList } = useSelector((state: RootState) => state.restaurantData.restaurantInfo);
   //#region States
-  const [typeList, setTypeList] = useState<{ id: number; label: string; }[]>([])
+  const [selectList, setSelectList] = useState<{ foodType: IinterfaceList[], foodTime: IinterfaceList[] }>({ foodType: [], foodTime:[] })
   const [inputsForm, setInputsForm] = React.useState<any>([]);
 
   const [products, setProducts] = useState<any>([]);
@@ -49,20 +55,36 @@ const AddPlate: FC = () => {
 
 
   //#region effects
-
+ 
   useEffect(() => {
-    const arrayType: { id: number; label: string; }[] = [];
+    debugger
+    const foodType: IinterfaceList[] = [];
+    const foodTime: IinterfaceList[] = [];
     foodTypeList.forEach((element, index) => {
-      arrayType.push({
+      foodType.push({
         id: index,
         label: element.foodTypeName
       })
-      setTypeList(arrayType)
     })
+
+    foodTimeList.forEach((element, index) => {
+      foodTime.push({
+        id: index,
+        label: element.foodTimeName
+      })
+    })
+
+    const data = {
+      foodType,
+      foodTime
+    }
+    setSelectList(data)
+    setInputs(data)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  const setInputs = useCallback(() => {
+ 
+  const setInputs = useCallback((selectList) => {
+    debugger
     setInputsForm([
       {
         name: "plateName",
@@ -95,8 +117,21 @@ const AddPlate: FC = () => {
         name: "foodTypeName",
         label: "labels.plateForm.foodTypeName",
         componentName: COMPONENTSTYPE.select,
-        defaultValue: typeList.find((x: any) => x.label === product.foodType)?.id,
-        options: typeList,
+        defaultValue:  selectList.foodType.find((x: any) => x.label === product.foodType)?.id,
+        options: selectList.foodType,
+        rules: {
+          required: 'Food type required',
+          maxLength: {
+            value: 4,
+            message: 'This input exceed maxLength.',
+          }
+        }
+      }, {
+        name: "foodTimeName",
+        label: "labels.plateForm.foodTimeName",
+        componentName: COMPONENTSTYPE.select,
+        defaultValue:  selectList.foodTime.find((x: any) => x.label === product.foodTime)?.id,
+        options: selectList.foodTime,
         rules: {
           required: 'Food type required',
           maxLength: {
@@ -121,40 +156,18 @@ const AddPlate: FC = () => {
   }, [product.foodType, product.plateDescription, product.plateName, product.price])
 
   useEffect(() => {
-    if (typeList.length > 0 && product._id !== null) {
-      setInputs()
+    debugger
+    if (selectList.foodType.length > 0 && product._id !== null) {
+      setInputs(selectList)
     }
-  }, [typeList, product, setInputs])
+  }, [selectList, product, setInputs])
 
-  useEffect(() => {
-    setInputs()
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  
   //#endregion
 
 
 
   const renderDataInDialog = (data: any) => {
-    /*  {
-       "_id": "610303d782465dd7144e5413",
-       "urlImage": "https://res.cloudinary.com/ddb12hbdl/image/upload/v1627589479/restaurant4/bjqv69byqroq80dyh3qo.jpg",
-       "idImg": "restaurant4/bjqv69byqroq80dyh3qo",
-       "showInMenu": false,
-       "plateName": "ahora si",
-       "plateDescription": "que paso",
-       "foodType": "vegetariana",
-       "updatatedDate": "2021-07-29T20:11:29.382Z",
-       "price": 223,
-       "ingredients": [
-         {
-           "ingredientName": "sa",
-           "portions": 6
-         }
-       ],
-       "__v": 0
-     }  */
-
     return (
       <Grid container>
         <Grid container justifyContent="center">
@@ -169,6 +182,7 @@ const AddPlate: FC = () => {
         {renderTemplate("labels.stockForm.price", data.price)}
         {renderTemplate("labels.plateForm.plateDescription", data.plateDescription)}
         {renderTemplate("labels.plateForm.foodTypeName", data.foodType)}
+        {renderTemplate("labels.plateForm.foodTimeName", data.foodTime)}
         <Grid item xs={12} md={12}>
           <h3>{t("labels.plateForm.ingredients")} </h3>
           <ul>{data.ingredients.map((element: any) => {
@@ -258,7 +272,8 @@ const AddPlate: FC = () => {
         showInMenu: plateActive,
         plateName: data.plateName,
         plateDescription: data.plateDescription,
-        foodType: typeList?.find((x) => x.id === data.foodTypeName)?.label,
+        foodTime: selectList?.foodTime.find((x:any) => x.id === data.foodTimeName)?.label,
+        foodType: selectList?.foodType.find((x) => x.id === data.foodTypeName)?.label,
         updatatedDate: Date.now(),
         price: data.price,
         ingredients: ingredientList.list
@@ -269,7 +284,7 @@ const AddPlate: FC = () => {
   };
 
   const memoizedCheckInputsStatus = useCallback(checkInputsStatus, [ingredientList, t])
-  const memoizedCreateModel = useCallback(createModel, [memoizedCheckInputsStatus, product._id, product.urlImage, product.idImg, plateActive, typeList, ingredientList.list, urlImage])
+  const memoizedCreateModel = useCallback(createModel, [memoizedCheckInputsStatus, product._id, product.urlImage, product.idImg, plateActive, selectList, ingredientList.list, urlImage])
 
   const childElement = (
     <Grid container spacing={1}>
@@ -307,7 +322,7 @@ const AddPlate: FC = () => {
           actionSubmit={createOrUpdate}
           inputs={inputsForm} createModel={memoizedCreateModel} haveMoneyInputs={true} />
       }
-      <ItemList product={product} emptyProduct={emptyProduct}
+     <ItemList product={product} emptyProduct={emptyProduct}
         renderDataInDialog={renderDataInDialog}
         products={products}
         setProducts={setProducts}
