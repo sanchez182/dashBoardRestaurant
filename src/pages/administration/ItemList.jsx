@@ -6,11 +6,10 @@ import { Button } from 'primereact/button';
 import { Toolbar } from 'primereact/toolbar';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
-import { getAllPlates } from '../../actionsApi/plateActions';
 import './table.css'
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-const ItemList = ({emptyProduct,product ,setProduct,setProducts,products,renderDataInDialog}) => {
+const ItemList = ({emptyProduct,product , getItems, setProduct,setProducts,products,renderDataInDialog}) => {
 
 
     const { t } = useTranslation();
@@ -27,7 +26,7 @@ const ItemList = ({emptyProduct,product ,setProduct,setProducts,products,renderD
     const {loadingRequest} = useSelector(state => state.requestReducer)
 
     useEffect(() => {
-        getAllPlates().then(data => {
+        getItems().then(data => {
             setProducts(data)
         });
     }, []); // eslint-disable-line react-hooks/exhaustive-deps

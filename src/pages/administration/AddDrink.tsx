@@ -12,7 +12,7 @@ import CloudinayComponent from './CloudinayComponent';
 import { sendImageToCloudinary } from '../../components/cloudinaryFunctions';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { createOrUpdateDrink } from '../../actionsApi/drinkActions';
+import { createOrUpdateDrink, getAllDrinks } from '../../actionsApi/drinkActions';
 
 
 const emptyProduct = {
@@ -30,7 +30,8 @@ const emptyProduct = {
 const defaultImg = require("../../assets/no-Image-Placeholder.png").default
 
 const defaultList = {
-  isValid: false, message: '',
+  isValid: true, message: '',
+  required: false,
   list: []
 }
 const AddDrink: FC = () => {
@@ -142,15 +143,16 @@ const AddDrink: FC = () => {
           <img src={data.urlImage}
             onError={(e: any) => {
               e.target.src = defaultImg
-            }} alt='plate-restaurant'
+            }} alt='drink-restaurant'
             style={{ width: "300px",borderRadius:"54px", height: "286px" }}
           />
         </Grid>
         {renderTemplate("labels.drinkForm.drinkName", data.drinkName)}
         {renderTemplate("labels.stockForm.price", data.price)}
         {renderTemplate("labels.drinkForm.drinkDescription", data.drinkDescription)}
-        {renderTemplate("labels.drinkForm.drinkTypeName", data.foodType)}
-        <Grid item xs={12} md={12}>
+        {renderTemplate("labels.drinkForm.drinkTypeName", data.drinkType)}
+        {data.ingredients.lenght > 0 &&
+         <Grid item xs={12} md={12}>
           <h3>{t("labels.drinkForm.ingredients")} </h3>
           <ul>{data.ingredients.map((element: any) => {
             return (<li>{element.ingredientName} 
@@ -160,6 +162,8 @@ const AddDrink: FC = () => {
             </li>)
           })}</ul>
         </Grid>
+        }
+       
       </Grid>
     )
   }
@@ -179,13 +183,6 @@ const AddDrink: FC = () => {
     setUrlImage(data.urlImage);
   }
 
-  const checkInputsStatus = () => {
-    if (ingredientList.list.length <= 0) {
-      setIngredientList({ ...ingredientList, isValid: false, message: t('atItemRequired') })
-      return false
-    }
-    return true
-  }
 
   const createOrUpdate = async (data: any) => {
     const { drink } = await createOrUpdateDrink(data)
@@ -199,10 +196,10 @@ const AddDrink: FC = () => {
       newData.push(drink);
       setProducts(newData);
     }
-    clearScreem();
+    clearScreen();
   }
 
-  const clearScreem = () => {
+  const clearScreen = () => {
     setProduct(emptyProduct);
     setUrlImage(defaultImg);
     setIngredientList({
@@ -211,8 +208,6 @@ const AddDrink: FC = () => {
     })
   }
   const createModel = async (data: any) => {
-
-    if (memoizedCheckInputsStatus()) {
       let uploadedImage = null
       let idImg = null
       if (product._id) {
@@ -244,13 +239,9 @@ const AddDrink: FC = () => {
         price: data.price,
         ingredients: ingredientList.list
       };
-    } else {
-      return false
-    }
   };
 
-  const memoizedCheckInputsStatus = useCallback(checkInputsStatus, [ingredientList, t])
-  const memoizedCreateModel = useCallback(createModel, [memoizedCheckInputsStatus, product._id, product.urlImage, product.idImg, drinkActive, selectList, ingredientList.list, urlImage])
+  const memoizedCreateModel = useCallback(createModel, [product._id, product.urlImage, product.idImg, drinkActive, selectList, ingredientList.list, urlImage])
 
   const childElement = (
     <Grid container spacing={1}>
@@ -288,7 +279,9 @@ const AddDrink: FC = () => {
           actionSubmit={createOrUpdate}
           inputs={inputsForm} createModel={memoizedCreateModel} haveMoneyInputs={true} />
       }
-     <ItemList product={product} emptyProduct={emptyProduct}
+     <ItemList 
+        getItems={getAllDrinks}
+        product={product} emptyProduct={emptyProduct}
         renderDataInDialog={renderDataInDialog}
         products={products}
         setProducts={setProducts}

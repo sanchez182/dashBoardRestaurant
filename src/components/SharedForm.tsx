@@ -22,7 +22,6 @@ interface ISharedForm {
   fullWidthForm?: boolean;
   clearFormAfterAction?: boolean;
   idElement?: string | null;
-  clearScreen?: any ;
 
 }
 
@@ -53,7 +52,7 @@ const setComponent = (componentName: String) => {
 
 
 const SharedForm = ({ actionSubmit, createModel, idElement, clearFormAfterAction,
-  fullWidthForm, inputs, childElement, haveMoneyInputs,clearScreen }: ISharedForm) => {
+  fullWidthForm, inputs, childElement, haveMoneyInputs }: ISharedForm) => {
   const [state, setstate] = useState<any>({ inputs: [], itemState: {} })
 
   const { t: tranlation } = useTranslation();
@@ -65,13 +64,13 @@ const SharedForm = ({ actionSubmit, createModel, idElement, clearFormAfterAction
     if (typeof model === 'object') {
       await actionSubmit(model).then(() => {
         if (clearFormAfterAction) {
-          clearScreem()
+          clearScreen()
         }
       })
     }
   }
 
-  const clearScreem=()=>{
+  const clearScreen=()=>{
     let myState = { ...state }
     let clearItemsState = { ...myState.itemState }
     myState.inputs.forEach((element: any) => {

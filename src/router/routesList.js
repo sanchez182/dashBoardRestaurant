@@ -24,25 +24,25 @@ export const routesList = [
         level: 1,
         children:
             [
-                
+                {
+                    name: 'addRestaurantInfo', iconName: <Tune />, path: '/AddRestaurantInfo', showInMenu: false, level: 2,
+                    isPrivate: true, exact: true, component: AddRestaurantInfo
+                },
+                {
+                    name: 'addStock', iconName: <Tune />, path: '/addStock', showInMenu: false, level: 2,
+                    isPrivate: true, exact: true, component: AddStock
+                },
                 {
                     name: 'addPlate', iconName: <Tune />, path: '/addPlate', showInMenu: false, level: 2,
                     isPrivate: true, exact: true, component: AddPlate
-                },{
-                    name: 'supplierInfo', iconName: <Tune />, path: '/SupplierInfo', showInMenu: false, level: 2,
-                    isPrivate: true, exact: true, component: SupplierInfo
-                },{
-                    name: 'addRestaurantInfo', iconName: <Tune />, path: '/AddRestaurantInfo', showInMenu: false, level: 2,
-                    isPrivate: true, exact: true, component: AddRestaurantInfo
                 },
                 
                 {
                     name: 'addDrink', iconName: <Tune />, path: '/addDrink', showInMenu: false, level: 2,
                     isPrivate: true, exact: true, component: AddDrink
-                },
-                {
-                    name: 'addStock', iconName: <Tune />, path: '/addStock', showInMenu: false, level: 2,
-                    isPrivate: true, exact: true, component: AddStock
+                },{
+                    name: 'supplierInfo', iconName: <Tune />, path: '/SupplierInfo', showInMenu: false, level: 2,
+                    isPrivate: true, exact: true, component: SupplierInfo
                 }, {
                     name: 'stockList', iconName: <Tune />, path: '/stockList', showInMenu: false, level: 2,
                     isPrivate: true, exact: true, component: StockList

@@ -6,8 +6,8 @@ import { setOpenMessageAlert } from "../store/actions/messageAlertActions";
 const dispatch = store.dispatch;
 const service = new DrinkService();
 
-export const getAllPlates = async () => {
-  const response = await service.getAllPlates()
+export const getAllDrinks = async () => {
+  const response = await service.getAllDrinks()
   if (response.status === 200) {
   }
 return response.data

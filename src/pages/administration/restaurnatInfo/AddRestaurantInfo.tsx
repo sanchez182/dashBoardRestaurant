@@ -20,7 +20,7 @@ import { useTranslation } from "react-i18next";
 const AddRestaurantInfo: FC = () => {
   const restaurantData = useSelector((state: RootState) => state.restaurantData);
   const { restaurantInfo } = restaurantData
-  const { name, phoneList, restaurantDescription, isOpen, schedule, email, ubication, foodTypeList, services, foodTimeList } = restaurantInfo
+  const { name, phoneList, restaurantDescription, isOpen, schedule, email, ubication,drinkTypeList, foodTypeList, services, foodTimeList } = restaurantInfo
   const { t } = useTranslation();
   //#region  States 
   const [state, setState] = React.useState<IService>({
@@ -47,7 +47,7 @@ const AddRestaurantInfo: FC = () => {
   });
   const [timeList, setTimeList] = React.useState<any>([]);
   const [typeList, setTypeList] = React.useState<any>([]);
-  const [drinkTypeList, setDrinkTypeList] = React.useState<any>([]);
+  const [drinkList, setDrinkList] = React.useState<any>([]);
   const [inputsForm, setInputsForm] = React.useState<any>([]);
   const [isOpenCheck, setIsOpen] = React.useState<boolean>(false);
 
@@ -59,6 +59,7 @@ const AddRestaurantInfo: FC = () => {
     setSchedule(newSchedule);
     setTimeList(foodTimeList)
     setTypeList(foodTypeList)
+    setDrinkList(drinkTypeList)
     setInputsForm(inputs);
     setIsOpen(isOpen)
     setState({
@@ -85,7 +86,7 @@ const AddRestaurantInfo: FC = () => {
       },//data.ubication,
       foodTypeList: typeList,
       foodTimeList: timeList,
-      drinkTypeList,
+      drinkTypeList: drinkList,
       phoneList: itemState.telephones,
       // tableList: data.quantityTables,
       isOpen: isOpenCheck,
@@ -191,7 +192,7 @@ const AddRestaurantInfo: FC = () => {
           controlName="showInApp" />
       </Grid>
       <Grid item xs={12} md={6}>
-        <InputMultiItem itemList={drinkTypeList} setItemList={setDrinkTypeList}
+        <InputMultiItem itemList={drinkList} setItemList={setDrinkList}
           controlLabel="Show in Menu"
           inputLabel="labels.restaurantInfo.drinkTypeList"
           itemName="drinkTypeName"

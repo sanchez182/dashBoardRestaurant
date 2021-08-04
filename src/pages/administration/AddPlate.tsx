@@ -1,4 +1,4 @@
-import { FormControlLabel, Grid, Switch, Typography } from '@material-ui/core';
+import { FormControlLabel, Grid, Switch } from '@material-ui/core';
 import React, { FC, useState } from 'react';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
@@ -12,8 +12,8 @@ import CloudinayComponent from './CloudinayComponent';
 import { sendImageToCloudinary } from '../../components/cloudinaryFunctions';
 import { createOrUpdatePlate } from '../../actionsApi/plateActions';
 import { useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
-
+import { useTranslation } from 'react-i18next'; 
+import { getAllPlates } from '../../actionsApi/plateActions';
 
 const emptyProduct = {
   _id: null,
@@ -36,6 +36,7 @@ const defaultImg = require("../../assets/no-Image-Placeholder.png").default
 
 const defaultList = {
   isValid: false, message: '',
+  required: true,
   list: []
 }
 const AddPlate: FC = () => {
@@ -232,16 +233,13 @@ const AddPlate: FC = () => {
       newData.push(plate);
       setProducts(newData);
     }
-    clearScreem();
+    clearScreen();
   }
 
-  const clearScreem = () => {
+  const clearScreen = () => {
     setProduct(emptyProduct);
     setUrlImage(defaultImg);
-    setIngredientList({
-      isValid: false, message: '',
-      list: []
-    })
+    setIngredientList(defaultList)
   }
   const createModel = async (data: any) => {
 
@@ -322,7 +320,9 @@ const AddPlate: FC = () => {
           actionSubmit={createOrUpdate}
           inputs={inputsForm} createModel={memoizedCreateModel} haveMoneyInputs={true} />
       }
-     <ItemList product={product} emptyProduct={emptyProduct}
+     <ItemList 
+        getItems={getAllPlates}
+        product={product} emptyProduct={emptyProduct}
         renderDataInDialog={renderDataInDialog}
         products={products}
         setProducts={setProducts}

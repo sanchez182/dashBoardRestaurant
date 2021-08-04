@@ -63,8 +63,8 @@ export default function InputMultiControl({ itemList, setItemList, iconList, inp
         fullWidth={true}
         label={t(inputLabel)}
         variant="filled" 
-        error={!itemList.isValid && itemList.message !== '' }
-        helperText={itemList.message}
+        error={itemList.required && !itemList.isValid && itemList.message !== '' }
+        helperText={itemList.required && itemList.message}
       />
 
 
