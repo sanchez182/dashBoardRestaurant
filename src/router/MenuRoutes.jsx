@@ -40,16 +40,18 @@ const routes = (screens) => {
 export const RenderPrivateRoutes = ({ screens }) => {
     const { open } = useSelector((state) => state.drawerState);
     const [routesState, setRoutes] = useState(null)
+    const [routesDrawer, setDraweRouter] = useState(null)
 
     useEffect(() => {
         setRoutes(routes(screens))
+        setDraweRouter(routesList)
     }, [screens])
-
+    
     return (
         
             <>
                 <StartAppBar />
-                <DrawerMenu routes={routesList} />
+                <DrawerMenu routes={routesDrawer} />
  
         <main className={open ? "contentOpen" : "content"}   >
             <PrivateRoute
