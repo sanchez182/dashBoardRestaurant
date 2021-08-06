@@ -1,7 +1,7 @@
 {
-  "name": "my-app",
+  "name": "dashboard-menu",
   "version": "0.1.0",
-  "homepage": "https://sanchez182.github.io/",
+  "homepage": "https://dashboard-menu.herokuapp.com/",
   "private": true,
   "engines": {
     "node": "v14.17.3",
