@@ -1,6 +1,8 @@
 {
     "home": "Home",
     "about": "About Us",
+    "image": "Image",
+    "showInMenu": "Show in menu",
     "available": "Available",
     "busy": "Busy",
     "plateInformation": "Plate information",

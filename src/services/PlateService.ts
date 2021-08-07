@@ -24,6 +24,11 @@ class PlateService {
         return this.commonService.pustRequest(`${this.endPoint}${idTable}`,body,true)
     }
 
+    deletePlates = async (data:any) => {
+        return this.commonService.deleteRequest(`${this.endPoint}`,data,true)
+    }
+    
+
 }
 
 export default PlateService;

@@ -16,6 +16,10 @@ class DrinkService {
         return this.commonService.getRequest(`${this.endPoint}`,true)
     }
 
+    deleteDrinks = async (idDrinks: any[]) => {
+        return this.commonService.deleteRequest(`${this.endPoint}`,idDrinks,true)
+    }
+    
     createDrink =async (body:any)=>{
         return await this.commonService.postRequest(`${this.endPoint}`,body,true)
     }

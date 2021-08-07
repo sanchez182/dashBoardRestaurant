@@ -13,14 +13,14 @@ import { sendImageToCloudinary } from '../../components/cloudinaryFunctions';
 import { createOrUpdatePlate } from '../../actionsApi/plateActions';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next'; 
-import { getAllPlates } from '../../actionsApi/plateActions';
+import { getAllPlates,deletePlates } from '../../actionsApi/plateActions';
 
 const emptyProduct = {
   _id: null,
   plateName: '',
   urlImage: null,
   idImg: "",
-  plateDescription: '',
+  description: '',
   foodType: null,
   foodTime: null,
   price: 0,
@@ -101,11 +101,11 @@ const AddPlate: FC = () => {
         }
       },
       {
-        name: "plateDescription",
+        name: "description",
         label: "labels.plateForm.plateDescription",
         multiLine: true,
         componentName: COMPONENTSTYPE.input,
-        defaultValue: product.plateDescription,
+        defaultValue: product.description,
         rules: {
           required: 'plate description required',
           maxLength: {
@@ -154,7 +154,7 @@ const AddPlate: FC = () => {
       }
     ]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [product.foodType, product.plateDescription, product.plateName, product.price])
+  }, [product.foodType, product.description, product.plateName, product.price])
 
   useEffect(() => {
     debugger
@@ -166,7 +166,15 @@ const AddPlate: FC = () => {
   
   //#endregion
 
-
+ const deletePlate = async(selectedProducts:any[])=>{
+   const valueList  : any[] = []
+   selectedProducts.forEach(item=>{
+     valueList.push( { 
+       idPlate: item._id,
+       idImg: item.idImg })
+   })
+  return await deletePlates(valueList)
+ }
 
   const renderDataInDialog = (data: any) => {
     return (
@@ -181,7 +189,7 @@ const AddPlate: FC = () => {
         </Grid>
         {renderTemplate("labels.plateForm.plateName", data.plateName)}
         {renderTemplate("labels.stockForm.price", data.price)}
-        {renderTemplate("labels.plateForm.plateDescription", data.plateDescription)}
+        {renderTemplate("labels.plateForm.plateDescription", data.description)}
         {renderTemplate("labels.plateForm.foodTypeName", data.foodType)}
         {renderTemplate("labels.plateForm.foodTimeName", data.foodTime)}
         <Grid item xs={12} md={12}>
@@ -269,7 +277,7 @@ const AddPlate: FC = () => {
         idImg: idImg,
         showInMenu: plateActive,
         plateName: data.plateName,
-        plateDescription: data.plateDescription,
+        description: data.description,
         foodTime: selectList?.foodTime.find((x:any) => x.id === data.foodTimeName)?.label,
         foodType: selectList?.foodType.find((x) => x.id === data.foodTypeName)?.label,
         updatatedDate: Date.now(),
@@ -292,17 +300,15 @@ const AddPlate: FC = () => {
             color="primary" checked={plateActive} onChange={(event) => {
               setPlateActive(event.currentTarget.checked)
             }} name="plateActive" />}
-          label={"show in menu"}
+          label={ t('showInMenu')}
         />
       </Grid>
 
       <Grid item xs={12} md={6}>
         <InputMultiControl itemList={ingredientList} setItemList={setIngredientList}
-          controlLabel="Show in Menu"
           inputLabel="labels.plateForm.ingredients"
           itemName="ingredientName"
-          iconList={<LocalPizzaIcon />}
-          controlName="showInApp" />
+          iconList={<LocalPizzaIcon />} />
       </Grid>
       <Grid item xs={12} md={12}>
         <CloudinayComponent urlImage={urlImage}
@@ -311,6 +317,11 @@ const AddPlate: FC = () => {
     </Grid>
   );
 
+  const renderColumns =[
+    {field: "plateName", header: t("labels.plateForm.plateName") },
+    {field: "foodType", header: t("labels.plateForm.foodTypeName") },
+  ]
+
   return (
     <>
       {inputsForm &&
@@ -318,11 +329,13 @@ const AddPlate: FC = () => {
           clearFormAfterAction={true}
           childElement={childElement}
           actionSubmit={createOrUpdate}
-          inputs={inputsForm} createModel={memoizedCreateModel} haveMoneyInputs={true} />
+          inputs={inputsForm} createModel={memoizedCreateModel} haveMoneyInputs={false} />
       }
      <ItemList 
+        renderColumns={renderColumns}
+        deleteItems = {deletePlate}
         getItems={getAllPlates}
-        product={product} emptyProduct={emptyProduct}
+        product={product}
         renderDataInDialog={renderDataInDialog}
         products={products}
         setProducts={setProducts}

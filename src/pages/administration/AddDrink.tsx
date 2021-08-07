@@ -12,7 +12,7 @@ import CloudinayComponent from './CloudinayComponent';
 import { sendImageToCloudinary } from '../../components/cloudinaryFunctions';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { createOrUpdateDrink, getAllDrinks } from '../../actionsApi/drinkActions';
+import { createOrUpdateDrink, getAllDrinks,deleteDrinks } from '../../actionsApi/drinkActions';
 
 
 const emptyProduct = {
@@ -20,7 +20,7 @@ const emptyProduct = {
   drinkName: '',
   urlImage: null,
   idImg: "",
-  drinkDescription: '',
+  description: '',
   drinkType: null,
   price: 0,
   ingredients: []
@@ -82,11 +82,11 @@ const AddDrink: FC = () => {
         }
       },
       {
-        name: "drinkDescription",
+        name: "description",
         label: "labels.drinkForm.drinkDescription",
         multiLine: true,
         componentName: COMPONENTSTYPE.input,
-        defaultValue: product.drinkDescription,
+        defaultValue: product.description,
         rules: {
           required: 'drink description required',
           maxLength: {
@@ -122,7 +122,7 @@ const AddDrink: FC = () => {
       }
     ]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [product.drinkType, product.drinkDescription, product.drinkName, product.price])
+  }, [product.drinkType, product.description, product.drinkName, product.price])
 
   useEffect(() => {
     debugger
@@ -149,7 +149,7 @@ const AddDrink: FC = () => {
         </Grid>
         {renderTemplate("labels.drinkForm.drinkName", data.drinkName)}
         {renderTemplate("labels.stockForm.price", data.price)}
-        {renderTemplate("labels.drinkForm.drinkDescription", data.drinkDescription)}
+        {renderTemplate("labels.drinkForm.drinkDescription", data.description)}
         {renderTemplate("labels.drinkForm.drinkTypeName", data.drinkType)}
         {data.ingredients.lenght > 0 &&
          <Grid item xs={12} md={12}>
@@ -233,7 +233,7 @@ const AddDrink: FC = () => {
         idImg: idImg,
         showInMenu: drinkActive,
         drinkName: data.drinkName,
-        drinkDescription: data.drinkDescription,
+        description: data.description,
         drinkType: selectList?.find((x:any) => x.id === data.drinkTypeName)?.label,
         updatatedDate: Date.now(),
         price: data.price,
@@ -241,8 +241,22 @@ const AddDrink: FC = () => {
       };
   };
 
+  const deleteDrink = async(selectedProducts:any[])=>{
+    const valueList  : any[] = []
+    selectedProducts.forEach(item=>{
+      valueList.push( { 
+        idDrink: item._id,
+        idImg: item.idImg })
+    })
+   return await deleteDrinks(valueList)
+  }
+
   const memoizedCreateModel = useCallback(createModel, [product._id, product.urlImage, product.idImg, drinkActive, selectList, ingredientList.list, urlImage])
 
+  const renderColumns =[
+    {field: "drinkName", header: t("labels.drinkForm.drinkName") },
+    {field: "drinkType", header: t("labels.drinkForm.drinkTypeName") },
+  ]
   const childElement = (
     <Grid container spacing={1}>
       <Grid item xs={12} md={6}>
@@ -277,16 +291,18 @@ const AddDrink: FC = () => {
           clearFormAfterAction={true}
           childElement={childElement}
           actionSubmit={createOrUpdate}
-          inputs={inputsForm} createModel={memoizedCreateModel} haveMoneyInputs={true} />
+          inputs={inputsForm} createModel={memoizedCreateModel} haveMoneyInputs={false} />
       }
-     <ItemList 
+    <ItemList  
+        renderColumns={renderColumns}
+        deleteItems = {deleteDrink}
         getItems={getAllDrinks}
-        product={product} emptyProduct={emptyProduct}
+        product={product} 
         renderDataInDialog={renderDataInDialog}
         products={products}
         setProducts={setProducts}
         setProduct={setSeleted}
-      />
+      /> 
     </>
   );
 };

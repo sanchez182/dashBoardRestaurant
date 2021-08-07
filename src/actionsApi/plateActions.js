@@ -14,6 +14,13 @@ export const getAllPlates = async () => {
 return response.data
 }
 
+export const deletePlates = async (platesId) => {
+  const response = await service.deletePlates(platesId)
+  if (response.status === 200) {
+  }
+  //dispatch(apiCallSuccess())
+return response.data
+}
 
 export const createPlate = async ( body) => {
   const response = await  service.createPlate(body)

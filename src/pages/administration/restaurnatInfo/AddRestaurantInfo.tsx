@@ -177,7 +177,7 @@ const AddRestaurantInfo: FC = () => {
 
       <Grid item xs={12} md={6}>
         <InputMultiItem itemList={timeList} setItemList={setTimeList}
-          controlLabel="Show in Menu"
+          controlLabel={ t('showInMenu')}
           inputLabel="labels.restaurantInfo.foodTimeList"
           itemName="foodTimeName"
           iconList={<TimerIcon />}
@@ -185,7 +185,7 @@ const AddRestaurantInfo: FC = () => {
       </Grid>
       <Grid item xs={12} md={6}>
         <InputMultiItem itemList={typeList} setItemList={setTypeList}
-          controlLabel="Show in Menu"
+          controlLabel={ t('showInMenu')}
           inputLabel="labels.restaurantInfo.foodTypeList"
           itemName="foodTypeName"
           iconList={<FastfoodIcon />}
@@ -193,7 +193,7 @@ const AddRestaurantInfo: FC = () => {
       </Grid>
       <Grid item xs={12} md={6}>
         <InputMultiItem itemList={drinkList} setItemList={setDrinkList}
-          controlLabel="Show in Menu"
+          controlLabel={ t('showInMenu')}
           inputLabel="labels.restaurantInfo.drinkTypeList"
           itemName="drinkTypeName"
           iconList={<FastfoodIcon />}

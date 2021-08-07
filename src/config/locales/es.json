@@ -1,7 +1,9 @@
 {
   "home": "Home",
   "about": "About Us",
+  "image": "Imagen",
   "available": "Disponible",
+  "showInMenu": "Mostrar en el menú",
   "busy": "Ocupada",
   "plateInformation": "Información del platillo",
   "textSelectTable": "Seleccione su mesa",
