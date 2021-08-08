@@ -14,9 +14,13 @@ class TableService {
     
     getDataTables = async () => {
         return this.commonService.getRequest(`${this.endPoint}`,true)
-        //  return  this.getRequest(`${this.endPoint}`)
     }
 
+    deleteTable = async (id:any) => { 
+        return this.commonService.deleteByIdRequest(`${this.endPoint}${id}`,true)
+    }
+
+    
     createTable =(body:any)=>{
         return this.commonService.postRequest(`${this.endPoint}`,body,true)
     }

@@ -52,7 +52,7 @@ class CommonService {
         })
     }
 
-    public deleteRequest = async (endpoint: String,data:any,token:boolean) => {
+    public deleteWithDataRequest = async (endpoint: String,data:any,token:boolean) => {
         return new Promise(async (resolve, reject) => {
             this.getHttp(token)
                 .delete(`${endpoint}`, { data })
@@ -64,6 +64,21 @@ class CommonService {
                 })
         })
     }
+
+    public deleteByIdRequest = async (endpoint: string,token:boolean) => {
+        return new Promise(async (resolve, reject) => {
+            this.getHttp(token)
+                .delete(endpoint)
+                .then(response => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    }
+
+   
 }
 
 export default CommonService;

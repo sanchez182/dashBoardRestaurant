@@ -58,7 +58,6 @@ const AddPlate: FC = () => {
   //#region effects
  
   useEffect(() => {
-    debugger
     const foodType: IinterfaceList[] = [];
     const foodTime: IinterfaceList[] = [];
     foodTypeList.forEach((element, index) => {
@@ -157,7 +156,6 @@ const AddPlate: FC = () => {
   }, [product.foodType, product.description, product.plateName, product.price])
 
   useEffect(() => {
-    debugger
     if (selectList.foodType.length > 0 && product._id !== null) {
       setInputs(selectList)
     }

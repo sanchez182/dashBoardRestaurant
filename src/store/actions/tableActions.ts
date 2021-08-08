@@ -1,4 +1,4 @@
-import { SET_TABLES,UPDATE_SELECTED_TABLE ,ITableModel,
+import { SET_TABLES,ADD_TABLE,UPDATE_SELECTED_TABLE ,ITableModel,
   ITableAction} from './actionsInterfaces/ITableActions';
 
 
@@ -7,6 +7,14 @@ ITableAction => {
   
   return {
     type: SET_TABLES,
+    payload 
+  }
+}
+
+export const addNewTable = (payload: ITableModel[]):
+ITableAction => {
+  return {
+    type: ADD_TABLE,
     payload 
   }
 }

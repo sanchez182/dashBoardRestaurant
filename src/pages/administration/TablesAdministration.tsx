@@ -1,7 +1,5 @@
 import { useEffect, FC, useState } from "react";
 import {
-  Paper,
-  Avatar,
   CardContent,
   Grid,
   CardHeader,
@@ -13,7 +11,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import {
   createOrUpdateTable,
-  getTableData,
+  getTableData, deleteTable
 } from "../../actionsApi/tableActions";
 import DeckIcon from "@material-ui/icons/Deck";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -21,116 +19,136 @@ import { RootState } from "../../store";
 import { COMPONENTSTYPE } from "../../components/EnumsComponents";
 import SharedForm from "../../components/SharedForm";
 import { ITableModel } from "../../store/actions/actionsInterfaces/ITableActions";
-import Cloury from "./CloudinayComponent";
- 
+import { useTranslation } from 'react-i18next';
 
+const tableTypeOptions = [
+  {
+    id: 1,
+    label: "VIP",
+  },
+  {
+    id: 2,
+    label: "Standar",
+  },
+]
 
 const TablesAdministration: FC = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
+
   const tableList: ITableModel[] = useSelector(
     (state: RootState) => state.tablesData
   );
   const [state, setState] = useState<ITableModel[]>([]);
 
   ;
-  useEffect(() => { 
+  useEffect(() => {
     dispatch(getTableData());
   }, [dispatch]);
 
   useEffect(() => {
+    debugger
     setState(tableList);
   }, [tableList]);
 
   const addNewTable = () => {
     const tables = [...state];
-
     tables.push({
       _id: null,
       tableNumber: state[state.length - 1].tableNumber + 1,
       selected: false,
       type: "",
-      state: "",
     });
 
     setState(tables);
   };
 
-  const deleteItem = (table: any) => {
+  const availableOptions = [
+    {
+      id: 1,
+      label: t("labels.tableAdministration.available")
+    },
+    {
+      id: 2,
+      label: t("labels.tableAdministration.notAvailable")
+    },
+  ]
+
+  const deleteItem = (table: ITableModel) => {
+    debugger
     if (!table._id) {
-      let tables = [...state];
-      tables = tables.filter((x: any) => x.tableNumber !== table.tableNumber);
-      setState(tables);
+      deleteItemFromState(table.tableNumber)
+    } else {
+      deleteTable(table._id).then(() => {
+        deleteItemFromState(table.tableNumber)
+      })
     }
-    
   }
-  const createModel = (data: any, itemState: any, idElement: string) => {
-    const model = {
+
+  const deleteItemFromState = (tableNumber: number) => {
+    let tables = [...state];
+    tables = tables.filter((x: ITableModel) => x.tableNumber !== tableNumber);
+    setState(tables);
+  }
+
+  const createModel = async (data: { available: number, tableType: number }, itemState: any, idElement: string) => {
+    return {
       _id: idElement,
-      tableNumber: 1,
-      selected: data.available,
-      type: data.tableType,
-      state: "",
+      tableNumber: state.find((x: ITableModel) => x._id === idElement)?.tableNumber,
+      selected: data.available === 1 ? true : false,
+      type: tableTypeOptions.find((x: { id: number, label: string }) => x.id === data.tableType)?.label,
     };
     ;
   };
 
-  const inputs = [
-    {
-      name: "tableType",
-      label: "labels.tableAdministration.tableType",
-      componentName: COMPONENTSTYPE.select,
-      rules: {
-        required: "labels.restaurantInfo.fieldError",
+  const renderInputs = (table: ITableModel) => {
+    return [
+      {
+        name: "tableType",
+        label: "labels.tableAdministration.tableType",
+        componentName: COMPONENTSTYPE.select,
+        defaultValue: table.type === "VIP" ? 1 : 2,
+        rules: {
+          required: "labels.restaurantInfo.fieldError",
+        },
+        options: tableTypeOptions,
       },
-      options: [
-        {
-          id: 1,
-          label: "VIP",
+      {
+        name: "available",
+        label: "labels.tableAdministration.available",
+        componentName: COMPONENTSTYPE.select,
+        defaultValue: !table.selected ? 1 : 2,
+        options: availableOptions,
+        rules: {
+          required: "labels.restaurantInfo.fieldError",
         },
-        {
-          id: 2,
-          label: "Standar",
-        },
-      ],
-    },
-    {
-      name: "available",
-      label: "labels.tableAdministration.available",
-      componentName: COMPONENTSTYPE.select,
-      options: [
-        {
-          id: 1,
-          label: "Disponible",
-        },
-        {
-          id: 2,
-          label: "Ocupada",
-        },
-      ],
-      rules: {
-        required: "labels.restaurantInfo.fieldError",
       },
-    },
-  ];
+    ];
+
+  }
 
   return (
     <Grid container >
       <Grid item xs={12} md={12} spacing={3}>
         <Button variant="contained" color="primary" onClick={addNewTable}>
-          Agregar nueva mesa
+          {t("labels.tableAdministration.addNewTable")}
         </Button>
       </Grid>
- {/*      <Cloury/> */}
-       {state.length > 0 &&
+
+      {state.length > 0 &&
         state.map((element: ITableModel) => {
           return (
-            <Card
+            <Card key={element.tableNumber}
               elevation={3}
+              style={{
+                marginRight: "6px",
+                marginBottom: "6px"
+              }}
             >
               <CardHeader
                 title={
                   <h3 >
-                    Mesa # {element.tableNumber}
+                    {t("labels.tableAdministration.table")} # {element.tableNumber}
                   </h3>
                 }
                 action={
@@ -144,7 +162,7 @@ const TablesAdministration: FC = () => {
                 <Icon>
                   <DeckIcon
                     style={{ fontSize: "9.71875rem", marginLeft: "26%" }}
-                    color="secondary"
+                    color={element.selected ? "secondary" : "primary"}
                   />
                 </Icon>
                 <Grid item xs={12}>
@@ -153,7 +171,7 @@ const TablesAdministration: FC = () => {
                     fullWidthForm={true}
                     createModel={createModel}
                     actionSubmit={createOrUpdateTable}
-                    inputs={inputs}
+                    inputs={renderInputs(element)}
                     haveMoneyInputs={false}
                   />
                 </Grid>
@@ -161,7 +179,7 @@ const TablesAdministration: FC = () => {
               </CardContent>
             </Card>
           );
-        })} 
+        })}
     </Grid>
   );
 };

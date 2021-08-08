@@ -77,8 +77,10 @@
       },
       "tableAdministration":{
         "tableType": "Table Type",
-        "available": "Available"
-        
+        "addNewTable": "Add new table",
+        "table": "Table",
+        "available": "Available",
+        "notAvailable": "Not available"
       }
   
     },

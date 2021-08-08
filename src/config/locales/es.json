@@ -76,7 +76,10 @@
     },
     "tableAdministration": {
       "tableType": "Tipo de mesa",
-      "available": "Disponible"
+      "addNewTable": "Agregar nueva mesa",
+      "table": "Mesa", 
+      "available": "Disponible",
+      "notAvailable": "Ocupada"
     }
   },
     "header": {

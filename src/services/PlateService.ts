@@ -25,7 +25,7 @@ class PlateService {
     }
 
     deletePlates = async (data:any) => {
-        return this.commonService.deleteRequest(`${this.endPoint}`,data,true)
+        return this.commonService.deleteWithDataRequest(`${this.endPoint}`,data,true)
     }
     
 

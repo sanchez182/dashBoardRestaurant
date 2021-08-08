@@ -1,12 +1,9 @@
-import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import TimerIcon from "@material-ui/icons/Timer";
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AddButton from '@material-ui/icons/Add';
 import { List, ListItem, ListItemText, ListItemAvatar, Avatar, ListItemSecondaryAction, FormControlLabel } from "@material-ui/core";
 import Switch from '@material-ui/core/Switch';
-
 import TextField from "@material-ui/core/TextField";
 import { useTranslation } from 'react-i18next';
 import { useRef } from 'react';
@@ -47,8 +44,6 @@ export default function InputMultiItem({ itemList, setItemList,iconList,controlL
         fullWidth={true}
         label={t(inputLabel)}
         variant="filled"
-      /*               error={isError}
-                    helperText={errorMessage} */
       />
 
 

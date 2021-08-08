@@ -56,6 +56,7 @@ const SharedForm = ({ actionSubmit, createModel, idElement, clearFormAfterAction
   const [state, setstate] = useState<any>({ inputs: [], itemState: {} })
 
   const { t: tranlation } = useTranslation();
+  
   const [currency, setCurrency] = React.useState('$');
   const { loadingRequest } = useSelector((state: RootState) => state.requestReducer);
 
