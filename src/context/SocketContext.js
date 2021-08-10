@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { createContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { updateTable } from '../actionsApi/tableActions';
 import { useSocket } from '../hooks/useSocket'
 import { setOrderState } from '../store/actions/ordersActions';
 import { checkRestaurantTableSeledted } from '../store/actions/tableActions';
 export const SocketContext = createContext();
-
+ 
 
 export const SocketProvider = ({ children }) => {
 
@@ -31,20 +32,26 @@ export const SocketProvider = ({ children }) => {
 
     //TODO: modificar forma de cambiar la data de la mesa seleccionada
     useEffect(() => {
-        socket?.on('table', (mensaje) => {
-            
-            const table = tableList.find(x => x.tableNumber === mensaje.tableNumber)
-            const index = tableList.findIndex(x => x.tableNumber === mensaje.tableNumber)
-            table.selected = mensaje.selected
+        socket?.on('table', (seletedTable) => {
+            debugger
+            //_id: string
+            const table = tableList.find(x => x._id === seletedTable._id)
+            table.selected =  seletedTable.isSelected
+            updateTable(seletedTable._id,table).then((response=>{
+debugger
+            }))
+           
+    /*          const index = tableList.findIndex(x => x.tableNumber === seletedTable.tableNumber)
+            table.selected = seletedTable.selected
             tableList[index] = table
-            dispatch(checkRestaurantTableSeledted(tableList))
+            dispatch(checkRestaurantTableSeledted(tableList)) */
         })
 
     }, [socket, dispatch]);
 
     useEffect(() => {
-        socket?.on('newOrder', (data) => {
-            
+        socket?.on('new-order', (data) => {
+            debugger
             const {_id,state,restaurant,itemsOrder,tableNumber} = data
             orders.push({
                 _id,

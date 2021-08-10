@@ -26,9 +26,8 @@ class TableService {
     }
 
     updateTable =(idTable:string,body:any)=>{
-        return this.commonService.pustRequest(`${this.endPoint}/${idTable}`,body,true)
+        return this.commonService.pustRequest(`${this.endPoint}${idTable}`,body,true)
     }
-
 }
 
 export default TableService;

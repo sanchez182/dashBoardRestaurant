@@ -47,7 +47,6 @@ const TablesAdministration: FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    debugger
     setState(tableList);
   }, [tableList]);
 
@@ -75,7 +74,6 @@ const TablesAdministration: FC = () => {
   ]
 
   const deleteItem = (table: ITableModel) => {
-    debugger
     if (!table._id) {
       deleteItemFromState(table.tableNumber)
     } else {
@@ -95,7 +93,7 @@ const TablesAdministration: FC = () => {
     return {
       _id: idElement,
       tableNumber: state.find((x: ITableModel) => x._id === idElement)?.tableNumber,
-      selected: data.available === 1 ? true : false,
+      selected: data.available === 1 ? false : true,
       type: tableTypeOptions.find((x: { id: number, label: string }) => x.id === data.tableType)?.label,
     };
     ;
@@ -117,7 +115,7 @@ const TablesAdministration: FC = () => {
         name: "available",
         label: "labels.tableAdministration.available",
         componentName: COMPONENTSTYPE.select,
-        defaultValue: !table.selected ? 1 : 2,
+        defaultValue: table.selected ? 2 : 1,
         options: availableOptions,
         rules: {
           required: "labels.restaurantInfo.fieldError",

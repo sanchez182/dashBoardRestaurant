@@ -1,6 +1,7 @@
 import TableService from "../services/TableService";
 import store from "../store";
 import { setOpenMessageAlert } from "../store/actions/messageAlertActions";
+import { checkRestaurantTableSeledted } from "../store/actions/restaurantActions";
 import { addNewTable, setDataToTables } from "../store/actions/tableActions";
 
 
@@ -27,9 +28,11 @@ export const createTable = async (body) => {
 }
 
 export const updateTable = async (idTable, body) => {
+  delete body._id;
+  delete body.__v;
   const response = await service.updateTable(idTable, body)
-  dispatch(setOpenMessageAlert({ show: true, message: `Se actualizó correctamente la mesa número ${response.data.table.tableNumber}`, severity: 'success' }));
-  dispatch(setDataToTables(response.data))
+  dispatch(setOpenMessageAlert({ show: true, message: `Se actualizó correctamente la mesa número ${response.data.table.value.tableNumber}`, severity: 'success' }));
+  dispatch(checkRestaurantTableSeledted([response.data.table.value]))
   return true
 }
 

@@ -19,7 +19,7 @@ ITableAction => {
   }
 }
 
-export const checkRestaurantTableSeledted = (payload: any):
+export const checkRestaurantTableSeledted = (payload: ITableModel[]):
 ITableAction => {
   return {
     type: UPDATE_SELECTED_TABLE,

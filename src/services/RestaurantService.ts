@@ -10,7 +10,6 @@ class RestaurantService {
     }
 
     getRestaurantData = async () => {
-        debugger
         return this.commonService.getRequest(`${this.endPoint}`,true)
     }
 

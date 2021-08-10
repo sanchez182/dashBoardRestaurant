@@ -61,7 +61,6 @@ export const successHandler = (response) => {
 };
 
 export const interceptorHttp = (processUrl, token) => {
-    debugger
     const content = 'application/json'
     let customHeaders = []
     if (token) {

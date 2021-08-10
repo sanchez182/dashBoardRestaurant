@@ -66,7 +66,6 @@ const AddDrink: FC = () => {
   }, [])
  
   const setInputs = useCallback((selectList) => {
-    debugger
     setInputsForm([
       {
         name: "drinkName",
@@ -125,7 +124,6 @@ const AddDrink: FC = () => {
   }, [product.drinkType, product.description, product.drinkName, product.price])
 
   useEffect(() => {
-    debugger
     if (selectList.length > 0 && product._id !== null) {
       setInputs(selectList)
     }

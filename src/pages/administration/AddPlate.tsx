@@ -84,7 +84,6 @@ const AddPlate: FC = () => {
   }, [])
  
   const setInputs = useCallback((selectList) => {
-    debugger
     setInputsForm([
       {
         name: "plateName",

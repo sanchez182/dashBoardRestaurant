@@ -46,7 +46,8 @@ const Tables = ({ numberTable, isSelected, flipTable, order }: TablesType) => {
                                 marginLeft: "16px",
                                 marginTop: "8px"
                             }}
-                        > #{numberTable}</p>}
+                        > Mesa #{numberTable}</p>}
+                        subheader={order?.state && `Estado : ${order?.state}`}
                     />
                     <Grow
                         in={flipTable}
