@@ -3,6 +3,10 @@ import DeckIcon from '@material-ui/icons/Deck';
 import Avatar from '@material-ui/core/Avatar';
 import Grow from '@material-ui/core/Grow';
 import { IOrder } from '../store/actions/actionsInterfaces/IOrdersActions';
+import { SocketContext } from '../context/SocketContext';
+import { useContext } from 'react';
+import { RootState } from '../store';
+import { useSelector } from 'react-redux';
 interface TablesType {
     numberTable: number;
     isSelected: boolean ,//'inherit' | 'primary' | 'secondary' | 'action' | 'disabled' | 'error';
@@ -28,8 +32,17 @@ const Tables = ({ numberTable, isSelected, flipTable, order }: TablesType) => {
     const classes = useStyles(); 
     const avatar  = isSelected ? "#f1f1f196" : "#0062cca1"
     
-    const colorAvatar = isSelected ? "error" : "primary"
+    const {_id}  = useSelector((state:RootState) => state.restaurantData.restaurantInfo);
 
+    const colorAvatar = isSelected ? "error" : "primary"
+    const { socket } = useContext(SocketContext);
+    const takeOrder = () => { 
+        socket.emit('change-order-status', {
+          state: "Orden en proceso",
+          restaurant: _id,
+          orderId: order?._id
+        });
+      }
     return (
         <Grid item xs={4} md={4} >
             <Card className={classes.root} style={{ backgroundColor: "#f1f1f196" }} >
@@ -65,7 +78,7 @@ const Tables = ({ numberTable, isSelected, flipTable, order }: TablesType) => {
                                         {
                                             order.itemsOrder.itemsFood.length > 0 && order.itemsOrder.itemsFood.map((food: any) => {
                                                 return <div style={{   display: 'flex', justifyContent: 'space-between', marginBottom: '8px'}}>
-                                                    <strong>  <p>{food.plateName} Cant: {food.cant} </p> </strong>
+                                                    <strong>  <p>{food.plate.plateName} Cant: {food.quantity} </p> </strong>
                                                     <Button size="small" variant="contained" color="primary"
                                                     style={{   marginLeft :'12px'}}
                                                      onClick={() => console.log("Botomo")}>
@@ -78,7 +91,7 @@ const Tables = ({ numberTable, isSelected, flipTable, order }: TablesType) => {
                                         {
                                             order.itemsOrder.itemsDrink.length > 0 && order.itemsOrder.itemsDrink.map((drink: any) => {
                                                 return <div style={{    display: 'flex', justifyContent: 'space-between', marginBottom: '8px'}}>
-                                                    <strong><p>{drink.drinkName}  Cant: {drink.cant}</p></strong> 
+                                                    <strong><p>{drink.drink.drinkName}  Cant: {drink.quantity}</p></strong> 
                                                     <Button size="small" variant="contained" color="primary"
                                                     style={{   marginLeft :'12px'}}
                                                     onClick={() => console.log("Botomo")}>
@@ -101,7 +114,7 @@ const Tables = ({ numberTable, isSelected, flipTable, order }: TablesType) => {
                     {...(flipTable ? { timeout: 1000 } : {})}
                 >
                     <CardActions>
-                        <Button variant="contained" size="small" color="primary">
+                        <Button variant="contained" onClick={takeOrder} size="small" color="primary">
                             Procesar Orden
                         </Button>
                         <Button variant="contained" size="small" color="primary"

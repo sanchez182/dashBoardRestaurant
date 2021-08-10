@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { createContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { createOrder, getOrderById } from '../actionsApi/orderActions';
 import { updateTable } from '../actionsApi/tableActions';
 import { useSocket } from '../hooks/useSocket'
 import { setOrderState } from '../store/actions/ordersActions';
@@ -51,16 +52,26 @@ debugger
 
     useEffect(() => {
         socket?.on('new-order', (data) => {
-            debugger
-            const {_id,state,restaurant,itemsOrder,tableNumber} = data
-            orders.push({
-                _id,
-                state,
-                tableNumber,
-                idRestaurant: restaurant,
-                itemsOrder
-            })
+            debugger 
+            createOrder(data).then(response=>{
+                debugger
+                const {_id,state,restaurant,itemsOrder,tableNumber} = response.order
+                orders.push({
+                    _id,
+                    state,
+                    tableNumber,
+                    idRestaurant: restaurant,
+                    itemsOrder
+         /*       getOrderById(response.Order._id).then(algo=>{
+                   debugger
+               
+            }) */
+               })
+                
+            
             dispatch(setOrderState(orders))
+            })
+           
         })
 
     }, [socket, dispatch]);

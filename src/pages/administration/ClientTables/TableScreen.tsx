@@ -1,7 +1,6 @@
 import { Grid } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next'
 import Tables from '../../../components/Tables';
 import { RootState } from '../../../store';
 import { IOrder } from '../../../store/actions/actionsInterfaces/IOrdersActions';
@@ -10,15 +9,7 @@ import { getTableData } from '../../../actionsApi/tableActions';
 
 
 const TableScreen = () => {
-/*     //tableList 
-    _id: string | null,
-    tableNumber : number,
-    selected : boolean ,
-    type : string ,
-    state : string , */
-    const { t } = useTranslation();
     const dispatch = useDispatch();
-    const { language } = useSelector((state:RootState) => state.lang);
     const  tableList: ITableModel[]  = useSelector((state:RootState) => state.tablesData);
     const {  orders } = useSelector((state:RootState)=> state.orderData);
   
