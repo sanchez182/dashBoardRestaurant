@@ -7,11 +7,10 @@ import { SocketContext } from '../context/SocketContext';
 import { useContext } from 'react';
 import { RootState } from '../store';
 import { useSelector } from 'react-redux';
+import { IAppStatus } from '../store/actions/actionsInterfaces/IAppStatusActions';
 interface TablesType {
     numberTable: number;
-    isSelected: boolean ,//'inherit' | 'primary' | 'secondary' | 'action' | 'disabled' | 'error';
-    flipTable: boolean,
-    order: IOrder | undefined
+    order: IOrder
 }
 
 
@@ -20,7 +19,8 @@ interface TablesType {
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            maxWidth: 345,
+            maxWidth: "90%",
+            marginBottom: "6px"
         },
         paper: {
             margin: theme.spacing(1),
@@ -28,30 +28,39 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-const Tables = ({ numberTable, isSelected, flipTable, order }: TablesType) => {
+const Tables = ({ numberTable, order }: TablesType) => {
     const classes = useStyles(); 
-    const avatar  = isSelected ? "#f1f1f196" : "#0062cca1"
+    //2 = orden cancelada
+    const avatar  = order && order?.state === 2 ? "red" :  (order?.state === 1 ? "#b7ce3f" : "#0062cca1")
     
     const {_id}  = useSelector((state:RootState) => state.restaurantData.restaurantInfo);
-
-    const colorAvatar = isSelected ? "error" : "primary"
+    const {orderStatus} : IAppStatus  = useSelector((state:RootState) => state.appStatus);
+    const lang = useSelector((state:RootState) => state.lang).language //En BD se guardan los label{Letras en mayuscula}
+ 
     const { socket } = useContext(SocketContext);
     const takeOrder = () => { 
         socket.emit('change-order-status', {
-          state: "Orden en proceso",
+          state: 3, //orden en proceso
           restaurant: _id,
           orderId: order?._id
         });
-      }
+      } 
+
     return (
-        <Grid item xs={4} md={4} >
+        <Grid item xs={12} md={4} >
+            
+            <Grow
+                        in={true}
+                        style={{ transformOrigin: '0 0 0' }}
+                        {...(true ? { timeout: 1000 } : {})}
+                    >
             <Card className={classes.root} style={{ backgroundColor: "#f1f1f196" }} >
                 <CardActionArea>
                     <CardHeader style= {{ backgroundColor: avatar}}
                         avatar={
                             <Avatar  >
                                 <DeckIcon fontSize={"large"}
-                               color={colorAvatar} />
+                               color="primary" />
                             </Avatar>
                         }
                         title={<p
@@ -60,13 +69,8 @@ const Tables = ({ numberTable, isSelected, flipTable, order }: TablesType) => {
                                 marginTop: "8px"
                             }}
                         > Mesa #{numberTable}</p>}
-                        subheader={order?.state && `Estado : ${order?.state}`}
+                        subheader={orderStatus && `Estado : ${orderStatus.find((x) => x.id === order.state)[`label${lang}`]}`}
                     />
-                    <Grow
-                        in={flipTable}
-                        style={{ transformOrigin: '0 0 0' }}
-                        {...(flipTable ? { timeout: 1000 } : {})}
-                    >
                         <>
                             {order && (order.itemsOrder.itemsFood.length > 0 || order.itemsOrder.itemsDrink.length > 0) &&
                                 <CardContent style={{
@@ -100,31 +104,25 @@ const Tables = ({ numberTable, isSelected, flipTable, order }: TablesType) => {
                                                 </div>
                                             })
                                         }
+                                        
+                                        <p><strong>Observaciones : </strong> {order.extraInfo}</p>
                                     </div>
 
                                 </CardContent>
                             }
                         </>
-                    </Grow>
-
                 </CardActionArea>
-                <Grow
-                    in={flipTable}
-                    style={{ transformOrigin: '0 0 0' }}
-                    {...(flipTable ? { timeout: 1000 } : {})}
-                >
                     <CardActions>
                         <Button variant="contained" onClick={takeOrder} size="small" color="primary">
                             Procesar Orden
                         </Button>
                         <Button variant="contained" size="small" color="primary"
                             onClick={() => { }} >
-                            Orden finalizada
+                            Finalizar Orden
                         </Button>
                     </CardActions>
-                </Grow>
             </Card>
-
+            </Grow>
         </Grid>
     );
 }

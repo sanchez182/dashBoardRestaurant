@@ -2,26 +2,21 @@
 export const SET_ORDER_STATE = 'SET_ORDER_STATE'; 
 
 export interface IOrder {
-  _id: String | null,
-  idRestaurant: String | null,
+  _id: string | null,
+  idRestaurant: string | null,
   tableNumber: number,
+  extraInfo: string,
   itemsOrder: {
     itemsFood: [],
     itemsDrink: [],
   }
-  state: String,
+  state: number,
   date: Date | null
 }
  
-
- 
-
-export interface IOrdersModel { orders : IOrder[]}
-
-
 interface SetOrderAction {
-  type: String;
-  payload: IOrdersModel;
+  type: string;
+  payload: IOrder[];
 }
 
 export type IOrders= SetOrderAction;

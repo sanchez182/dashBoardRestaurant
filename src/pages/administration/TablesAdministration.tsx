@@ -7,6 +7,7 @@ import {
   Icon,
   Card,
   IconButton,
+  CardActions,
 } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -175,6 +176,11 @@ const TablesAdministration: FC = () => {
                 </Grid>
 
               </CardContent>
+              <CardActions style={{justifyContent:"center"}}>
+                        <Button variant="contained"  color="primary">
+                            Cancelar Orden
+                        </Button> 
+                    </CardActions>
             </Card>
           );
         })}

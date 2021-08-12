@@ -13,6 +13,7 @@ import { AUTH_LOGOUT } from './actions/actionsInterfaces/IAuthActions';
 import ordersReducer from './reducers/ordersReducer';
 import tablesReducer from './reducers/tablesReducer';
 import imagesReducer from './reducers/imagesReducer';
+import appStatusReducer from './reducers/appStatusReducer';
 
 const appReducer = combineReducers({
   lang: langReducer,
@@ -22,6 +23,7 @@ const appReducer = combineReducers({
   openMessageAlert:alertComponentReducer,
   requestReducer,
   restaurantData: restaurantReducer, 
+  appStatus: appStatusReducer,
   orderData: ordersReducer,
   tablesData: tablesReducer,
   imagesReducer

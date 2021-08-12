@@ -7,6 +7,8 @@ import { SpeedDial, SpeedDialIcon, SpeedDialAction } from '@material-ui/lab';
 import { withTranslation } from 'react-i18next';
 import i18n from '../config/i18n';
 import languageOptions from '../config/languageOptions';
+import { setLanguage } from '../store/actions/langActions';
+import { useDispatch } from 'react-redux';
 
 
 //TODO agregar el nombre del restaurante en el header
@@ -14,7 +16,7 @@ const SpecialDialLenguage = (props) => {
     const { t } = props;
     const [lang, setLang] = useState(languageOptions[0]);
     const [openLang, setOpenLang] = React.useState(false);
-
+    const dispatch = useDispatch()
 
 
     const closeLanguage = () => {
@@ -26,6 +28,7 @@ const SpecialDialLenguage = (props) => {
 
     const changeLang = async (language) => {
         setLang(language);
+        dispatch(setLanguage(language.shortLabel))
         i18n.changeLanguage(language.value);
         closeLanguage();
     };

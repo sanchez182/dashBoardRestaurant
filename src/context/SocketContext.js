@@ -14,7 +14,7 @@ export const SocketProvider = ({ children }) => {
     const { socket, online, conectarSocket, desconectarSocket } = useSocket('http://localhost:4002');
     const { uid } = useSelector(state => state.auth);
     const { _id } = useSelector((state) => state.restaurantData.restaurantInfo);
-    const {  orders } = useSelector((state) => state.orderData);
+    const  orders = useSelector((state) => state.orderData);
     const tableList = useSelector((state) => state.tablesData);
     
     const dispatch = useDispatch()
@@ -53,49 +53,26 @@ debugger
     useEffect(() => {
         socket?.on('new-order', (data) => {
             debugger 
-            createOrder(data).then(response=>{
-                debugger
-                const {_id,state,restaurant,itemsOrder,tableNumber} = response.order
-                orders.push({
-                    _id,
-                    state,
-                    tableNumber,
-                    idRestaurant: restaurant,
-                    itemsOrder
-         /*       getOrderById(response.Order._id).then(algo=>{
-                   debugger
-               
-            }) */
-               })
-                
-            
-            dispatch(setOrderState(orders))
-            })
+            const newOrder = [...orders]
+            const {_id,state,extraInfo,restaurant,itemsOrder,tableNumber} = data
+            const exists = newOrder.findIndex((x)=> x._id === data._id)
+            if(exists > 0){
+                newOrder[exists] = data
+            }else{
+                newOrder.push({
+                _id,
+                state,
+                extraInfo,
+                tableNumber,
+                idRestaurant: restaurant,
+                itemsOrder
+           })
+            }
+        dispatch(setOrderState(newOrder))
            
         })
 
     }, [socket, dispatch]);
-
-    /*     useEffect(() => {
-            socket?.on('newOrder', (orderDB) => {
-                
-                state: "Enviado",
-                idRestaurant: _id,
-                itemsFood: renderFood, // mesa seleccionada
-                itemsDrink: renderDrink
-    
-                const order = orders.find(x => x.idOrder === orderDB._id)
-                const index = orders.findIndex(x => x.idOrder === orderDB._id)
-                order.state = orderDB.orderState
-                orders[index] = order
-                dispatch(setOrderState(orders))
-            })
-    
-        }, [socket, dispatch]); */
-    //    //{ idOrder: payload._id, orderState: payload.state }
-
-
-
     return (
         <SocketContext.Provider value={{ socket, online }}>
             {children}
