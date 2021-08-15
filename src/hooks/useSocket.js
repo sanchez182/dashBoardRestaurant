@@ -10,14 +10,13 @@ export const useSocket = ( serverPath ) => {
     const { _id } = useSelector((state) => state.restaurantData.restaurantInfo);
 
     const conectarSocket = useCallback( () => {
-
+        debugger
      //   const token = localStorage.getItem('token');
         const socketTemp = io.connect( serverPath, { 
             transports: ['websocket'],
             autoConnect: true,
             forceNew: true,
             query: {
-                isClient: true,
                 uidClient : _id
             }
         });
@@ -38,7 +37,9 @@ export const useSocket = ( serverPath ) => {
     }, [ socket ])
 
     useEffect(() => {
-        socket?.on('disconnect', () => setOnline( false ));
+        socket?.on('disconnect', () => {
+            debugger
+            setOnline( false )});
     }, [ socket ])
 
     return {

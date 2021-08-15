@@ -28,6 +28,12 @@ class OrderService {
         return this.commonService.pustRequest(`${this.endPoint}${idOrder}`,body,true)
     }
 
+    updateOrderStatus = async (state:number,idOrder:string)=>{
+        return this.commonService.pustRequest(`${this.endPoint}${idOrder}/${state}`,{},true)
+    }
+
+    
+
     deleteOrders = async (data:any) => {
         return this.commonService.deleteWithDataRequest(`${this.endPoint}`,data,true)
     }

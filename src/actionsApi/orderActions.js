@@ -38,6 +38,13 @@ export const updateOrder = async (idOrder, body) => {
   return false
 }
 
+export const updateOrderStatus = async (state, idOrder) => {
+  const response = await service.updateOrderStatus(state, idOrder)
+    dispatch(setOpenMessageAlert({ show: true, message: 'Se actualizo el estado de la orden', severity: 'success' }));
+  return response.data
+}
+
+
 
 export const createOrUpdateOrder = async (body) => {
   let dataImage = null
