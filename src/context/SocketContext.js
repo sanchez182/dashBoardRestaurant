@@ -4,7 +4,7 @@ import { createContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createOrUpdateTable } from '../actionsApi/tableActions';
 import { useSocket } from '../hooks/useSocket'
-import { setOrderState } from '../store/actions/ordersActions';
+import { setOrderState, updateSocketClientId } from '../store/actions/ordersActions';
 export const SocketContext = createContext();
  
 
@@ -14,17 +14,15 @@ export const SocketProvider = ({ children }) => {
 /*     const { uid } = useSelector(state => state.auth); */
     const { _id } = useSelector((state) => state.restaurantData.restaurantInfo);
     const tableList = useSelector((state) => state.tablesData); 
-    debugger 
     const dispatch = useDispatch()
+    
     useEffect(() => {
-        debugger
         if (_id) {
             conectarSocket();
         }
     }, [conectarSocket]);
 
     useEffect(() => {
-        debugger
         if (!_id) {
             desconectarSocket();
         }
@@ -33,7 +31,6 @@ export const SocketProvider = ({ children }) => {
     //TODO: modificar forma de cambiar la data de la mesa seleccionada
      useEffect(() => {
         socket?.on('table', (seletedTable) => {
-            debugger
             const table = tableList.find(x => x._id === seletedTable._id)
             table.selected =  seletedTable.isSelected
             createOrUpdateTable(table)
@@ -42,8 +39,17 @@ export const SocketProvider = ({ children }) => {
     }, [socket, dispatch]); 
 
     useEffect(() => {
-        socket?.on('new-order', (order) => {
+        socket?.on('new-client-id-order', (order) => {
             debugger
+             dispatch(updateSocketClientId([order]))
+        })
+
+    }, [socket, dispatch]); 
+
+
+    
+    useEffect(() => {
+        socket?.on('new-order', (order) => {
              dispatch(setOrderState(order))
         })
 

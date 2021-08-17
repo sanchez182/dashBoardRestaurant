@@ -24,7 +24,7 @@ export const createTable = async (body) => {
   const response = await service.createTable(body)
   dispatch(setOpenMessageAlert({ show: true, message: `Se creó correctamente la mesa número ${response.data.table.tableNumber}`, severity: 'success' }));
   dispatch(addNewTable([response.data.table]))
-  return true
+  return [response.data.table]
 }
 
 const getModel = (body)=>{
@@ -36,14 +36,12 @@ const getModel = (body)=>{
 export const updateTable = async (idTable, body) => { 
   const response = await service.updateTable(idTable, body)
   dispatch(setOpenMessageAlert({ show: true, message: `Se actualizó correctamente la mesa número ${response.data.table.value.tableNumber}`, severity: 'success' }));
-  debugger
   dispatch(checkRestaurantTableSeledted([response.data.table.value]))
-  return true
+  return [response.data.table.value]
 }
 
 
 export const createOrUpdateTable = async (body) => {
-  debugger
   const model  = getModel(body)
   if (body._id) {
     return await updateTable(body._id, model)

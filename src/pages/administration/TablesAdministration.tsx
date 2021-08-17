@@ -1,4 +1,4 @@
-import { useEffect, FC, useState } from "react";
+import { useEffect, FC, useState, useContext } from "react";
 import {
   CardContent,
   Grid,
@@ -21,6 +21,7 @@ import { COMPONENTSTYPE } from "../../components/EnumsComponents";
 import SharedForm from "../../components/SharedForm";
 import { ITableModel } from "../../store/actions/actionsInterfaces/ITableActions";
 import { useTranslation } from 'react-i18next';
+import { SocketContext } from "../../context/SocketContext";
 
 const tableTypeOptions = [
   {
@@ -35,7 +36,9 @@ const tableTypeOptions = [
 
 const TablesAdministration: FC = () => {
   const dispatch = useDispatch();
+  const { socket } = useContext(SocketContext);
   const { t } = useTranslation();
+  const { _id } = useSelector((state: RootState) => state.restaurantData.restaurantInfo);
 
   const tableList: ITableModel[] = useSelector(
     (state: RootState) => state.tablesData
@@ -51,6 +54,15 @@ const TablesAdministration: FC = () => {
     setState(tableList);
   }, [tableList]);
 
+  const createOrUpdateDataTable= async(data:any)=>{
+    await createOrUpdateTable(data).then((table)=>{
+      debugger
+      socket.emit('update-or-create-table', {
+        table,
+        uidClient: _id
+    });
+    })
+  }
   const addNewTable = () => {
     const tables = [...state];
     tables.push({
@@ -169,7 +181,7 @@ const TablesAdministration: FC = () => {
                     idElement={element._id}
                     fullWidthForm={true}
                     createModel={createModel}
-                    actionSubmit={createOrUpdateTable}
+                    actionSubmit={createOrUpdateDataTable}
                     inputs={renderInputs(element)}
                     haveMoneyInputs={false}
                   />
