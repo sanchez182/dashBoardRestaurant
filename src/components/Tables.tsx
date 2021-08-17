@@ -49,11 +49,11 @@ const Tables = ({ numberTable, order }: TablesType) => {
             dispatch(updateOrderStatusAction([{_id: order._id, state: newState}]))
             socket.emit('change-order-status', {
                 state: newState, //orden en proceso
-                restaurant: _id,
-                orderId: order?._id
+                idRestaurant: _id,
+                orderId: order?._id,
+                clientId: order?.clientId
             });
         })
-      
     }
 
     return (

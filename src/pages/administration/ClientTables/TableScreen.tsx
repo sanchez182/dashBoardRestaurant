@@ -1,15 +1,13 @@
 import { Grid } from '@material-ui/core';
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Tables from '../../../components/Tables';
 import { RootState } from '../../../store';
 import { IOrder } from '../../../store/actions/actionsInterfaces/IOrdersActions';
 import { ITableModel } from '../../../store/actions/actionsInterfaces/ITableActions';
-import { getTableData, updateTable } from '../../../actionsApi/tableActions';
+import { getTableData } from '../../../actionsApi/tableActions';
 import LensIcon from '@material-ui/icons/Lens';
 import { IAppStatus } from '../../../store/actions/actionsInterfaces/IAppStatusActions';
-import { setOrderState } from '../../../store/actions/ordersActions';
-import { SocketContext } from '../../../context/SocketContext';
 
 const TableScreen = () => {
     const dispatch = useDispatch();
@@ -17,36 +15,6 @@ const TableScreen = () => {
     const orders = useSelector((state: RootState) => state.orderData);
     const { orderStatus }: IAppStatus = useSelector((state: RootState) => state.appStatus);
     const lang = useSelector((state: RootState) => state.lang) //En BD se guardan los label{Letras en mayuscula}
-    const { socket } = useContext(SocketContext);
-
-
-
-/*     useEffect(() => {
-        debugger
-        socket?.on('new-order', (data: any) => {
-            debugger
-            const newOrder = [...orders]
-            const { _id, state, extraInfo, restaurant, itemsOrder, tableNumber } = data
-            const exists = newOrder.findIndex((x) => x._id === data._id)
-            if (exists > -1) {
-                newOrder[exists] = data
-            } else {
-                newOrder.push({
-                    _id,
-                    state,
-                    extraInfo,
-                    tableNumber,
-                    idRestaurant: restaurant,
-                    itemsOrder,
-                    date: null
-                })
-            }
-            dispatch(setOrderState(newOrder))
-
-        })
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []); */
 
     useEffect(() => {
         dispatch(getTableData());

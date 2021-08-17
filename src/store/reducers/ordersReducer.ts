@@ -1,9 +1,10 @@
 import { SET_ORDER_STATE, IOrders, IOrder, UPDATE_ORDER_STATUS } from '../actions/actionsInterfaces/IOrdersActions';
 
 
-const isNew=(oldState:any,data:any)=>{
+const isNew=(oldState:IOrder[],data:any)=>{
   const newOrder = [...oldState]
-  const {_id,state,extraInfo,restaurant,itemsOrder,tableNumber} = data
+  debugger
+  const {_id,state,extraInfo,idRestaurant,clientId, itemsOrder,tableNumber, } = data
   const exists = newOrder.findIndex((x)=> x._id === data._id)
   if(exists > -1){
       newOrder[exists] = data
@@ -12,9 +13,11 @@ const isNew=(oldState:any,data:any)=>{
       _id,
       state,
       extraInfo,
+      clientId,
       tableNumber,
-      idRestaurant: restaurant,
-      itemsOrder
+      idRestaurant,
+      itemsOrder,
+      date: null
  })
   }
   return newOrder

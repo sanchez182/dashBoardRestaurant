@@ -27,22 +27,27 @@ export const createTable = async (body) => {
   return true
 }
 
-export const updateTable = async (idTable, body) => {
-  delete body._id;
-  delete body.__v;
+const getModel = (body)=>{
+  const model = {...body} 
+  delete model._id;
+  delete model.__v;
+  return model
+}
+export const updateTable = async (idTable, body) => { 
   const response = await service.updateTable(idTable, body)
   dispatch(setOpenMessageAlert({ show: true, message: `Se actualizó correctamente la mesa número ${response.data.table.value.tableNumber}`, severity: 'success' }));
+  debugger
   dispatch(checkRestaurantTableSeledted([response.data.table.value]))
   return true
 }
 
 
 export const createOrUpdateTable = async (body) => {
-  const id = body._id;
-  delete body._id;
-  if (id) {
-    return await updateTable(id, body)
+  debugger
+  const model  = getModel(body)
+  if (body._id) {
+    return await updateTable(body._id, model)
   } else {
-    return await createTable(body)
+    return await createTable(model)
   }
 }

@@ -6,6 +6,7 @@ export interface IOrder {
   _id: string | null,
   idRestaurant: string | null,
   tableNumber: number,
+  clientId: string,
   extraInfo: string,
   itemsOrder: {
     itemsFood: [],

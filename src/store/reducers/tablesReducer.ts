@@ -8,6 +8,7 @@ const tablesReducer  = (state: ITableModel[] = [], action: ITableAction) => {
       
     case UPDATE_SELECTED_TABLE:
       const newState = [...state]
+      debugger
       const index = newState.findIndex((x:ITableModel)=> x._id === action.payload[0]._id)
       newState[index] = action.payload[0]
       return  newState
