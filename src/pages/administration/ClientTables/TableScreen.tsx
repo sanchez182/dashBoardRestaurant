@@ -45,24 +45,6 @@ const TableScreen = () => {
                     <h3> Sin Ordenes</h3>}
 
             </Grid>
-
-            {/*      <Grid item xs={12} md={4}  className="flex-col-scroll">
-                <h1> Ordenes vía web</h1>
-                {tableList &&
-                    <Grid container >
-                        {
-                            //TODO: aca activar el flip de  las mesas q estan listas para cocina
-                            tableList.map((table, index) => {
-
-                                const orderTable = orders.find((x:IOrder )=> x.tableNumber === index + 1)
-                                const flip = orderTable ? true : false
-                                return <Tables order={orderTable} key={table.tableNumber} numberTable={table.tableNumber} flipTable={flip}
-                                    isSelected={table.selected} />
-                            })
-                        }
-                    </Grid>
-                }
-            </Grid> */}
         </Grid>
     );
 }

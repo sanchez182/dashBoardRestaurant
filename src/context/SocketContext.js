@@ -13,7 +13,7 @@ export const SocketProvider = ({ children }) => {
     const { socket, online, conectarSocket, desconectarSocket } = useSocket(process.env.REACT_APP_SOCKET_API);
 /*     const { uid } = useSelector(state => state.auth); */
     const { _id } = useSelector((state) => state.restaurantData.restaurantInfo);
-    const tableList = useSelector((state) => state.tablesData); 
+    const state = useSelector((state) => state); 
     const dispatch = useDispatch()
     
     useEffect(() => {
@@ -31,7 +31,8 @@ export const SocketProvider = ({ children }) => {
     //TODO: modificar forma de cambiar la data de la mesa seleccionada
      useEffect(() => {
         socket?.on('table', (seletedTable) => {
-            const table = tableList.find(x => x._id === seletedTable._id)
+            debugger
+            const table = state.tablesData.find(x => x._id === seletedTable._id)
             table.selected =  seletedTable.isSelected
             createOrUpdateTable(table)
         })
@@ -40,7 +41,6 @@ export const SocketProvider = ({ children }) => {
 
     useEffect(() => {
         socket?.on('new-client-id-order', (order) => {
-            debugger
              dispatch(updateSocketClientId([order]))
         })
 

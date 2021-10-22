@@ -22,6 +22,8 @@ import SharedForm from "../../components/SharedForm";
 import { ITableModel } from "../../store/actions/actionsInterfaces/ITableActions";
 import { useTranslation } from 'react-i18next';
 import { SocketContext } from "../../context/SocketContext";
+import { IOrder } from "../../store/actions/actionsInterfaces/IOrdersActions";
+import Ticket from "./Ticket";
 
 const tableTypeOptions = [
   {
@@ -39,7 +41,8 @@ const TablesAdministration: FC = () => {
   const { socket } = useContext(SocketContext);
   const { t } = useTranslation();
   const { _id } = useSelector((state: RootState) => state.restaurantData.restaurantInfo);
-
+  const orders = useSelector((state: RootState) => state.orderData);
+  const [renderOrderTicket, setRenderOrderTicket] = useState(false)
   const tableList: ITableModel[] = useSelector(
     (state: RootState) => state.tablesData
   );
@@ -54,13 +57,13 @@ const TablesAdministration: FC = () => {
     setState(tableList);
   }, [tableList]);
 
-  const createOrUpdateDataTable= async(data:any)=>{
-    await createOrUpdateTable(data).then((table)=>{
+  const createOrUpdateDataTable = async (data: any) => {
+    await createOrUpdateTable(data).then((table) => {
       debugger
       socket.emit('update-or-create-table', {
         table,
         uidClient: _id
-    });
+      });
     })
   }
   const addNewTable = () => {
@@ -148,6 +151,8 @@ const TablesAdministration: FC = () => {
 
       {state.length > 0 &&
         state.map((element: ITableModel) => {
+
+          const thereIsOrder = orders.find((x: IOrder) => x.tableNumber === element.tableNumber)
           return (
             <Card key={element.tableNumber}
               elevation={3}
@@ -188,11 +193,18 @@ const TablesAdministration: FC = () => {
                 </Grid>
 
               </CardContent>
-              <CardActions style={{justifyContent:"center"}}>
-                        <Button variant="contained"  color="primary">
-                            Cancelar Orden
-                        </Button> 
-                    </CardActions>
+              <CardActions style={{ justifyContent: "center" }}>
+                <Button variant="contained" color="primary">
+                  Cancelar Orden
+                </Button>
+                {thereIsOrder &&
+                  <Button variant="contained" onClick={()=>{setRenderOrderTicket(true)} } color="primary">
+                    Ver orden
+                  </Button>
+                }
+              </CardActions>
+
+              <Ticket order={thereIsOrder} open={renderOrderTicket} setOpenMenu={setRenderOrderTicket} />
             </Card>
           );
         })}

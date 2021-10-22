@@ -1,3 +1,10 @@
 .p-paginator {
     justify-content: center;
 }
+
+
+@media print{
+	.hide-on-print{
+		display: none;
+	}
+}

@@ -1,4 +1,6 @@
-import { Card, CardHeader, CardActionArea, CardActions, Button, CardContent, Grid, makeStyles, createStyles, Theme } from '@material-ui/core';
+import { Card, CardHeader, CardActionArea, CardActions, 
+    Checkbox,
+    Button, CardContent, Grid, makeStyles, createStyles, Theme } from '@material-ui/core';
 import DeckIcon from '@material-ui/icons/Deck';
 import Avatar from '@material-ui/core/Avatar';
 import Grow from '@material-ui/core/Grow';
@@ -9,7 +11,7 @@ import { RootState } from '../store';
 import { useDispatch, useSelector } from 'react-redux';
 import { IAppStatus } from '../store/actions/actionsInterfaces/IAppStatusActions';
 import { updateOrderStatus } from '../actionsApi/orderActions';
-import { updateOrderStatusAction } from '../store/actions/ordersActions';
+import { checkItemIsReady, updateOrderStatusAction } from '../store/actions/ordersActions';
 interface TablesType {
     numberTable: number;
     order: IOrder
@@ -40,8 +42,7 @@ const Tables = ({ numberTable, order }: TablesType) => {
     const lang = useSelector((state: RootState) => state.lang).language //En BD se guardan los label{Letras en mayuscula}
     const dispatch = useDispatch()
     const { socket } = useContext(SocketContext);
-    
-   
+   debugger
 
     const takeOrder = () => {
         const newState : number = 3
@@ -93,11 +94,10 @@ const Tables = ({ numberTable, order }: TablesType) => {
                                             order.itemsOrder.itemsFood.length > 0 && order.itemsOrder.itemsFood.map((food: any) => {
                                                 return <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                                                     <strong>  <p>{food.plate.plateName} Cant: {food.quantity} </p> </strong>
-                                                    <Button size="small" variant="contained" color="primary"
-                                                        style={{ marginLeft: '12px' }}
-                                                        onClick={() => console.log("Botomo")}>
-                                                        Receta
-                                                    </Button>
+                                                            <Checkbox checked={food.isReady} onChange={(e)=>dispatch(checkItemIsReady({
+                                                                _id: food.plate._id, 
+                                                                order: order._id,
+                                                                isReady: e.target.checked}))} name="gilad" />
                                                 </div>
                                             })
                                         }
@@ -106,11 +106,10 @@ const Tables = ({ numberTable, order }: TablesType) => {
                                             order.itemsOrder.itemsDrink.length > 0 && order.itemsOrder.itemsDrink.map((drink: any) => {
                                                 return <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                                                     <strong><p>{drink.drink.drinkName}  Cant: {drink.quantity}</p></strong>
-                                                    <Button size="small" variant="contained" color="primary"
-                                                        style={{ marginLeft: '12px' }}
-                                                        onClick={() => console.log("Botomo")}>
-                                                        Receta
-                                                    </Button>
+                                                    <Checkbox checked={drink.isReady} onChange={(e)=>dispatch(checkItemIsReady({
+                                                                _id: drink.drink._id, 
+                                                                order: order._id,
+                                                                isReady: e.target.checked}))} name="gilad" />
                                                 </div>
                                             })
                                         }

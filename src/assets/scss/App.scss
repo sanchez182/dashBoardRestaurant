@@ -116,3 +116,9 @@ h1 {
     }
   }
 }
+
+@media print{
+	.hide-on-print{
+		display: none;
+	}
+}
